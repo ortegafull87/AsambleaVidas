@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="es">
 
 @section('htmlheader')
-    @include('layouts.partials.htmlheader')
+    @include('layouts.partials.htmlheader_admin')
 @show
 
 <!--

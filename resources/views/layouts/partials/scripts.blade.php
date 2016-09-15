@@ -2,12 +2,28 @@
 
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
+<!-- jQuery -->
+<script src="{{asset('/plugins/jQuery-Form/jquery.form.min.js') }}" type="text/javascript"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="{{ asset('/js/bootstrap.min.js') }}" type="text/javascript"></script>
+<!-- slimScroll -->
+<script src="{{ asset('/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
-
+<!-- dropzone -->
+<script src="{{ asset('/js/dropzone.js') }}" type="text/javascript"></script>
+<!-- iCheck -->
+<script src="{{ asset('/plugins/iCheck/iCheck.min.js') }}" type="text/javascript"></script>
+<!-- jsmediaTags -->
+<script src="{{ asset('/plugins/jsmediatags-master/dist/jsmediatags.min.js') }}" type="text/javascript"></script>
+<!-- Mini audio Player -->
+<script src="{{ asset('/plugins/jquery.mb.miniAudioPlayer-1.8.5/dist/jquery.mb.miniAudioPlayer.min.js') }}" type="text/javascript"></script>
+<!-- sweet alert -->
+<script src="{{ asset('/plugins/sweetalert2/sweetalert2.min.js') }}" type="text/javascript"></script>
+<!-- Langs -->
+<script src="{{ asset('/js/lang.js') }}" type="text/javascript"></script>
+<!-- Util -->
+<script src="{{ asset('/js/Util.js') }}" type="text/javascript"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
-      Both of these plugins are recommended to enhance the
-      user experience. Slimscroll is required when using the
+      Both of these plugins are recommended to enhance thedashboard
       fixed layout. -->

@@ -3,7 +3,7 @@
 This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
-<html lang="en">
+<html lang="es">
 
 @section('htmlheader')
     @include('layouts.partials.htmlheader')
@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-blue sidebar-mini">
+<body class="sidebar-mini skin-black-light">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')
@@ -38,7 +38,7 @@ desired effect
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
+        @include('layouts.partials.alerts')
         @include('layouts.partials.contentheader')
 
         <!-- Main content -->
@@ -57,6 +57,6 @@ desired effect
 @section('scripts')
     @include('layouts.partials.scripts')
 @show
-
+@yield('view.scripts')
 </body>
 </html>

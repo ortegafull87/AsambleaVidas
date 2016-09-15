@@ -17,10 +17,10 @@ return [
     'someproblems'            => 'Hay algunos problemas con su entrada.',
     'siginsession'            => 'Inicia sesión para acceder',
     'remember'                => 'Recuérdame',
-    'buttonsign'              => 'Iniciar Sesión',
+    'buttonsign'              => 'Entrar',
     'forgotpassword'          => 'Olvidé mi contraseña',
     'registermember'          => 'Registar un nuevo miembro',
-    'terms'                   => 'Estoy de acuerdo con las',
+    'terms'                   => 'Estoy de acuerdo',
     'conditions'              => 'Términos y Condiciones',
     'register'                => 'Registro',
     'login'                   => 'Iniciar Sesión',
@@ -30,7 +30,7 @@ return [
     'signFacebook'            => 'Entra con Facebook',
     'signTwitter'             => 'Entra con Twitter',
     'signGoogle+'             => 'Entra con Google+',
-    'sendpassword'            => 'Enviar el enlace para restablecer la contraseña',
+    'sendpassword'            => 'Enviar el enlace',
     'passwordreset'           => 'Restablecer la contraseña',
     'pagenotfound'            => 'Página no encontrada',
     '404error'                => 'Página de error 404',
@@ -125,4 +125,67 @@ return [
     'password'                => 'Contraseña',
     'retrypepassword'         => 'Vuelva a escribir la contraseña',
     'fullname'                => 'Nombre completo',
+
+    //COMUN ADMIN MODULE
+    'btnActualizarAdm'        => 'Actualizar',
+    'btnCancelarAdm'          => 'Cancelar',
+    'btnRegresarAdm'          => 'Regresar',
+    'btnRegistrarAdm'         => 'Registrar',
+    'page'                    => 'Página',
+    'of'                      => 'de',
+    'total'                   => 'Registros',
+
+    'administrator'           => 'Administrador',
+    
+    //MENU ADMIN MODULE
+
+    'dblinkDashboard'         => 'Dashboard',
+    'dblinkTracks'            => 'Pistas',
+    'dblinkTrackNueva'        => 'Nueva',
+    'dblinkTrackRegistradas'  => 'Registradas',
+    'dblinkAlbumes'           => 'Albumes',
+    'dblinkAuthors'           => 'Autores',
+    'dblinkUsers'             => 'Usuarios',
+
+    //TRACKS MODULE ADMIN
+    'titlepagemoTracks'       =>'Pistas',
+
+    'titlesectionmoTracks'    =>'Pista',
+    'descrpsectionmoTracks'   =>'Registradas en el sistema',
+    'rutemoTracks'            =>'Dashboard',
+    'subrutemotracks'         =>'Pista',
+    'deleteSomeTrack'         =>'Eliminar pistas seleccionadas',
+    'deleAllTracks'           =>'Eliminar todas las pistas',
+
+    //EDIT TRACK ADMIN MODULE
+    'titleAdmEditTrack'             => 'Edición',
+    'descriptionAdmEditTrack'       => 'de título, interprete, álbum, o pista',
+    'actualTrackAdmEditTrack'       => 'pista actual',
+    'msjRequirimentAdmEditTrack'    => 'Seleccione un archivo de audio en formato (.mp3) no mayor a 42Mb',
+    'titleFormAdmEditTrack'         => 'Editar pista número: ',
+
+    //NEW TRACK ADMIN MODULE
+    'titlePageNewTrack'             => 'Nueva Pista',
+    'titleNewTrack'                 => 'Nueva',
+    'descriptionNewtrack'           => 'Aquí se pueden dar de alta pistas nuevas',
+    'clearFormNewTrack'             => 'Limpiar formulario',
+
+    //AUTHORES
+    'moduleNameAuthor'              => 'Autor',
+
+    //AUTHORS REGISTERED
+    'titlePageAuthorsRegistered'    => 'Autores registrados',
+    'titleDescriptionPageAuthorsRegistered' => 'Aquí se mustran los autores registrados.',
+
+    //NEW AUTHORS
+    'titlePageNewAuthor'            => 'Nuevo autor',
+    'titleDescriptionPageNewAuthor' => 'Aquí se registran los nuevos autores.',
+    'sectionNameNewAuthor'          => 'Nuevo',
+    
+    //AUTHOR EDIT ADMIN MODULE
+    'titlePageEditAuthor'           => 'Editar autor',
+    'titleDescriptionEditAuthor'    => 'Aquí se puede editar la información de un autor.',
+    'sectionNameAuthor'             => 'Edición',
+    'inputPHFirtName'               => 'Nombre',
+    'inputPHLastName'               => 'Apellidos',
 ];

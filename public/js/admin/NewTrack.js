@@ -76,19 +76,28 @@ var NewTrack = {
 	 				complete: function(xhr) {
 	 					mainBar.hide();
 	 					btnSubmit.show();
-	 					var message = xhr.responseJSON.message;
-	 					console.debug(message);
-	 					Util.showAlert('alert-success',xhr.responseJSON.message);
-	 					$("#up").trigger('reset');
-	 					$(document.getElementsByClassName('upload-path')).html('');
+	 					if(xhr.status >= 200 && xhr.status <= 202){
+	 						Util.showAlert('alert-success',xhr.responseJSON.message);
+	 						$("#up").trigger('reset');
+	 						$(document.getElementsByClassName('upload-path')).html('');
+	 					}else if(xhr.status >= 204 && xhr.status <= 210){
+	 						Util.showAlert('alert-warning',xhr.responseJSON.message);
+	 						$("#up").trigger('reset');
+	 						$(document.getElementsByClassName('upload-path')).html('');	
+	 					}
 	 				}
 	 				,
 	 				error:function(xhr){
+	 					console.debug(xhr);
 	 					mainBar.hide();
 	 					btnSubmit.show();
-	 					console.debug(xhr);
-	 					Util.showAlert('alert-danger',Messages.es.ERROR,xhr.responseJSON.message);
-	 					//Util.showAlert(null,'error',Messages.es.ERROR,xhr.responseJSON.message);
+
+	 					if(typeof(xhr.responseText) === 'string'){
+	 						var error =  JSON.parse(xhr.responseText);
+	 						Util.showAlert('alert-danger',error.message);
+	 					}else{
+	 						Util.showAlert('alert-danger',xhr.statusText);
+	 					}
 	 				}
 	 			});
 	}

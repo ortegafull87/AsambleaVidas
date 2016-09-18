@@ -13,7 +13,7 @@
 <!-- dropzone -->
 <script src="{{ asset('/js/dropzone.js') }}" type="text/javascript"></script>
 <!-- iCheck -->
-<script src="{{ asset('/plugins/iCheck/iCheck.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 <!-- jsmediaTags -->
 <script src="{{ asset('/plugins/jsmediatags-master/dist/jsmediatags.min.js') }}" type="text/javascript"></script>
 <!-- Mini audio Player -->

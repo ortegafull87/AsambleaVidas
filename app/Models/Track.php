@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Track extends Model
 {
     //
-	protected $table = 'Tracks';
+	protected $table = 'tracks';
 
 	public function author(){
 		return $this->belongsTo('App\Models\Author');

@@ -1,0 +1,13 @@
+Bugs Corregidos
+----------------------------------------------------
+#	0.1.1
+#	16/09/2016
+
+#	Modify files
+app\Http\Controllers\TrackAdmController.php
+app\Models\Track.php
+Bugs List.txt
+.gitignore
+public\admin\NewTrack.js
+resources\views\layouts\partial\scripts.blade.php
+----------------------------------------------------

@@ -12,6 +12,7 @@ use App\Models\Albume;
 use Validator;
 use DB;
 use Response;
+use Exception;
 class TrackAdmController extends Controller
 {
 
@@ -71,54 +72,60 @@ public function store(Request $request)
     $author_id = $request->input('trk_author');
     $albume_id = $request->input('trk_albume');
 
-    $rules = array(
-        'trk_titulo'    => 'required',
-        'trk_author'    => 'required',
-        'trk_albume'    => 'required',
-        );
+    try{
+        $rules = array(
+            'trk_titulo'    => 'required',
+            'trk_author'    => 'required',
+            'trk_albume'    => 'required',
+            );
 
-    $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-    if ($validator->fails()) {
-        return response()->json(['message'=>$validator],400);
+        if ($validator->fails()) {
+            return response()->json(['message'=>$validator],204);
+        } else {
 
-    } else {
+            $phat='filesAudio';
+            $albume = Albume::find($albume_id);
+            $carpeta = $phat.'/'.$albume->genre.'/'.$albume->title;
 
-        $phat='filesAudio';
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
 
-        $albume = Albume::find($albume_id);
+            $myFile = $request->hasFile('file');
 
-        $carpeta = $phat.'/'.$albume->genre.'/'.$albume->title;
-        if (!file_exists($carpeta)) {
-            mkdir($carpeta, 0777, true);
+            if($myFile){
+
+                $error = array(
+                    'name' => $request->file('file')->getClientOriginalName(),
+                    'size' => $request->file('file')->getSize(),
+                    );
+
+                $extension =    $request->file('file')->getClientOriginalExtension();
+                $nombre =       $request->file('file')->getClientOriginalName(); 
+                $request->file('file')->move($carpeta,$title.'.mp3');      
+
+                $track = new Track;
+                $track->title       = $request->input('trk_titulo');
+                $track->duration    = 46;
+                $track->file        = $carpeta.'/'.$title.'.mp3';
+                $track->author_id   = $request->input('trk_author');
+                $track->albume_id   = $request->input('trk_albume');
+                $newTrack = $track->save();
+
+                if($newTrack){
+                    return response()->json(['message'=>"Se ha guardado la pista \"". $title."\" satisfactoriamente" ],200);
+                }
+            }else{
+                return Response::json(['message'=>"No se ha detectado ningun archivo de audio" ],204);
+            }
         }
-        $myFile = $request->hasFile('file');
-        if($myFile){
-
-            $error = array(
-                'name' => $request->file('file')->getClientOriginalName(),
-                'size' => $request->file('file')->getSize(),
-                );
-
-            $extension =    $request->file('file')->getClientOriginalExtension();
-            $nombre =       $request->file('file')->getClientOriginalName(); 
-            $request->file('file')->move($carpeta,$title.'.mp3');      
-
-            $track = new Track;
-            $track->title       = $request->input('trk_titulo');
-            $track->duration    = 46;
-            $track->file        = $carpeta.'/'.$title.'.mp3';
-            $track->author_id   = $request->input('trk_author');
-            $track->albume_id   = $request->input('trk_albume');
-            $track->save();
-
-            return response()->json(['message'=>"Se ha guardado la pista \"". $title."\" satisfactoriamente" ],200);
-
-        }else{
-
-// Create a response and modify a header value
-            return Response::json(['message'=>"No se ha detectado ningun archivo de audio" ],400);
+    }catch(Exception $e){
+        if(file_exists($carpeta.'/'.$title.'.mp3')){
+            unlink($carpeta.'/'.$title.'.mp3');
         }
+        return Response::json(['message'=>"No fue posible dar de alta esta pista, contacte al administrador", "error"=>$e ],500);
     }
 }
 
@@ -141,28 +148,32 @@ public function show($id)
 */
 public function edit($id)
 {
-    $tracks = DB::table('tracks')
-    ->join('authors', 'tracks.author_id', '=', 'authors.id')
-    ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
-    ->select(
-        'tracks.id', 
-        'tracks.title', 
-        'tracks.duration', 
-        'tracks.created_at', 
-        'tracks.updated_at',
-        'tracks.file',
-        'authors.id as idAuthor',
-        'authors.firstName', 
-        'authors.lastName',
-        'albumes.id as idAlbume',
-        'albumes.title as titleAlbume')
-    ->where('tracks.id', '=', $id)
-    ->get(); 
+    try{
+        $tracks = DB::table('tracks')
+        ->join('authors', 'tracks.author_id', '=', 'authors.id')
+        ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+        ->select(
+            'tracks.id', 
+            'tracks.title', 
+            'tracks.duration', 
+            'tracks.created_at', 
+            'tracks.updated_at',
+            'tracks.file',
+            'authors.id as idAuthor',
+            'authors.firstName', 
+            'authors.lastName',
+            'albumes.id as idAlbume',
+            'albumes.title as titleAlbume')
+        ->where('tracks.id', '=', $id)
+        ->get(); 
 
-    return View('admin/tracks_edit',[
-        'pistas'    =>$tracks,
-        'authors'   =>Author::All(),
-        'albumes'   =>Albume::All()]);
+        return View('admin/tracks_edit',[
+            'pistas'    =>$tracks,
+            'authors'   =>Author::All(),
+            'albumes'   =>Albume::All()]);
+    }catch(Exception $e){
+
+    }
 }
 
 /**
@@ -174,76 +185,80 @@ public function edit($id)
 */
 public function update(Request $request, $id)
 {
-    $tracks = DB::table('tracks')
-    ->join('authors', 'tracks.author_id', '=', 'authors.id')
-    ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
-    ->select(
-        'tracks.id', 
-        'tracks.title', 
-        'tracks.duration', 
-        'tracks.created_at', 
-        'tracks.updated_at',
-        'tracks.file',
-        'authors.id as idAuthor',
-        'authors.firstName', 
-        'authors.lastName',
-        'albumes.id as idAlbume',
-        'albumes.title as titleAlbume')
-    ->where('tracks.id', '=', $id)
-    ->get(); 
+    try{
+        $tracks = DB::table('tracks')
+        ->join('authors', 'tracks.author_id', '=', 'authors.id')
+        ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+        ->select(
+            'tracks.id', 
+            'tracks.title', 
+            'tracks.duration', 
+            'tracks.created_at', 
+            'tracks.updated_at',
+            'tracks.file',
+            'authors.id as idAuthor',
+            'authors.firstName', 
+            'authors.lastName',
+            'albumes.id as idAlbume',
+            'albumes.title as titleAlbume')
+        ->where('tracks.id', '=', $id)
+        ->get(); 
 
-    $title = $request->input('trk_titulo');
-    $author_id = $request->input('trk_author');
-    $albume_id = $request->input('trk_albume');
-    $myFile = $request->hasFile('file');
+        $title = $request->input('trk_titulo');
+        $author_id = $request->input('trk_author');
+        $albume_id = $request->input('trk_albume');
+        $myFile = $request->hasFile('file');
 
-    $phat='filesAudio';
-    $albume = Albume::find($albume_id);
-    $carpeta = $phat.'/'.$albume->genre.'/'.$albume->title;
+        $phat='filesAudio';
+        $albume = Albume::find($albume_id);
+        $carpeta = $phat.'/'.$albume->genre.'/'.$albume->title;
 
-    if($myFile){
-        if (!file_exists($carpeta)) {
-            mkdir($carpeta, 0777, true);
-        }
-        $extension =    $request->file('file')->getClientOriginalExtension();
-        $nombre =       $request->file('file')->getClientOriginalName();
+        if($myFile){
+            if (!file_exists($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
+            $extension =    $request->file('file')->getClientOriginalExtension();
+            $nombre =       $request->file('file')->getClientOriginalName();
 
-        if(unlink($tracks[0]->file)){    
-            $request->file('file')->move($carpeta,$title.'.mp3');
+            if(unlink($tracks[0]->file)){    
+                $request->file('file')->move($carpeta,$title.'.mp3');
 
-            DB::table('tracks')
-            ->where('id', $id)
-            ->update(
-                [
-                'title' => $title,
-                'author_id' =>$author_id,
-                'albume_id' =>$albume_id,
-                'file' => $carpeta.'/'.$title.'.mp3'
-                ]);
-            return response()->json(['message'=>'Pista: '.$id.' modificada.' ],200);
-        } else{
-            return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser borrada' ],500);
+                DB::table('tracks')
+                ->where('id', $id)
+                ->update(
+                    [
+                    'title' => $title,
+                    'author_id' =>$author_id,
+                    'albume_id' =>$albume_id,
+                    'file' => $carpeta.'/'.$title.'.mp3'
+                    ]);
+                return response()->json(['message'=>'Pista: '.$id.' modificada.' ],200);
+            } else{
+                return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser borrada' ],500);
 //:: Error
-        }
+            }
 
-    }else{
-        $rename = rename($tracks[0]->file, $carpeta.'/'.$title.'.mp3');
-        if($rename){
-            DB::table('tracks')
-            ->where('id', $id)
-            ->update(
-                [
-                'title' => $title,
-                'author_id' =>$author_id,
-                'albume_id' =>$albume_id,
-                'file' => $carpeta.'/'.$title.'.mp3'
-                ]);
-            return response()->json(['message'=>'Pista: '.$id.' modificada.' ],200);
         }else{
+            $rename = rename($tracks[0]->file, $carpeta.'/'.$title.'.mp3');
+            if($rename){
+                DB::table('tracks')
+                ->where('id', $id)
+                ->update(
+                    [
+                    'title' => $title,
+                    'author_id' =>$author_id,
+                    'albume_id' =>$albume_id,
+                    'file' => $carpeta.'/'.$title.'.mp3'
+                    ]);
+                return response()->json(['message'=>'Pista: '.$id.' modificada.' ],200);
+            }else{
 //::Error
-            return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser renombrada' ],500);
-        }
+                return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser renombrada' ],500);
+            }
 
+        }
+    }catch(Exception $e){
+        return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser renombrada' ],500);
     }
 
 }

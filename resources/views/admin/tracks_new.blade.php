@@ -90,6 +90,7 @@
 						<span class="sr-only"></span>
 					</div>
 				</div>
+				<span><i class="fa fa-close"></i></span>
 				<button id="btn_submit_track" class="btn btn-block btn-primary btn-sm" type="submit" form="up"><i class="fa  fa-plus"></i> Registrar</button>
 			</div><!-- /.box-footer -->
 		</div>

@@ -10,6 +10,11 @@ use Validator;
 use DB;
 use Response;
 use Excetion;
+use Log;
+use App\Library\HttpStatusCode;
+use App\Library\Message;
+use App\Beans\HttpResponse;
+use View;
 
 class AuthorAdmController extends Controller
 {
@@ -170,6 +175,65 @@ class AuthorAdmController extends Controller
      */
     public function destroy($id)
     {
-        //
+        LOG::info("Eliminando autor(es): ". $id);
+        
+        $response = new HttpResponse();
+
+        try {
+
+            DB::beginTransaction();
+
+            if($id == -1){
+                $allAuthors = Author::all();
+                foreach ($allAuthors as $row) { 
+                    $row->delete();
+                }
+                $response->setMessage(Message::SUCCESS_AUTHORS_DELETED_ONE);
+                $response->setData($ids);
+
+            }else{
+
+                $ids = preg_split('/[\s,]+/',$id);
+                foreach($ids as $idTable){
+                    $author = Author::find($idTable);
+                    $author->delete();
+                }
+                $response->setMessage(Message::SUCCESS_AUTHORS_DELETED_MANY);
+                $response->setData($ids);
+            }
+
+            $params = ['authors' => DB::table('authors')->paginate(10)];
+            $view   = View::make('admin/partials/list_authors',$params);
+            $response->setView($view);
+            
+            DB::commit();
+            
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_OK);
+
+        }catch(\Illuminate\Database\QueryException $qe){
+            DB::rollBack();
+            
+            if(23000 == $qe->getCode()){
+                $response->setMessage(Message::ERROR_AUTHORS_FOREIGN_KEY);
+            }else{
+                $response->setMessage(Message::ERROR_5X);
+            }
+
+            $response->setError($qe->getMessage());
+            
+            LOG::error($qe->getMessage());
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_NO_DELETE);
+
+        }catch(\Exception $e){
+            DB::rollBack();
+
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($qe->getMessage());
+
+            LOG::error($e->getMessage());
+
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

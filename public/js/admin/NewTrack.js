@@ -53,7 +53,11 @@ var NewTrack = {
 	 					}
 
 	 				},
-	 				beforeSend: function() {
+	 				beforeSend: function(xhr) {
+	 					$('.fa-close').click(function(){
+	 						console.debug("aborting");
+	 						xhr.abort();
+	 					});
 	 					mainBar.show();
 	 					btnSubmit.hide();
 	 					label.toggleClass('sr-only');

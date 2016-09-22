@@ -134,6 +134,8 @@ return [
     'page'                    => 'Página',
     'of'                      => 'de',
     'total'                   => 'Registros',
+    'deleteSelectedItems'     => 'Eliminar selección',
+    'deleteAllItems'          => 'Eliminar todos',
 
     'administrator'           => 'Administrador',
     

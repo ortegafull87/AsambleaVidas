@@ -18,6 +18,9 @@ use View;
 
 class AuthorAdmController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,9 +50,14 @@ class AuthorAdmController extends Controller
      */
     public function store(Request $request)
     {
+        $response = new HttpResponse();
+        
         $authorFirstName   = $request->input("nombre");
         $authorLastName    = $request->input("apellidos");
         $authorEmail       = $request->input("email");
+
+        LOG::info("Creando author: " . $authorFirstName . ' ' . $authorLastName);
+
         try {
 
             $rules = array(
@@ -67,8 +75,11 @@ class AuthorAdmController extends Controller
             $validator = Validator::make($request->all(), $rules,$messages);
 
             if ($validator->fails()) {
-                $message = $validator->errors()->all();
-                return response()->json(['message'=>$message],202);
+
+                $errorRules = $validator->errors()->all();
+                $response->setMessage(Message::WARNING_2X);
+                $response->setError($errorRules);
+                return response()->json($response->toArray(),HttpStatusCode::HTTP_ACCEPTED);
 
             } 
 
@@ -77,17 +88,15 @@ class AuthorAdmController extends Controller
             $author->lastName   =  $authorLastName;
             $author->save();
 
-            $params = ['authors' => DB::table('authors')->paginate(10)];
-
-            return response()->json(
-                ['message'=>'Alta satisfactoria para el autor: '
-                .$authorFirstName
-                . '  '
-                .$authorLastName]
-                ,201);
+            //$params = ['authors' => DB::table('authors')->paginate(10)];
+            $response->setMessage('Autor:  ' . $authorFirstName . '  ' . $authorLastName . ' creado.');
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_CREATED);
 
         } catch (Exception $e) {
-            return response()->json(['message'=>$e->getMessage()],500);
+            LOG::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -127,6 +136,9 @@ class AuthorAdmController extends Controller
      */
     public function update(Request $request, $id)
     {
+        LOG::info("Modificando el author: " . $id);
+        $response = new HttpResponse();
+
         $authorFirstName   = $request->input("nombre");
         $authorLastName    = $request->input("apellidos");
         $authorEmail       = $request->input("email");
@@ -147,8 +159,11 @@ class AuthorAdmController extends Controller
             $validator = Validator::make($request->all(), $rules,$messages);
 
             if ($validator->fails()) {
-                $message = $validator->errors()->all();
-                return response()->json(['message'=>$message],202);
+
+                $errorRules = $validator->errors()->all();
+                $response->setMessage(Message::WARNING_2X);
+                $response->setError($errorRules);
+                return response()->json($response->toArray(),HttpStatusCode::HTTP_ACCEPTED);
 
             }
 
@@ -159,11 +174,15 @@ class AuthorAdmController extends Controller
                 'firstName'=> $authorFirstName,
                 'lastName' => $authorLastName,
                 //'email'    => $authorEmail,
-                ]); 
+                ]);
 
-            return response()->json(['message'=>'Author modificado.'],200);
+            $response->setMessage('Author modificado.');
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_OK);
         } catch (Exception $e) {
-            return response()->json(['message'=>$e->getMessage()],500);
+            LOG::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(),HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -10,6 +10,7 @@ class Message{
 	
 	/*Generales*/
 	const ERROR_5X 						= "Lo sentimos tuvimos algunos inconvenientes, por favor contacta al administrador.";
+	const WARNING_2X					= "Algo no anda bien. ";
 
 
 }

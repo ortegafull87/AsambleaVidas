@@ -14,19 +14,39 @@ var NewAuthor = {
 		$.ajax({
 			url:actionForm,
 			method:'POST',
-			data:dataString,
-			success:function(data , status, xhr){
-				if(xhr.status === 200 || xhr.status === 201){
-					Util.showAlert('alert-success',data.message);
+			data:dataString
+			,
+			complete: function(xhr) {
+
+				if(xhr.status >= 200 && xhr.status < 202){
+					
+					Util.showAlert('alert-success', xhr.responseJSON.message);
 					$(object.target).trigger('reset');
-				}else{
-					console.log(xhr);
-					Util.showAlert('alert-warning',data.message);
+
+				}else if(xhr.status >= 202 && xhr.status <= 210){
+
+					console.log(Messages.es.ERROR_CREATED);
+					console.log(xhr.responseJSON.error);
+					Util.showAlert('alert-warning', xhr.responseJSON.message + xhr.responseJSON.error);
+
 				}
-			},
+			}
+			,
 			error:function(xhr){
-				console.log(xhr);
-				Util.showAlert('alert-danger',xhr.status + ': ' + xhr.statusText);
+
+				if(typeof(xhr.responseText) === 'string'){
+
+					var response = JSON.parse(xhr.responseText);
+					console.log(Messages.es.ERROR_CREATED);
+					console.log(response.error);
+					Util.showAlert('alert-danger', response.message);
+
+				}else{
+
+					Util.showAlert('alert-danger', xhr.statusText);
+					console.log(xhr);
+
+				}
 			}
 		});
 	}

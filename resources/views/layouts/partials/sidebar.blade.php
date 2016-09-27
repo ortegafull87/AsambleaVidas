@@ -60,16 +60,32 @@
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="{{url('admin/albumes')}}">
-                    <i class='fa fa-folder-open'></i>
-                    <span>{{ trans('adminlte_lang::message.dblinkAlbumes') }}</span>
+            <!-- albume -->
+            <li class="treeview">
+                <a href="#"><i class='fa fa-folder-open'></i> 
+                <span>{{ trans('adminlte_lang::message.dblinkAlbumes') }}</span> 
+                    <i class="fa fa-angle-left pull-right"></i>
                 </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{{url('admin/albumes/create')}}">
+                            <i class='fa fa-circle-o'></i>
+                            <span>Nuevo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('admin/albumes')}}">
+                            <i class='fa fa-circle-o'></i>
+                            <span>Registrados</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
+            <!-- albume -->
             <!-- Authors -->
             <li class="treeview">
                 <a href="#"><i class='fa fa-paint-brush'></i> 
-                <span>Autores</span> 
+                    <span>Autores</span> 
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">

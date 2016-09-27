@@ -145,7 +145,7 @@ return [
     'dblinkTracks'            => 'Pistas',
     'dblinkTrackNueva'        => 'Nueva',
     'dblinkTrackRegistradas'  => 'Registradas',
-    'dblinkAlbumes'           => 'Albumes',
+    'dblinkAlbumes'           => 'Álbumes',
     'dblinkAuthors'           => 'Autores',
     'dblinkUsers'             => 'Usuarios',
 
@@ -188,6 +188,27 @@ return [
     'titlePageEditAuthor'           => 'Editar autor',
     'titleDescriptionEditAuthor'    => 'Aquí se puede editar la información de un autor.',
     'sectionNameAuthor'             => 'Edición',
+
     'inputPHFirtName'               => 'Nombre',
     'inputPHLastName'               => 'Apellidos',
+
+    //ALBUMES
+    'moduleNameAlbume'              => 'Álbum',
+
+    //ALBUM REGISTERED
+    'titlePageAlbumesRegistered'    => 'Álbumes registrados',
+    'titleDescriptionPageAlbumesRegistered' => 'Aquí se mustran los álbumes registrados.',
+
+    //NEW ALBUM
+    'titlePageNewAlbume'            => 'Nuevo álbum',
+    'titleDescriptionPageNewAlbum' => 'Aquí se registran los nuevos álbumes.',
+    'sectionNameNewAlbume'          => 'Nuevo',
+    
+    //ALBUME EDIT ADMIN MODULE
+    'titlePageEditAlbume'           => 'Editar álbum',
+    'titleDescriptionEditAlbume'    => 'Aquí se puede editar la información de un álbum.',
+    'sectionNameAlbume'             => 'Edición',
+
+
+
 ];

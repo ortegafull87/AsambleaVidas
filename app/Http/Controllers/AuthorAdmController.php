@@ -92,7 +92,7 @@ class AuthorAdmController extends Controller
             $response->setMessage('Autor:  ' . $authorFirstName . '  ' . $authorLastName . ' creado.');
             return response()->json($response->toArray(),HttpStatusCode::HTTP_CREATED);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             LOG::error($e->getMessage());
             $response->setMessage(Message::ERROR_5X);
             $response->setError($e->getMessage());
@@ -178,7 +178,7 @@ class AuthorAdmController extends Controller
 
             $response->setMessage('Author modificado.');
             return response()->json($response->toArray(),HttpStatusCode::HTTP_OK);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             LOG::error($e->getMessage());
             $response->setMessage(Message::ERROR_5X);
             $response->setError($e->getMessage());

@@ -167,8 +167,7 @@ class AuthorAdmController extends Controller
 
             }
 
-            DB::table('authors')
-            ->where('id',$id)
+            Author::where('id',$id)
             ->update(
                 [
                 'firstName'=> $authorFirstName,
@@ -207,7 +206,7 @@ class AuthorAdmController extends Controller
                 foreach ($allAuthors as $row) { 
                     $row->delete();
                 }
-                $response->setMessage(Message::SUCCESS_AUTHORS_DELETED_ONE);
+                $response->setMessage(Message::SUCCESS_ALBUMES_DELETED_ONE);
                 $response->setData($ids);
 
             }else{

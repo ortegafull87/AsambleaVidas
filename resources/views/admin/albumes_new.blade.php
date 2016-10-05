@@ -44,14 +44,14 @@
 				<form id='new_albume' action="{{ url('/admin/albumes') }}" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-folder-open"></i></span>
 						<input class="form-control" placeholder="Titulo" type="text" name="title" required>
 					</div>
 					<br>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-simplybuilt"></i></span>
 						<select class="form-control" name="genre" required>
-						<option value="">Genero </option>
+						<option value="">G&eacute;nero </option>
 							@foreach ($generos as $genero)
 							<option value="{{$genero['genre']}}">{{$genero['genre']}}</option>
 							@endforeach

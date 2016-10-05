@@ -1,0 +1,57 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: VictorDavid
+ * Date: 01/10/2016
+ * Time: 09:26 AM
+ */
+
+namespace App\Dao;
+use App\Beans\BasicRequest;
+use App\Models\Albume;
+use Illuminate\Support\Facades\DB;
+
+class AlbumeDaoImpl implements AlbumeDao
+{
+
+    /**
+     * Crea un o varios nuevos elementos
+     * @param  BasicRequest $request
+     * @return boolean
+     */
+    public function create(BasicRequest $request)
+    {
+        // TODO: Implement create() method.
+    }
+
+    /**
+     * obtiene un o varios elementos
+     * @param  BasicRequest $request
+     * @return BasicRequest
+     */
+    public function Read(BasicRequest $request)
+    {
+        $rows = $request->getRows();
+        return ['albumes' => DB::table('albumes')->paginate($rows)];
+    }
+
+    /**
+     * Actualiza uno o varios elementos
+     * @param  BasicRequest $request
+     * @return boolean
+     */
+    public function update(BasicRequest $request)
+    {
+        // TODO: Implement update() method.
+    }
+
+    /**
+     * Elimina uno o varios elementos
+     * @param  BasicRequest $request
+     * @return boolean
+     */
+    public function delete(BasicRequest $request)
+    {
+        // TODO: Implement delete() method.
+    }
+}

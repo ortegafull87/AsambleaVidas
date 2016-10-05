@@ -18,3 +18,4 @@ Route::resource('admin/dashboard', 'dashboardController@estatusGeneral');
 Route::resource('admin/tracks', 'TrackAdmController');
 Route::resource('admin/authors','AuthorAdmController');
 Route::resource('admin/albumes', 'AlbumAdmController');
+Route::resource('admin/users', 'UserAdmController');

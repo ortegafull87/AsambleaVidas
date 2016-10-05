@@ -201,7 +201,7 @@ return [
 
     //NEW ALBUM
     'titlePageNewAlbume'            => 'Nuevo álbum',
-    'titleDescriptionPageNewAlbum' => 'Aquí se registran los nuevos álbumes.',
+    'titleDescriptionPageNewAlbum'  => 'Aquí se registran los nuevos álbumes.',
     'sectionNameNewAlbume'          => 'Nuevo',
     
     //ALBUME EDIT ADMIN MODULE

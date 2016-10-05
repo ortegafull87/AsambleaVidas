@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
 @section('htmlheader_title')
-{{ trans('adminlte_lang::message.titlePageNewAlbume') }} | ADM
+{{ trans('adminlte_lang::message.titlePageEditAlbume') }} | ADM
 @endsection
 
 @section('contentheader_title')
-{{ trans('adminlte_lang::message.titlePageNewAlbume') }}
+{{ trans('adminlte_lang::message.titlePageEditAlbume') }}
 @endsection
 
 @section('contentheader_description')
-{{ trans('adminlte_lang::message.titleDescriptionPageNewAlbum') }}
+{{ trans('adminlte_lang::message.titleDescriptionEditAlbume') }}
 @endsection
 
 @section('heather_level')
 <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.administrator') }}</a></li>
 <li><a href="{{url('admin/albumes')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.moduleNameAlbume') }}</a></li>
-<li class="active">{{ trans('adminlte_lang::message.sectionNameNewAlbume') }}
+<li class="active">{{ trans('adminlte_lang::message.sectionNameAlbume') }}
 </li>
 @endsection
 
@@ -41,15 +41,15 @@
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body">
-				<form id='edit_albume' action="{{ url('/admin/albumes') }}" method="post" enctype="multipart/form-data">
+				<form id='edit_albume' action="{{ url('/admin/albumes/'.$albume[0]->id) }}" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-folder-open"></i></span>
 						<input class="form-control" placeholder="Titulo" type="text" name="title" value="{{$albume[0]->title}}" required>
 					</div>
 					<br>
 					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<span class="input-group-addon"><i class="fa fa-simplybuilt"></i></span>
 						<select class="form-control" name="genre" required>
 							<option value="">Genero </option>
 							@foreach ($generos as $genero)
@@ -67,7 +67,13 @@
 			</form>
 		</div><!-- ./box-body -->
 		<div class="box-footer">
-			<button id="btn_submit_track" class="btn btn-block btn-primary btn-sm" type="submit" form="edit_albume"><i class="fa  fa-plus"></i> Registrar</button>
+			<div class="col-md-6">
+				<button id="btn_cancelar" type="button" class="btn btn-block btn-default">{{ trans('adminlte_lang::message.btnCancelarAdm') }}</button>
+				<button id="btn_regresar" type="button" class="btn btn-block btn-default">{{ trans('adminlte_lang::message.btnRegresarAdm') }}</button>
+			</div>
+			<div class="col-md-6">
+				<button id="btn_submit_track" class="btn btn-block btn-primary" type="submit" form="edit_albume"><i class=""></i> {{ trans('adminlte_lang::message.btnActualizarAdm') }}</button>
+			</div>
 		</div><!-- /.box-footer -->
 	</div>
 </div>
@@ -78,5 +84,5 @@
 @endsection
 @section('view.scripts')
 <!-- script file here -->
-<script src="{{ asset('/js/admin/NewAlbume.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/js/admin/EditAlbume.js') }}" type="text/javascript"></script>
 @endsection

@@ -13,6 +13,7 @@ use Validator;
 use DB;
 use Response;
 use Exception;
+use Log;
 class TrackAdmController extends Controller
 {
 
@@ -185,6 +186,7 @@ public function edit($id)
 */
 public function update(Request $request, $id)
 {
+    LOG::info("Modificando Track");
     try{
         $tracks = DB::table('tracks')
         ->join('authors', 'tracks.author_id', '=', 'authors.id')
@@ -223,8 +225,7 @@ public function update(Request $request, $id)
             if(unlink($tracks[0]->file)){    
                 $request->file('file')->move($carpeta,$title.'.mp3');
 
-                DB::table('tracks')
-                ->where('id', $id)
+                Track::where('id', $id)
                 ->update(
                     [
                     'title' => $title,
@@ -239,10 +240,10 @@ public function update(Request $request, $id)
             }
 
         }else{
+
             $rename = rename($tracks[0]->file, $carpeta.'/'.$title.'.mp3');
             if($rename){
-                DB::table('tracks')
-                ->where('id', $id)
+                Track::where('id', $id)
                 ->update(
                     [
                     'title' => $title,
@@ -250,6 +251,7 @@ public function update(Request $request, $id)
                     'albume_id' =>$albume_id,
                     'file' => $carpeta.'/'.$title.'.mp3'
                     ]);
+
                 return response()->json(['message'=>'Pista: '.$id.' modificada.' ],200);
             }else{
 //::Error
@@ -258,6 +260,7 @@ public function update(Request $request, $id)
 
         }
     }catch(Exception $e){
+        LOG::error($e->getMessage());
         return response()->json(['message'=>'La pista : '.$tracks[0]->file.' no ha posido ser renombrada' ],500);
     }
 

@@ -42,15 +42,15 @@
 		</thead>
 		<tbody>
 			<?php $iter=1 ?>
-			@foreach ($albumes as $author)
+			@foreach ($albumes as $albume)
 			<tr>
-				<td><input type="checkbox" name="albumes" id='athr_{{$author->id}}'></td>
+				<td><input type="checkbox" name="albumes" id='athr_{{$albume->id}}'></td>
 				<td>{{$iter++}}</td>
-				<td>{{$author->title}} </td>
-				<td>{{$author->genre}}</td>
-				<td>{{$author->created_at}}</td>
-				<td>{{$author->updated_at}}</td>
-				<td><a href="albumes/{{$author->id}}/edit" id="athr_edit_{{$author->id}}"><i class="fa fa-edit fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+				<td>{{$albume->title}} </td>
+				<td>{{$albume->genre}}</td>
+				<td>{{$albume->created_at}}</td>
+				<td>{{$albume->updated_at}}</td>
+				<td><a href="albumes/{{$albume->id}}/edit" id="athr_edit_{{$albume->id}}"><i class="fa fa-edit fa-lg" aria-hidden="true" title="Editar"></i></a></td>
 			</tr>
 			@endforeach
 		</tbody>

@@ -21,7 +21,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="box" id="box_list_authors">
+		<div class="box" id="box_list_albumes">
 			@include('admin.partials.list_albumes')
 		</div>
 	</div>

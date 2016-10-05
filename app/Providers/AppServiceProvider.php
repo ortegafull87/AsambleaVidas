@@ -22,7 +22,12 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        //
+    {/*
+        $this->app->bind(
+            'App\Service\UserService',
+            'App\Service\UserServiceImpl',
+            'App\Dao\UserDao',
+            'App\Dao\UserDaoImpl'
+        );*/
     }
 }

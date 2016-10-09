@@ -9,6 +9,7 @@
 namespace App\Beans;
 
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class BasicRequest
@@ -94,7 +95,7 @@ class BasicRequest
     /**
      * @param mixed $data
      */
-    public function setData(arry $data)
+    public function setData(array $data)
     {
         $this->data = $data;
     }

@@ -7,8 +7,10 @@
  */
 
 namespace App\Dao;
+
 use App\Beans\BasicRequest;
 Use App\User;
+use Illuminate\Support\Facades\DB;
 
 class UserDaoImpl implements UserDao
 {
@@ -30,7 +32,20 @@ class UserDaoImpl implements UserDao
      */
     public function Read(BasicRequest $request)
     {
-        return User::all();
+        //return User::all() ;
+        $rows = $request->getRows();
+        return DB::table('users')
+            ->join('privileges', 'users.privilege_id', '=', 'privileges.id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.password',
+                'users.created_at',
+                'users.updated_at',
+                'users.privilege_id',
+                'privileges.description'
+            )->paginate($rows);
     }
 
     /**

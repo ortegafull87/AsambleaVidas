@@ -12,10 +12,14 @@ class Message{
 	const SUCCESS_ALBUMES_DELETED_ONE	= "Álbume eliminado"; 
 	const SUCCESS_ALBUMES_DELETED_MANY	= "Álbumes eliminados";  
 	const ERROR_ALBUMES_FOREIGN_KEY 	= "El Albume(es) que desea eliminar ya se encuentran asignados a una o más pistas, no es posible eliminarlos";
-	
+
+	/*Exceptions*/
+	const EXCEPTION_NO_ROOT_PRIVILEGE	= "Lo sentimos tuvimos algunos inconvenientes, obteniendo sus privilegios";
+
 	/*Generales*/
 	const ERROR_5X 						= "Lo sentimos tuvimos algunos inconvenientes, por favor contacta al administrador.";
 	const WARNING_2X					= "Algo no anda bien. ";
+	const NOT_PRIVILEGE					= "No tiene privilegios para usar esta función";
 
 
 }

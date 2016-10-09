@@ -42,7 +42,7 @@ class UserServiceImpl implements UserService
     public function Read(BasicRequest $request)
     {
 
-        return $this->userDao->Read($request);
+        return ['users' => $this->userDao->Read($request)];
     }
 
     /**

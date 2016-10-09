@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "adroit-nuance-132223",
+  "private_key_id": "bdb7d21b37ca670514fce83d17840c167ea5ff07",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCsWllQIbyRKaq9\ntFz4yYyjKzldbSutD1aBEjM2LmWznkR/1PnNA6Gw4sHslwiXnBU/KcJ0T3UUCHiP\nz2kju78BIZDdcEUiVOmqA2/oa04oQHwbSmcpRXa70tvpCYBgOgXn6B/tEEWvehqw\nYaytST1mJRNGW/v/9g/cOe/zano4iw31dfNsQx0QCbHLK/Nk25oAqKCTKFfUk62r\nrul4wGbj5OchWbawrzFoJFrrwD1KlNS6hRYJUGvVe8EI6636D7XUh9vvNf0TVbCc\ny21ig9hXNzmSc9cBJ4Q+DU0z8DdA965OjdKUOyB/MPT0zVevhJ/QYoBVYPBCIRHN\nR5RtWAv5AgMBAAECggEARvwvLMG4WFFA8UEHya+5LLrwtXnxMyXOCvrj/Ly/Rms4\n6y1cdQO55JCALmFGOKsgVRNt81mGbunOPey+8OiyklSwxYMn9ivi0RL5VFBdsFZe\nxx6tvmHNtS3zRNeU+AztwcXo4EqDaPJxa5PO+s/faeJ7Pc9EyvcdMSbrnOWN0RtG\nyymkFzTbA1594NXM7VE1/CEGgdx0do89HlXU/dVRYnHZigXfhVFl+anefXDzip8i\n6a7AiL3779UTv3/R/TToC1TP+YNV7biK1OmbeEY0qbOzBkVsoksejXs/tg8/yf7+\noTfoX3lKUVBDVfCyJHO6rhdKD8rBp9YC7y6K+HVrwQKBgQDk00yU4BTYF7n4kK8y\n76J8KpGUIgg8Vpu8RxhMyu8rwll1XsgRRNEl689GetHy2xVHdqqkYVpBaCA99q6j\n3Mk7YRG/wSowUux1gY9LsA0bkYoubVNRwvMkDe/dtdFfyyO4Je91iWnuKZOX3A9k\nAgXoUHJuLo6MsfLkh5EfOcBWUwKBgQDA0i+ZHVHB7tAXUauC+FoDwsBgBy0/4hZo\n15X5Nf1lsuOmAC8493eovn8JciZtrudfDMCzmH9NWZ7avRLW2fw5MmQYtJ2itQte\nfOs+935al3cNU6I87/sBt/0jwfZE72PjpK/gFUWlkBbeyG3AfVXAvTm+UbiT8kn/\nF2pV3/mzAwKBgQC9VunDNjeJJvjG6FFPwGGehEq5W/+cjb2HaPx+blzAxKvpJmg9\ngcfdrOVx2Cbo4McWvuYr5jIcdOBY5UlUZVhNPeDF3jveiH8ILBA5/I6cBS1lhSiw\nOrOdXbrgpZV9wkToFtuxUebJHrX1ri09/z6MICTPbs6dNJFa76HxSIQR6QKBgQCt\nOGVwPOmkuiCQwlq89tUOydc+rVPWLwqItxvQ3NK+mP1vtHy3xYDmw/OmDbk+EcFj\nHzbCYL4EQ/20beTNxNiUnZNUqnVupQwIn1pKn9YQFj/qZfa6nbA19A7iH65YcWKg\nL+OcACAoQxB4pUALi80MsDF+qzWRGzmkg2mQqfxM9wKBgBfpRq3I4tD3AbASwpmI\n6Sob/FenJspUS5rZzOKUnXmRgAbnlfJ5ZPJvpbqZbyvFJsDGIM0u1Xh8rsfB34m8\noPIIgdRw++6IKQSmr4jTJYsWt73WDlQdMgMVlcAq6WifJ/6d7i+zJXdIQMqpqZGZ\nTRmKdUjhv93riyz0z45vF33V\n-----END PRIVATE KEY-----\n",
+  "client_email": "drive-369@adroit-nuance-132223.iam.gserviceaccount.com",
+  "client_id": "114902199071718579973",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/drive-369%40adroit-nuance-132223.iam.gserviceaccount.com"
+}

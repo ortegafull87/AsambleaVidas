@@ -7,9 +7,12 @@
  */
 
 namespace App\Dao;
+
 use App\Beans\BasicRequest;
 use App\Models\Albume;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Mockery\CountValidator\Exception;
 
 class AlbumeDaoImpl implements AlbumeDao
 {
@@ -21,7 +24,21 @@ class AlbumeDaoImpl implements AlbumeDao
      */
     public function create(BasicRequest $request)
     {
-        // TODO: Implement create() method.
+        $params = $request->getData();
+        try {
+            $albume = new Albume;
+            $albume->title = $params['albumeTitle'];
+            $albume->genre = $params['albumGenre'];
+            $albume->folder = $params['folder'];
+            $albume->save();
+
+            return true;
+
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+
     }
 
     /**

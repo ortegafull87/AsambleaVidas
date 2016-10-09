@@ -7,7 +7,11 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "acacha/admin-lte-template-laravel": "2.*"
+        "acacha/admin-lte-template-laravel": "2.*",
+        "superbalist/flysystem-google-storage": "^3.0",
+        "pulkitjalan/google-apiclient": "^3.0",
+        "google/apiclient": "^2.0",
+        "graham-campbell/dropbox": "^3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -7,8 +7,14 @@
  */
 
 namespace App\Service;
+
 use App\Beans\BasicRequest;
 use App\Dao\AlbumeDaoImpl as AlbumeDao;
+use App\Library\Message;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Mockery\CountValidator\Exception;
+use App;
 
 class AlbumeServiceImpl implements AlbumeService
 {
@@ -30,7 +36,44 @@ class AlbumeServiceImpl implements AlbumeService
      */
     public function create(BasicRequest $request)
     {
-        // TODO: Implement create() method.
+        LOG::info('Preparing data to create new albume');
+
+        try {
+            $pahtAudioFiles = env('URL_BASE_AUDIOFILES');
+            $albumeTitle = $request->getRequest()->input("title");
+            $albumGenre = $request->getRequest()->input("genre");
+
+            $folder = sha1($albumeTitle . '_' . $albumGenre);
+
+            $basicRequest = new BasicRequest();
+            $basicRequest->setData(array
+                (
+                    'albumeTitle' => $albumeTitle,
+                    'albumGenre' => $albumGenre,
+                    'folder' => $folder
+                )
+            );
+
+            DB::beginTransaction();
+
+            if ($this->albumeDao->create($basicRequest)) {
+                if (!is_dir($pahtAudioFiles. '/' . $folder)) {
+                    mkdir($pahtAudioFiles. '/' . $folder, 0777, true);
+                    DB::commit();
+                } else {
+                    DB::commit();
+                }
+                return true;
+            } else {
+                DB::rollBack();
+                return false;
+            }
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            DB::rollBack();
+            throw new Exception(Message::SUCCESS_ALBUMES_UPDATED);
+        }
+
     }
 
     /**
@@ -40,6 +83,7 @@ class AlbumeServiceImpl implements AlbumeService
      */
     public function Read(BasicRequest $request)
     {
+        LOG::info(env('URL_BASE_AUDIOFILES'));
         return $this->albumeDao->Read($request);
     }
 

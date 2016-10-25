@@ -71,4 +71,19 @@ class AlbumeDaoImpl implements AlbumeDao
     {
         // TODO: Implement delete() method.
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getAlbumeById($id)
+    {
+        LOG::info(AlbumeDaoImpl::class);
+        try {
+            return Albume::where('id', $id)->get();
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            throw new Exception($e->getMessage());
+        }
+    }
 }

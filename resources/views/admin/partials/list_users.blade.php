@@ -28,8 +28,9 @@
                 <td>Privilegio</td>
                 <td>Creado</td>
                 <td>Modificado</td>
+                <td>Estatus</td>
                 @if(App\Library\Util::AUNTH_USER_ROOT())
-                    <td>Modificar</td>
+                    <td class="text-center text-blue">Baja/Alta</td>
                 @endif
 
             </tr>
@@ -37,7 +38,7 @@
             <tbody>
             <?php $iter = 1 ?>
             @foreach ($users as $user)
-                <tr>
+                <tr id="user_{{$user->id}}">
                     <td>{{$iter++}}</td>
                     <td>{{$user->name}} </td>
                     <td>{{$user->email}}</td>
@@ -45,10 +46,16 @@
                     <td>{{$user->description}}</td>
                     <td>{{$user->created_at}}</td>
                     <td>{{$user->updated_at}}</td>
+                    <td>{{$user->status}}</td>
                     @if(App\Library\Util::AUNTH_USER_ROOT())
-                        <td>
-                            <a href="users/{{$user->id}}/edit" id="athr_edit_{{$user->id}}">
-                                <i class="fa fa-edit fa-lg" aria-hidden="true" title="Editar"></i>
+                        <td class="text-center">
+                            <a href="{{ url('/admin/users/'.$user->id) }}" id="{{$user->id}}"
+                               data-status="{{$user->status_id}}">
+                                @if($user->status_id == 1)
+                                    <i class="fa fa-thumbs-down fa-lg " aria-hidden="true" title="Dar de baja"></i>
+                                @else
+                                    <i class="fa fa-thumbs-up fa-lg " aria-hidden="true" title="Dar de alta"></i>
+                                @endif
                             </a>
                         </td>
                     @endif

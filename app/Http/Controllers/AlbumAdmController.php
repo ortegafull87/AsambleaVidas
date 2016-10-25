@@ -89,7 +89,7 @@ class AlbumAdmController extends Controller
             $messages = [
                 'required' => ' El campo \':attribute\' es obligatorio ',
             ];
-            
+
             $validator = Validator::make($request->all(), $rules, $messages);
 
             if ($validator->fails()) {

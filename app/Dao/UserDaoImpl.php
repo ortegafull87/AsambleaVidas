@@ -9,8 +9,12 @@
 namespace App\Dao;
 
 use App\Beans\BasicRequest;
+use App\Library\Constantes;
+use App\Service\UserServiceImpl;
 Use App\User;
 use Illuminate\Support\Facades\DB;
+use Mockery\CountValidator\Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserDaoImpl implements UserDao
 {
@@ -36,6 +40,7 @@ class UserDaoImpl implements UserDao
         $rows = $request->getRows();
         return DB::table('users')
             ->join('privileges', 'users.privilege_id', '=', 'privileges.id')
+            ->join('status', 'users.status_id', '=', 'status.id')
             ->select(
                 'users.id',
                 'users.name',
@@ -44,7 +49,9 @@ class UserDaoImpl implements UserDao
                 'users.created_at',
                 'users.updated_at',
                 'users.privilege_id',
-                'privileges.description'
+                'users.status_id',
+                'privileges.description',
+                'status.status'
             )->paginate($rows);
     }
 
@@ -66,5 +73,65 @@ class UserDaoImpl implements UserDao
     public function delete(BasicRequest $request)
     {
         // TODO: Implement delete() method.
+    }
+
+    /**
+     * Da de baja un usuario del sistema.
+     * @param $id
+     * @return mixed
+     */
+    public function setBajaUsuario($id)
+    {
+        LOG::info('Desactivando usuario: ' . $id . ' ' .UserServiceImpl::class);
+        try {
+            User::where('id', $id)
+                ->update(['status_id' => Constantes::USER_INACTIVE]);
+            return true;
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            throw  new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Activa un usuario del sistema.
+     * @param $id
+     * @return mixed
+     */
+    public function setAltaUsuario($id)
+    {
+        LOG::info('Activando usuario: ' . $id . ' ' . UserDaoImpl::class);
+        try {
+            User::where('id', $id)
+                ->update(['status_id' => Constantes::USER_ACTIVE]);
+            return true;
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            throw  new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getUserById($id)
+    {
+        return DB::table('users')
+            ->join('privileges', 'users.privilege_id', '=', 'privileges.id')
+            ->join('status', 'users.status_id', '=', 'status.id')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.password',
+                'users.created_at',
+                'users.updated_at',
+                'users.privilege_id',
+                'users.status_id',
+                'privileges.description',
+                'status.status'
+            )->where('users.id', '=', $id)
+            ->get();
     }
 }

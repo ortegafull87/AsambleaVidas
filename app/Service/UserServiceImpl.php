@@ -7,8 +7,11 @@
  */
 
 namespace App\Service;
+
 use App\Beans\BasicRequest;
+use App\Beans\ServiceResponse;
 use App\Dao\UserDaoImpl as UserDao;
+use Illuminate\Support\Facades\Log;
 
 class UserServiceImpl implements UserService
 {
@@ -52,7 +55,55 @@ class UserServiceImpl implements UserService
      */
     public function update(BasicRequest $request)
     {
-        // TODO: Implement update() method.
+        LOG::info('Iniciando...' . UserServiceImpl::class);
+
+        $response = new ServiceResponse();
+        $status_id = $request->getData()['status_id'];
+        $id = $request->getId();
+
+        try {
+            switch ($status_id) {
+                case 1:
+                    $update = $this->userDao->setBajaUsuario($id);
+                    break;
+                case 2:
+                    $update = $this->userDao->setAltaUsuario($id);
+                    break;
+                default:
+                    //no code
+                    break;
+            }
+
+
+            if ($update) {
+
+                LOG::info('Obteniendo Usuario actualizado');
+
+                $user = $this->userDao->getUserById($id);
+                $response->setStatus(true);
+                $response->setMessage('Usuario actulizado con el estado: ' . $user[0]->status );
+                $response->setData(['user' => $user]);
+
+                return $response;
+
+            } else {
+
+                $response->setStatus(false);
+                $response->getMessage('Tubimos incovenientes para actualizar este usuario');
+                $response->setData(null);
+
+                return $response;
+            }
+
+        } catch (\Exception $e) {
+
+            LOG::error($e->getMessage());
+            $response->setStatus(false);
+            $response->setMessage($e->getMessage());
+            $response->setData([]);
+
+            return $response;;
+        }
     }
 
     /**
@@ -64,4 +115,11 @@ class UserServiceImpl implements UserService
     {
         // TODO: Implement delete() method.
     }
+
+    /**
+     * Da de baja un usuario del sistema.
+     * @param $id
+     * @return mixed
+     */
+
 }

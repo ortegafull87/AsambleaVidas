@@ -26,6 +26,8 @@
        <link href="{{ asset('/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- dashboard-->
     <link href="{{ asset('/css/dashboard/dashboard.css') }}" rel="stylesheet" type="text/css" />
+    <!-- Comunes -->
+    <link href="{{ asset('/css/comunes.css') }}" rel="stylesheet" type="text/css" />
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

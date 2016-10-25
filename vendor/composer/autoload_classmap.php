@@ -7,11 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddFolderToAlbumesTable' => $baseDir . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
+    'AddStatusToUsersTable' => $baseDir . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
     'CreateAlbumesTable' => $baseDir . '/database/migrations/2016_08_05_034903_create_albumes_table.php',
     'CreateAuthorsTable' => $baseDir . '/database/migrations/2016_08_05_032358_create_authors_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePrivilegesTable' => $baseDir . '/database/migrations/2016_08_05_025616_create_privileges_table.php',
     'CreateProfilesTable' => $baseDir . '/database/migrations/2016_08_05_030440_create_profiles_table.php',
+    'CreateStatusTable' => $baseDir . '/database/migrations/2016_10_12_043131_create_status_table.php',
     'CreateTracksTable' => $baseDir . '/database/migrations/2016_08_05_035018_create_tracks_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

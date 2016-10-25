@@ -8,7 +8,7 @@ var  Track = {
 			radioClass: 'iradio_square-blue',
 			increaseArea: '20%'
 		});
-
+		$('.abort-upload').hi;
 		$(".audio").mb_miniPlayer();
 
 	}

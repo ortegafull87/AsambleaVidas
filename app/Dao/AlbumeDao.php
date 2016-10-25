@@ -12,5 +12,5 @@ use App\Contracts\CRUD;
 
 interface AlbumeDao extends CRUD
 {
-
+    public function getAlbumeById($id);
 }

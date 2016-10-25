@@ -209,6 +209,11 @@ return [
     'titleDescriptionEditAlbume'    => 'Aquí se puede editar la información de un álbum.',
     'sectionNameAlbume'             => 'Edición',
 
+    //ALBUMES
+    'moduleNameUser'              => 'Usuario',
 
+    //ALBUM REGISTERED
+    'titlePageUserRegistered'    => 'Usuarios registrados',
+    'titleDescriptionPageUserRegistered' => 'Aquí se mustran los usuarios registrados.',
 
 ];

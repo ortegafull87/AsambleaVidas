@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Beans\BasicRequest;
 use App\Beans\HttpResponse;
+use App\Beans\ServiceResponse;
 use App\Library\HttpStatusCode;
 use App\Library\Message;
 use App\Library\Util;
 use App\Service\UserServiceImpl as UserService;
 use Illuminate\Auth\Access\Response;
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\View;
-use Mockery\CountValidator\Exception;
+use Requests;
+use Log;
+use View;
+use Exception;
 
 class UserAdmController extends Controller
 {
@@ -83,24 +85,7 @@ class UserAdmController extends Controller
      */
     public function edit($id)
     {
-        $response = new HttpResponse();
 
-        try {
-
-            if (Util::AUNTH_USER_ROOT()) {
-                return 'Yes';
-            } else {
-                $response->setMessage(Message::NOT_PRIVILEGE);
-                $response->setError(null);
-                //return response()->json($response->toArray(), HttpStatusCode::HTTP_UNAUTHORIZED);
-                return View('errors/401',[]);
-            }
-        } catch (\Exception $e) {
-            LOG::error($e->getMessage());
-            $response->setMessage(Message::ERROR_5X);
-            $response->setError($e->getMessage());
-            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
-        }
     }
 
     /**
@@ -112,7 +97,65 @@ class UserAdmController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response = new HttpResponse();
+
+        try {
+            // Validamos que el usuario tenga permisos para usar esta funcion
+            if (Util::AUNTH_USER_ROOT()) {
+
+                $rules = array(
+                    'user_id' => 'required',
+                    'status_id' => 'required',
+                );
+                $messages = [
+                    'required' => ' El campo \':attribute\' es obligatorio ',
+                ];
+
+                $validator = Validator::make($request->all(), $rules, $messages);
+
+                if ($validator->fails()) {
+
+                    $errorRules = $validator->errors()->all();
+                    $response->setMessage(Message::WARNING_2X);
+                    $response->setError($errorRules);
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+
+                }
+
+                $bRequest = new BasicRequest();
+                $bRequest->setId($request->input('user_id'));
+                $bRequest->setData(['status_id' => $request->input('status_id')]);
+                $bRequest->setRequest($request);
+
+                // Hacemos la peticion de la actualización
+                $upDate = $this->userService->update($bRequest);
+
+                if ($upDate->getStatus()) {
+
+                    $response->setData($upDate->getData());
+                    $response->setMessage($upDate->getMessage());
+
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+
+                } else {
+
+                    $response->setMessage(Message::ERROR_5X);
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+                }
+
+            } else {
+
+                $response->setMessage(Message::NOT_PRIVILEGE);
+                $response->setError(null);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_UNAUTHORIZED);
+                //return View('errors/401',[]);
+            }
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

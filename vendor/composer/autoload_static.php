@@ -364,11 +364,13 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
 
     public static $classMap = array (
         'AddFolderToAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
+        'AddStatusToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
         'CreateAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_034903_create_albumes_table.php',
         'CreateAuthorsTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_032358_create_authors_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePrivilegesTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_025616_create_privileges_table.php',
         'CreateProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_030440_create_profiles_table.php',
+        'CreateStatusTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_12_043131_create_status_table.php',
         'CreateTracksTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_035018_create_tracks_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

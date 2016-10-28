@@ -12,7 +12,6 @@ use App\Beans\ServiceResponse;
 use App\Dao\TrackDaoImpl as TrackDao;
 use App\Beans\BasicRequest;
 use App\Dao\AlbumeDaoImpl as AlbumeDao;
-use Illuminate\Support\Arr;
 use DB;
 use Log;
 use Mockery\CountValidator\Exception;
@@ -22,11 +21,13 @@ class TrackServiceImpl implements AlbumeService
 {
     protected $trackDao;
     protected $albumeDao;
+    private $URL_BASE_AUDIOFILES;
 
     public function __construct(TrackDao $trackDao, AlbumeDao $albumeDao)
     {
         $this->trackDao = $trackDao;
         $this->albumeDao = $albumeDao;
+        $this->URL_BASE_AUDIOFILES = env('URL_BASE_AUDIOFILES') . '/';
     }
 
     /**
@@ -98,7 +99,7 @@ class TrackServiceImpl implements AlbumeService
                         if ($track[0]->idAlbume != $data['albume_id']) {// si la actualización implica un cambio de albume
                             $albume = $this->albumeDao->getAlbumeById($data['albume_id']);
                             $httpRequest->file('file')->move($URL_BASE_AUDIOFILES . '/' . $albume[0]->folder . '/', $data['title'] . '.mp3');
-                        }else{
+                        } else {
                             $httpRequest->file('file')->move($carpeta, $data['title'] . '.mp3');
                         }
 
@@ -195,32 +196,50 @@ class TrackServiceImpl implements AlbumeService
      */
     public function delete(BasicRequest $request)
     {
+        LOG::info(TrackServiceImpl::class);
+        $serviceResponse = new ServiceResponse();
+        $array_deleted = array();
         try {
             DB::beginTransaction();
-
-            if ($request->getId() == -1) {
-                $allTracks = Track::all();
-                foreach ($allTracks as $row) {
-                    if (unlink($row->file)) {
-                        $row->delete();
+            //throw new \Exception("Proceso interrumpido");
+            if ($request->getId() == -1) {// Se eliminan todas las pistas registradas.
+                $allTracks = $this->trackDao->Read(new BasicRequest());
+                foreach ($allTracks as $dataTrack) {
+                    if ($this->URL_BASE_AUDIOFILES . $dataTrack->folder . '/' . $dataTrack->file) {
+                        if ($this->trackDao->deleteTrackById($dataTrack->id)) {
+                            $array_deleted[] = $dataTrack->id;
+                        } else {
+                            throw new Exception("La pista: " . $dataTrack->tracks . id . " no se eliminó");
+                        }
                     }
                 }
 
-            } else {
-                
-                foreach ($request->getData() as $idTable) {
-                    $track = Track::find($idTable);
-                    if (unlink($track->file)) {
-                        $track->delete();
+            } else {// se eliminan las pistas seleccionadas.
+                foreach ($request->getData() as $idTrack) {
+                    $dataTrack = $this->trackDao->getTrackByDelete($idTrack);
+                    if ($this->trackDao->deleteTrackById($idTrack)) {
+                        if (unlink($this->URL_BASE_AUDIOFILES . $dataTrack[0]->folder . '/' . $dataTrack[0]->file)) {
+                            $array_deleted[] = $idTrack;
+                        } else {
+                            throw new Exception("La pista: " . $idTrack . " no se eliminó");
+                        }
                     }
                 }
             }
-            DB::commit();
-            return 'OK';
 
-        } catch (Exception $e) {
+            $serviceResponse->getStatus(true);
+            $serviceResponse->setMessage("Pista eliminada");
+            $serviceResponse->setData($array_deleted);
+            DB::commit();
+            return $serviceResponse;
+
+        } catch (\Exception $e) {
+            LOG::error(TrackServiceImpl::class);
+            LOG::error($e->getMessage());
+            $serviceResponse->getStatus(false);
+            $serviceResponse->setMessage($e->getMessage());
             DB::rollBack();
-            return $e;
+            return $serviceResponse;
         }
     }
 }

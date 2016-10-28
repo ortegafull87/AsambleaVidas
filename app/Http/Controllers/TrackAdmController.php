@@ -80,7 +80,7 @@ class TrackAdmController extends Controller
      */
     public function store(Request $request)
     {
-
+        LOG:info(TrackAdmController::class);
         $title = $request->input('trk_titulo');
         $author_id = $request->input('trk_author');
         $albume_id = $request->input('trk_albume');
@@ -91,7 +91,7 @@ class TrackAdmController extends Controller
                 'trk_author' => 'required',
                 'trk_albume' => 'required',
             );
-
+            LOG::info('validando permisos');
             $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
@@ -107,7 +107,7 @@ class TrackAdmController extends Controller
                 }
 
                 $myFile = $request->hasFile('file');
-
+                LOG::info('verificando si hay archivo');
                 if ($myFile) {
 
                     $error = array(
@@ -134,7 +134,8 @@ class TrackAdmController extends Controller
                     return Response::json(['message' => "No se ha detectado ningun archivo de audio"], 204);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            LOG::error($e);
             if (file_exists($carpeta . '/' . $title . '.mp3')) {
                 unlink($carpeta . '/' . $title . '.mp3');
             }
@@ -187,7 +188,7 @@ class TrackAdmController extends Controller
                 'albumes' => Albume::All(),
                 'paht' => env('URL_BASE_AUDIOFILES')
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
         }
     }
@@ -272,7 +273,7 @@ class TrackAdmController extends Controller
                 $ids = preg_split('/[\s,]+/', $id);
                 $data = Array();
                 foreach ($ids as $idTable) {
-                    $data[] = $ids;
+                    $data[] = $idTable;
                 }
                 $basicRequest->setData($data);
             }
@@ -288,9 +289,8 @@ class TrackAdmController extends Controller
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
             }
 
-        } catch (Exception $e) {
-            DB::rollBack();
-            LOG::error($e);
+        } catch (\Exception $e) {
+            LOG::error($e->getMessage());
             $response->setMessage(Message::ERROR_5X);
             $response->setError($e->getMessage());
             return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);

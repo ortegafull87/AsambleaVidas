@@ -69,7 +69,7 @@ class AlbumeDaoImpl implements AlbumeDao
      */
     public function delete(BasicRequest $request)
     {
-        // TODO: Implement delete() method.
+        
     }
 
     /**

@@ -55,7 +55,6 @@
 					<thead>
 						<tr>
 							<td></td>
-							<td>Id</td>
 							<td>Pista</td>
 							<td>Título</td>
 							<td>Autor</td>
@@ -68,9 +67,8 @@
 					</thead>
 					<tbody>
 						@foreach ($pistas as $pista)
-						<tr>
+						<tr id="{{$pista->id}}">
 							<td><input type="checkbox" name="tracks" id='trk_{{$pista->id}}'></td>
-							<td>{{$pista->id}}</td>
 							<td><a id="trk_{{$pista->id}}" class="audio {skin:'blue', animate:true, width:'0', volume:0.8, autoplay:false, loop:false, showVolumeLevel:false, showTime:false, allowMute:true, showRew:false, addGradientOverlay:false, downloadable:false, downloadablesecurity:false, id3: false}" href="{{ url($paht.'/'.$pista->folder.'/'.$pista->file) }}">{{$pista->title}}</a>
 							</td>
 							<td>{{ $pista->title }}</td>

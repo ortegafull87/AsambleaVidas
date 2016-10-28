@@ -9,6 +9,7 @@ var Messages =
 		NO_CHECKED: 'No hay elementos seleccionados.',
 		ERROR_DELETE: 'Error eliminando uno o mas registros',
 		ERROR_CREATED: 'Error al crear un nuevo registro',
-		ERROR_UPDATED: 'Error al actualizar un registro'
+		ERROR_UPDATED: 'Error al actualizar un registro',
+		ERROR_500: 'Lo sentimos tuvimos algunos inconvenientes, por favor contacta al administrador.',
 	}
 };

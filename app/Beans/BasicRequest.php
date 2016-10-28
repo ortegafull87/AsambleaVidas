@@ -20,6 +20,14 @@ class BasicRequest
     private $request;
     private $data;
 
+    public function __construct()
+    {
+        $this->id = 0;
+        $this->page = 0;
+        $this->rows = 0;
+        $this->data = array();
+    }
+
     /**
      * @return mixed
      */

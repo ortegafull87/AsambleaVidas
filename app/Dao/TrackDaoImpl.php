@@ -95,9 +95,9 @@ class TrackDaoImpl implements TrackDao
     public function delete(BasicRequest $request)
     {
         LOG::info(TrackDaoImpl::class);
-        try{
-            return Track::where('id',$request->getId())->delete();
-        }catch(\Exception $e){
+        try {
+            return Track::where('id', $request->getId())->delete();
+        } catch (\Exception $e) {
             LOG::error($e->getMessage());
             throw new Exception($e->getMessage());
         }
@@ -106,11 +106,41 @@ class TrackDaoImpl implements TrackDao
     public function deleteTracks($ids)
     {
         LOG::info(TrackDaoImpl::class);
-        try{
-            return DB::table('tracks')->whereIn('id',$ids)->delete();
-        }catch(\Exception $e){
+        try {
+            return DB::table('tracks')->whereIn('id', $ids)->delete();
+        } catch (\Exception $e) {
             LOG::error($e->getMessage());
             throw new Exception($e->getMessage());
+        }
+    }
+
+    public function getTrackByDelete($id)
+    {
+        LOG::info(TrackDaoImpl::class);
+        LOG::info($id);
+        try {
+            return DB::table('tracks')
+                ->join('authors', 'tracks.author_id', '=', 'authors.id')
+                ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+                ->select(
+                    'tracks.file',
+                    'albumes.folder')
+                ->where('tracks.id', $id)
+                ->get();
+        } catch (\Exception $e) {
+            throw new Exception($e);
+        }
+    }
+
+    public function deleteTrackById($id)
+    {
+        LOG::info(TrackDaoImpl::class);
+        LOG::info('deleteTrackById');
+        LOG::info($id);
+        try {
+            return Track::find($id)->delete();
+        } catch (\Exception $e) {
+            throw new Exception($e);
         }
     }
 }

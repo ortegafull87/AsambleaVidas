@@ -14,7 +14,7 @@
 
 @section('heather_level')
 <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.administrator') }}</a></li>
-<li><a href="{{url('admin/authors')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.moduleNameAuthor') }}</a></li>
+<li><a href="{{url('admin/authors')}}"><i class="fa fa-paint-brush"></i>{{ trans('adminlte_lang::message.moduleNameAuthor') }}</a></li>
 <li class="active">{{ trans('adminlte_lang::message.sectionNameNewAuthor') }}
 </li>
 @endsection
@@ -34,7 +34,7 @@
 							<i class="fa fa-eraser"></i>
 						</button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#" data-action="clear-form-new-track">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a></li>
+							<li><a href="#" data-action="clear-form">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a></li>
 						</ul>
 					</div>
 				</div>

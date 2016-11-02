@@ -211,10 +211,13 @@ return [
     'sectionNameAlbume'             => 'Edición',
 
     //ALBUMES
-    'moduleNameUser'              => 'Usuario',
+    'moduleNameUser'                => 'Usuario',
 
     //ALBUM REGISTERED
-    'titlePageUserRegistered'    => 'Usuarios registrados',
+    'titlePageUserRegistered'       => 'Usuarios registrados',
     'titleDescriptionPageUserRegistered' => 'Aquí se mustran los usuarios registrados.',
+
+    //FORM
+    'revertchanges'                 => 'Deshacer cambios',
 
 ];

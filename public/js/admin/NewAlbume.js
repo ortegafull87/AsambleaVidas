@@ -1,55 +1,71 @@
 var NewAlbume = {
+    self: null,
+    _init: function () {
+        self = NewAlbume;
+        self.events();
+        Util.setActiveSideMenu('admin/albumes/create');
 
-	_init:function(){
-		Util.setActiveSideMenu('admin/albumes/create');
-		$('#new_albume').submit(function(object){
-			NewAlbume.newAlbume(object)
-		});
-	}
-	,
-	newAlbume:function(object){
-		object.preventDefault();
-		var actionForm 	= $(object.target).attr('action');
-		var dataString 	= $(object.target).serialize();	 
-		$.ajax({
-			url:actionForm,
-			method:'POST',
-			data:dataString
-			,
-			complete: function(xhr) {
+    }
+    ,
+    events: function () {
 
-				if(xhr.status >= 200 && xhr.status < 202){
-					
-					Util.showAlert('alert-success', xhr.responseJSON.message);
-					$(object.target).trigger('reset');
+        $('#new_albume').submit(function (object) {
+            self.newAlbume(object)
+        });
 
-				}else if(xhr.status >= 202 && xhr.status <= 210){
+        $(document).on('click', 'a', function () {
 
-					console.log(Messages.es.ERROR_CREATED);
-					console.log(xhr.responseJSON.error);
-					Util.showAlert('alert-warning', xhr.responseJSON.message + xhr.responseJSON.error);
+            if($(this).data('action') === 'clear-form') {
+                $('#new_albume').trigger('reset');
+            }
 
-				}
-			}
-			,
-			error:function(xhr){
+        });
 
-				if(typeof(xhr.responseText) === 'string'){
+    }
+    ,
+    newAlbume: function (object) {
+        object.preventDefault();
+        var actionForm = $(object.target).attr('action');
+        var dataString = $(object.target).serialize();
+        $.ajax({
+            url: actionForm,
+            method: 'POST',
+            data: dataString
+            ,
+            complete: function (xhr) {
 
-					var response = JSON.parse(xhr.responseText);
-					console.log(Messages.es.ERROR_CREATED);
-					console.log(response.error);
-					Util.showAlert('alert-danger', response.message);
+                if (xhr.status >= 200 && xhr.status < 202) {
 
-				}else{
+                    Util.showAlert('alert-success', xhr.responseJSON.message);
+                    $(object.target).trigger('reset');
 
-					Util.showAlert('alert-danger', xhr.statusText);
-					console.log(xhr);
+                } else if (xhr.status >= 202 && xhr.status <= 210) {
 
-				}
-			}
-		});
-	}
+                    console.log(Messages.es.ERROR_CREATED);
+                    console.log(xhr.responseJSON.error);
+                    Util.showAlert('alert-warning', xhr.responseJSON.message + xhr.responseJSON.error);
+
+                }
+            }
+            ,
+            error: function (xhr) {
+
+                if (typeof(xhr.responseText) === 'string') {
+
+                    var response = JSON.parse(xhr.responseText);
+                    console.log(Messages.es.ERROR_CREATED);
+                    console.log(response.error);
+                    Util.showAlert('alert-danger', response.message);
+
+                } else {
+
+                    Util.showAlert('alert-danger', xhr.statusText);
+                    console.log(xhr);
+
+                }
+            }
+        });
+    }
 };
 
 $(document).ready(NewAlbume._init);

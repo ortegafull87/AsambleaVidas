@@ -13,12 +13,9 @@
 @endsection
 
 @section('heather_level')
-    <li><a href="{{url('admin/dashboard')}}"><i
-                    class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.administrator') }}</a></li>
-    <li><a href="{{url('admin/tracks')}}"><i
-                    class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.titlesectionmoTracks') }}</a></li>
-    <li class="active">{{ trans('adminlte_lang::message.titleNewTrack') }}
-    </li>
+    <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.administrator') }}</a></li>
+    <li><a href="{{url('admin/tracks')}}"><i class="fa fa-music"></i>{{ trans('adminlte_lang::message.titlesectionmoTracks') }}</a></li>
+    <li class="active">{{ trans('adminlte_lang::message.titleNewTrack') }}</li>
 @endsection
 
 @section('main-content')
@@ -37,7 +34,7 @@
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"
-                                       data-action="clear-form-new-track">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a>
+                                       data-action="clear-form">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a>
                                 </li>
                             </ul>
                         </div>

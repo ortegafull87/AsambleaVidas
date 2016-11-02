@@ -1,11 +1,25 @@
 var jsmediatags = window.jsmediatags;
 var NewTrack = {
+    self: null,
     MAX_FILE_SIZE_UPLOAD: 42,
-
     _init: function () {
+        self = NewTrack;
         Util.setActiveSideMenu('admin/tracks/create');
-        NewTrack.loadFile();
-        NewTrack.uploadTrackAction('#pg_bar_track');
+        self.events();
+        self.uploadTrackAction('#pg_bar_track');
+    }
+    ,
+    events: function () {
+
+        self.loadFile();
+
+        $(document).on('click', 'a', function () {
+
+            if ($(this).data('action') === 'clear-form') {
+                $('#up').trigger('reset');
+            }
+
+        });
     }
     ,
     loadFile: function () {
@@ -50,7 +64,7 @@ var NewTrack = {
                 }
                 // verificando el formato del archivo.
                 console.debug(file.value.type);
-                if(file.value.type !== "audio/mp3"){
+                if (file.value.type !== "audio/mp3") {
                     Util.showAlert('alert-info', Messages.es.FILE_FORMAT);
                     return false;
                 }
@@ -75,7 +89,7 @@ var NewTrack = {
 
                 var _total = Util.parseToMB(total);
                 var _toComplete = Util.parseToMB(position);
-                var infoUpLoad = Util.getInfoAjaxUpLoad(started_at,position,total);
+                var infoUpLoad = Util.getInfoAjaxUpLoad(started_at, position, total);
 
                 $('#upload-info > div').eq(0).find('span').html(_toComplete + ' Mb');//completado
                 $('#upload-info > div').eq(1).find('span').html(_total + " Mb");//total

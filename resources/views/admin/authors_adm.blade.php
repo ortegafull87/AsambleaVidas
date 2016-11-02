@@ -14,7 +14,7 @@
 
 @section('heather_level')
 <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>{{trans('adminlte_lang::message.administrator')}}</a></li>
-<li class="active">{{trans('adminlte_lang::message.moduleNameAuthor')}}</li>
+<li class="active"><i class="fa fa-paint-brush"></i> {{trans('adminlte_lang::message.moduleNameAuthor')}}</li>
 @endsection
 
 @section('main-content')

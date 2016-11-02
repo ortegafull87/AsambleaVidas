@@ -142,7 +142,7 @@ class AlbumAdmController extends Controller
                 ->get(),
             'generos' => $this->generos
         ];
-        return View('admin/albumes_adit', $params);
+        return View('admin/albumes_edit', $params);
     }
 
     /**

@@ -1,10 +1,12 @@
 var jsmediatags = window.jsmediatags;
 var EditTrack = {
+    self: null,
     init: function () {
         $(".audio").mb_miniPlayer();
-        EditTrack.loadFile();
+        self = EditTrack;
         EditTrack.uploadTrackAction('#pg_bar_track');
-        EditTrack.listeners();
+        self.loadFile();
+        self.listeners();
     },
     listeners: function () {
         $('#btn_regresar').on('click', function () {
@@ -12,6 +14,14 @@ var EditTrack = {
         });
         $('#btn_cancelar').on('click', function () {
             window.location.href = '/admin/tracks';
+        });
+
+        $(document).on('click', 'a', function () {
+
+            if ($(this).data('action') === 'clear-form') {
+                $('#edit').trigger('reset');
+            }
+
         });
     },
     loadFile: function () {

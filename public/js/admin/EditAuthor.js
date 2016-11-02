@@ -1,13 +1,28 @@
 var EditAuthor = {
+	self:null,
 	_init:function(){
-		console.debug("EdiAuthor loaded...");
+		self=EditAuthor;
+		self.events();
+	}
+	,
+	events:function(){
+
 		$('#edit_author').submit(function(object){
-			EditAuthor.editAuthor(object)
+			self.editAuthor(object)
 		});
 
 		$('#btn_cancelar,#btn_regresar').click(function(){
 			window.location.href='/admin/authors';
 		});
+
+		$(document).on('click', 'a', function () {
+
+			if($(this).data('action') === 'clear-form') {
+				$('#edit_author').trigger('reset');
+			}
+
+		});
+
 	}
 	,
 	editAuthor:function(object){

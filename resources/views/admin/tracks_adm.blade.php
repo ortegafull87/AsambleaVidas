@@ -14,7 +14,7 @@
 
 @section('heather_level')
 <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>Administrador</a></li>
-<li class="active">Pistas</li>
+<li class="active"><i class="fa fa-music"></i>Pistas</li>
 @endsection
 
 @section('main-content')

@@ -14,7 +14,7 @@
 
 @section('heather_level')
     <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>Administrador</a></li>
-    <li><a href="{{url('admin/tracks')}}"><i class="fa fa-dashboard"></i>Pistas</a></li>
+    <li><a href="{{url('admin/tracks')}}"><i class="fa fa-music"></i>Pistas</a></li>
     <li class="active">Edici&oacute;n</li>
 @endsection
 
@@ -32,11 +32,11 @@
                         <div class="box-tools pull-right">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-eraser"></i>
+                                    <i class="fa fa-mail-reply"></i>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#"
-                                           data-action="clear-form-new-track">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a>
+                                           data-action="clear-form">{{trans('adminlte_lang::message.revertchanges')}}</a>
                                     </li>
                                 </ul>
                             </div>

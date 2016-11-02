@@ -14,7 +14,7 @@
 
 @section('heather_level')
 <li><a href="{{url('admin/dashboard')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.administrator') }}</a></li>
-<li><a href="{{url('admin/albumes')}}"><i class="fa fa-dashboard"></i>{{ trans('adminlte_lang::message.moduleNameAlbume') }}</a></li>
+<li><a href="{{url('admin/albumes')}}"><i class="fa fa-folder-open"></i>{{ trans('adminlte_lang::message.moduleNameAlbume') }}</a></li>
 <li class="active">{{ trans('adminlte_lang::message.sectionNameAlbume') }}
 </li>
 @endsection
@@ -31,10 +31,10 @@
 				<div class="box-tools pull-right">
 					<div class="btn-group">
 						<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-eraser"></i>
+							<i class="fa fa-mail-reply"></i>
 						</button>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#" data-action="clear-form-new-track">{{trans('adminlte_lang::message.clearFormNewTrack')}}</a></li>
+							<li><a href="#" data-action="clear-form">{{trans('adminlte_lang::message.revertchanges')}}</a></li>
 						</ul>
 					</div>
 				</div>

@@ -1,6 +1,6 @@
 var Dashboard = {
 	init:function(){
-		console.debug("Dashboard cargado...");
+		Util.setActiveSideMenu('admin/dashboard');
 	}
 };
 $(document).ready(Dashboard.init);

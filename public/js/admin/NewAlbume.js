@@ -1,7 +1,7 @@
 var NewAlbume = {
 
 	_init:function(){
-		console.debug('New Albumes module has loadeds...');
+		Util.setActiveSideMenu('admin/albumes/create');
 		$('#new_albume').submit(function(object){
 			NewAlbume.newAlbume(object)
 		});

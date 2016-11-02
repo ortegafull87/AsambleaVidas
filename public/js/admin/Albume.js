@@ -4,8 +4,7 @@ var Albume = {
 	,
 
 	_init:function(){
-		console.debug('Albume Module loaded...');
-
+		Util.setActiveSideMenu('admin/albumes');
 		$('body').on('click','a',Albume.albumesFormActions);
 
 		Albume.resizeContents();

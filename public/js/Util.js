@@ -1,6 +1,8 @@
 var Util = {
+    URL_BASE:location.origin = location.protocol + "//" + location.host + "/",
+    self:null,
     _init: function () {
-
+        self = Util;
     }
     ,
     /**
@@ -111,5 +113,20 @@ var Util = {
             "Kbytes_per_second": Kbytes_per_second.toFixed(1)
         }
     }
+    ,
+    /**
+     * Resalta el menu aside que ha sido seleccionado.
+     * @param {type} link
+     * @returns {undefined}
+     */
+    setActiveSideMenu: function (link) {
+        $('section.sidebar > ul').find('li > a[href="' + self.URL_BASE + link + '"]')
+            .parent()
+            .addClass('active')
+            .closest('.treeview')
+            .addClass('active');
+    }
+
+
 };
 $(document).ready(Util._init);

@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>V</span>
+        <span class="logo-mini"><b>V</b>T</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Asamblea</b>Vidas </span>
+        <span class="logo-lg"><b>Vive la </b>Tor&aacute;h </span>
     </a>
 
     <!-- Header Navbar -->
@@ -17,11 +17,11 @@
         </a>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav ">
                 <!-- Messages: style can be found in dropdown.less-->
                 <li class="dropdown messages-menu">
                     <!-- Menu toggle button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle hidden" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>
                         <span class="label label-success">4</span>
                     </a>
@@ -52,7 +52,7 @@
                 </li><!-- /.messages-menu -->
 
                 <!-- Notifications Menu -->
-                <li class="dropdown notifications-menu">
+                <li class="dropdown notifications-menu hidden">
                     <!-- Menu toggle button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
@@ -74,7 +74,7 @@
                     </ul>
                 </li>
                 <!-- Tasks Menu -->
-                <li class="dropdown tasks-menu">
+                <li class="dropdown tasks-menu hidden">
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
@@ -95,7 +95,9 @@
                                         <!-- The progress bar -->
                                         <div class="progress xs">
                                             <!-- Change the css width attribute to simulate progress -->
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                 role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                 aria-valuemax="100">
                                                 <span class="sr-only">20% {{ trans('adminlte_lang::message.complete') }}</span>
                                             </div>
                                         </div>
@@ -111,8 +113,8 @@
                 @if (Auth::guest())
                     <li><a href="{{ url('/register') }}">{{ trans('adminlte_lang::message.register') }}</a></li>
                     <li><a href="{{ url('/login') }}">{{ trans('adminlte_lang::message.login') }}</a></li>
-                @else
-                    <!-- User Account Menu -->
+            @else
+                <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -124,38 +126,42 @@
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="{{asset('/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image" />
+                                <img src="{{asset('/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image"/>
                                 <p>
                                     {{ Auth::user()->name }}
                                     <small>{{ trans('adminlte_lang::message.login') }} Nov. 2012</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
-                            <li class="user-body">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">{{ trans('adminlte_lang::message.followers') }}</a>
+                            <li class="user-body hidden">
+                                <div class="col-xs-12 text-center">
+                                    <a href="#"><span class="fa fa-gear"
+                                                      aria-hidden="true"> </span> {{ trans('adminlte_lang::message.admin') }}
+                                    </a>
                                 </div>
-                                <div class="col-xs-4 text-center">
+                                <div class="col-xs-4 text-center hidden">
                                     <a href="#">{{ trans('adminlte_lang::message.sales') }}</a>
                                 </div>
-                                <div class="col-xs-4 text-center">
+                                <div class="col-xs-3 text-center hidden">
                                     <a href="#">{{ trans('adminlte_lang::message.friends') }}</a>
                                 </div>
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.profile') }}</a>
+                                    <a href="#"
+                                       class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.profile') }}</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.signout') }}</a>
+                                    <a href="{{ url('/logout') }}"
+                                       class="btn btn-default btn-flat">{{ trans('adminlte_lang::message.signout') }}</a>
                                 </div>
                             </li>
                         </ul>
                     </li>
-                @endif
+            @endif
 
-                <!-- Control Sidebar Toggle Button -->
+            <!-- Control Sidebar Toggle Button -->
                 <li>
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>

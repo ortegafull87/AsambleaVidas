@@ -125,6 +125,7 @@ return [
     'password'                => 'Contraseña',
     'retrypepassword'         => 'Vuelva a escribir la contraseña',
     'fullname'                => 'Nombre completo',
+    'admin'                   => 'Administrar',
 
     //COMUN ADMIN MODULE
     'btnActualizarAdm'        => 'Actualizar',

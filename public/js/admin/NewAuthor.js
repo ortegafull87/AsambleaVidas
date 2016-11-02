@@ -1,7 +1,6 @@
 var NewAuthor = {
 	_init:function(){
-		console.debug("NewAuthor loaded");
-
+		Util.setActiveSideMenu('admin/authors/create');
 		$('#new_author').submit(function(object){
 			NewAuthor.newAuthor(object)
 		});

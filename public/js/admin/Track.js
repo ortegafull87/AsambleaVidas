@@ -1,6 +1,7 @@
 var Track = {
 
     _init: function () {
+        Util.setActiveSideMenu('admin/tracks');
         Track.resizeContents();
         $('body').on('click', 'a', Track.tracksFormActions);
         $('input').iCheck({

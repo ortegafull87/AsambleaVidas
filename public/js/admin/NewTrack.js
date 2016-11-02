@@ -1,10 +1,9 @@
 var jsmediatags = window.jsmediatags;
 var NewTrack = {
-
     MAX_FILE_SIZE_UPLOAD: 42,
 
     _init: function () {
-        console.debug("New Track module loaded.....");
+        Util.setActiveSideMenu('admin/tracks/create');
         NewTrack.loadFile();
         NewTrack.uploadTrackAction('#pg_bar_track');
     }
@@ -15,7 +14,6 @@ var NewTrack = {
         for (item in uploader) {
             uploader[item].onchange = function () {
                 span[0].innerHTML = this.files[0].name + "<br>" + Util.parseToMB(this.files[0].size) + " Mb";
-                console.debug(this.files[0]);
                 jsmediatags.read(this.files[0], {
                     onSuccess: function (tag) {
                         console.log(tag);
@@ -40,16 +38,20 @@ var NewTrack = {
                 var file = arr[5];
                 // verificar si el archivo ha sido seleccionado
                 if (typeof(file.value) === 'string') {
-                    Util.showAlert('alert-warning', Messages.es.NO_FILE);
-                    console.log(file);
+                    Util.showAlert('alert-info', Messages.es.NO_FILE);
                     return false;
                 }
 
                 //verificando el tamaño del archivo
                 var sizeFile = (file.value.size / (1024 * 1024)).toFixed(2);
                 if (sizeFile > NewTrack.MAX_FILE_SIZE_UPLOAD) {
-                    Util.showAlert('alert-warning', Messages.es.FILE_SIZE);
-                    console.debug(sizeFile + 'MB');
+                    Util.showAlert('alert-info', Messages.es.FILE_SIZE);
+                    return false;
+                }
+                // verificando el formato del archivo.
+                console.debug(file.value.type);
+                if(file.value.type !== "audio/mp3"){
+                    Util.showAlert('alert-info', Messages.es.FILE_FORMAT);
                     return false;
                 }
 

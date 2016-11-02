@@ -3,7 +3,7 @@
  */
 var User = {
     _init: function () {
-        console.debug('User module loaded...');
+        Util.setActiveSideMenu('admin/users');
         User.events();
     }
     ,

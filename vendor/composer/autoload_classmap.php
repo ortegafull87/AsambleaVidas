@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddEmailsToAuthorsTable' => $baseDir . '/database/migrations/2016_11_04_022805_add_emails_to_authors_table.php',
     'AddFolderToAlbumesTable' => $baseDir . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
     'AddStatusToUsersTable' => $baseDir . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
     'CreateAlbumesTable' => $baseDir . '/database/migrations/2016_08_05_034903_create_albumes_table.php',

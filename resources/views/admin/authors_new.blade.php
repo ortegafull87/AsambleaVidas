@@ -55,7 +55,12 @@
 					<br>
 					<div class="input-group">
 						<span class="input-group-addon"><i>@</i></span>
-						<input class="form-control" placeholder="e-mail" type="email" name="email" required>
+						<input class="form-control" placeholder="e-mail 1" type="email" name="email1" required>
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><i>@</i></span>
+						<input class="form-control" placeholder="e-mail 2" type="email" name="email2" required>
 					</div>
 				</form>
 			</div><!-- ./box-body -->

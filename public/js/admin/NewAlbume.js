@@ -1,9 +1,9 @@
 var NewAlbume = {
     self: null,
     _init: function () {
+        Util.setActiveSideMenu('admin/albumes/create');
         self = NewAlbume;
         self.events();
-        Util.setActiveSideMenu('admin/albumes/create');
 
     }
     ,

@@ -1,9 +1,9 @@
 var NewAuthor = {
     self: null,
     _init: function () {
+        Util.setActiveSideMenu('admin/authors/create');
         self = NewAuthor;
         self.events();
-        Util.setActiveSideMenu('admin/authors/create');
     }
     ,
     events: function () {

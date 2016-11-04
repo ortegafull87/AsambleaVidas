@@ -3,8 +3,8 @@ var NewTrack = {
     self: null,
     MAX_FILE_SIZE_UPLOAD: 42,
     _init: function () {
-        self = NewTrack;
         Util.setActiveSideMenu('admin/tracks/create');
+        self = NewTrack;
         self.events();
         self.uploadTrackAction('#pg_bar_track');
     }

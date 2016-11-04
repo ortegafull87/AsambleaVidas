@@ -36,6 +36,8 @@
                 <td>No.</td>
                 <td>Nombre</td>
                 <td>Apellido</td>
+                <td>Email 1</td>
+                <td>Email 2</td>
                 <td>Creada</td>
                 <td>Modificada</td>
                 <td></td>
@@ -50,6 +52,8 @@
                     <td>{{$iter++}}</td>
                     <td>{{$author->firstName}} </td>
                     <td>{{$author->lastName}}</td>
+                    <td>{{$author->email1}}</td>
+                    <td>{{$author->email2}}</td>
                     <td>{{$author->created_at}}</td>
                     <td>{{$author->updated_at}}</td>
                     <td><a href="authors/{{$author->id}}/edit" id="athr_edit_{{$author->id}}"><i

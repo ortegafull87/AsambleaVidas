@@ -54,7 +54,8 @@ class AuthorAdmController extends Controller
         
         $authorFirstName   = $request->input("nombre");
         $authorLastName    = $request->input("apellidos");
-        $authorEmail       = $request->input("email");
+        $authorEmail1       = $request->input("email1");
+        $authorEmail2       = $request->input("email2");
 
         LOG::info("Creando author: " . $authorFirstName . ' ' . $authorLastName);
 
@@ -63,7 +64,7 @@ class AuthorAdmController extends Controller
             $rules = array(
                 'nombre'        => 'required|regex:/^[\pL\s\-]+$/u',
                 'apellidos'     => 'required|regex:/^[\pL\s\-]+$/u',
-                'email'         => 'required',
+                'email1'         => 'required',
                 );
 
             $messages = [
@@ -81,11 +82,13 @@ class AuthorAdmController extends Controller
                 $response->setError($errorRules);
                 return response()->json($response->toArray(),HttpStatusCode::HTTP_ACCEPTED);
 
-            } 
+            }
 
             $author = new Author;
             $author->firstName  =  $authorFirstName;
             $author->lastName   =  $authorLastName;
+            $author->email1     =  $authorEmail1;
+            $author->email2     =  $authorEmail2;
             $author->save();
 
             //$params = ['authors' => DB::table('authors')->paginate(10)];
@@ -141,13 +144,14 @@ class AuthorAdmController extends Controller
 
         $authorFirstName   = $request->input("nombre");
         $authorLastName    = $request->input("apellidos");
-        $authorEmail       = $request->input("email");
+        $authorEmail1       = $request->input("email1");
+        $authorEmail2       = $request->input("email2");
         try {
 
             $rules = array(
                 'nombre'        => 'required|regex:/^[\pL\s\-]+$/u',
                 'apellidos'     => 'required|regex:/^[\pL\s\-]+$/u',
-                'email'         => 'required',
+                'email1'         => 'required',
                 );
 
             $messages = [
@@ -172,7 +176,8 @@ class AuthorAdmController extends Controller
                 [
                 'firstName'=> $authorFirstName,
                 'lastName' => $authorLastName,
-                //'email'    => $authorEmail,
+                'email1'    => $authorEmail1,
+                'email2'    => $authorEmail2,
                 ]);
 
             $response->setMessage('Author modificado.');

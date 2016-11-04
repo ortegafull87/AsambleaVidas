@@ -142,7 +142,7 @@ class TrackServiceImpl implements AlbumeService
                 $this->trackDao->update($daoBasicRequest);
 
                 //Si hay un cambio en el nombre de la pista
-                if ($track[0]->tile != $data['title']) {
+                if ($track[0]->title != $data['title']) {
 
                     $carpeta = $URL_BASE_AUDIOFILES . '/' . $track[0]->folder . '/';
                     LOG::info($carpeta . $track[0]->file);

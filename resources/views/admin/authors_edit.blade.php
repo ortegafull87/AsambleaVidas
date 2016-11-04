@@ -56,7 +56,12 @@
 					<br>
 					<div class="input-group">
 						<span class="input-group-addon"><i>@</i></span>
-						<input class="form-control" placeholder="e-mail" type="email" name="email" required>
+						<input class="form-control" placeholder="e-mail" type="email" name="email1" value="{{$authors[0]->email1}}" required>
+					</div>
+					<br>
+					<div class="input-group">
+						<span class="input-group-addon"><i>@</i></span>
+						<input class="form-control" placeholder="e-mail" type="email" name="email2" value="{{$authors[0]->email2}}">
 					</div>
 				</form>
 			</div><!-- ./box-body -->

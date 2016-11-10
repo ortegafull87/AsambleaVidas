@@ -20,6 +20,8 @@
 <script src="{{ asset('/plugins/jquery.mb.miniAudioPlayer-1.8.5/dist/jquery.mb.miniAudioPlayer.min.js') }}" type="text/javascript"></script>
 <!-- sweet alert -->
 <script src="{{ asset('/plugins/sweetalert2/sweetalert2.min.js') }}" type="text/javascript"></script>
+<!-- pnotify -->
+<script src="{{ asset('/plugins/pnotify/pnotify.custom.min.js') }}" type="text/javascript"></script>
 <!-- Langs -->
 <script src="{{ asset('/js/lang.js') }}" type="text/javascript"></script>
 <!-- Util -->

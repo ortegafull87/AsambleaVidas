@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('htmlheader_title')
 {{ trans('adminlte_lang::message.titlepagemoTracks') }} | ADM
@@ -55,6 +55,7 @@
 					<thead>
 						<tr>
 							<td></td>
+							<td>No.</td>
 							<td>Pista</td>
 							<td>Título</td>
 							<td>Autor</td>
@@ -66,9 +67,11 @@
 						</tr>
 					</thead>
 					<tbody>
+					<?php $iter=1 ?>
 						@foreach ($pistas as $pista)
 						<tr id="{{$pista->id}}">
 							<td><input type="checkbox" name="tracks" id='trk_{{$pista->id}}'></td>
+							<td>{{$iter++}}</td>
 							<td><a id="trk_{{$pista->id}}" class="audio {skin:'blue', animate:true, width:'0', volume:0.8, autoplay:false, loop:false, showVolumeLevel:false, showTime:false, allowMute:true, showRew:false, addGradientOverlay:false, downloadable:false, downloadablesecurity:false, id3: false}" href="{{ url($paht.'/'.$pista->folder.'/'.$pista->file) }}">{{$pista->title}}</a>
 							</td>
 							<td>{{ $pista->title }}</td>

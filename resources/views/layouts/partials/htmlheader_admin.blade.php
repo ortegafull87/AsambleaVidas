@@ -26,6 +26,8 @@
        <link href="{{ asset('/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- dashboard-->
     <link href="{{ asset('/css/dashboard/dashboard.css') }}" rel="stylesheet" type="text/css" />
+    <!-- pnotify -->
+    <link href="{{ asset('/plugins/pnotify/pnotify.custom.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Comunes -->
     <link href="{{ asset('/css/comunes.css') }}" rel="stylesheet" type="text/css" />
 

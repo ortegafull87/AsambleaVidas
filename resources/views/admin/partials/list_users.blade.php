@@ -40,7 +40,7 @@
             @foreach ($users as $user)
                 <tr id="user_{{$user->id}}">
                     <td>{{$iter++}}</td>
-                    <td>{{$user->name}} </td>
+                    <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{substr($user->password,0,15)}}...</td>
                     <td>{{$user->description}}</td>
@@ -50,7 +50,7 @@
                     @if(App\Library\Util::AUNTH_USER_ROOT())
                         <td class="text-center">
                             <a href="{{ url('/admin/users/'.$user->id) }}" id="{{$user->id}}"
-                               data-status="{{$user->status_id}}">
+                               data-status="{{$user->status_id}}" data-name="{{$user->name}}">
                                 @if($user->status_id == 1)
                                     <i class="fa fa-thumbs-down fa-lg " aria-hidden="true" title="Dar de baja"></i>
                                 @else

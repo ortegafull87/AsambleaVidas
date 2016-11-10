@@ -1,15 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('htmlheader_title')
 {{ trans('adminlte_lang::message.titlepagemoTracks') }} | ADM
 @endsection
 
 @section('contentheader_title')
-{{ trans('adminlte_lang::message.titlesectionmoTracks') }}
+{{ trans('Dashboard') }}
 @endsection
 
 @section('contentheader_description')
-{{ trans('adminlte_lang::message.descrpsectionmoTracks') }}
+{{ trans('Aquí se muestra el estatus general del sistema') }}
 @endsection
 
 @section('heather_level')
@@ -19,7 +19,7 @@
 
 @section('main-content')
 
-<h1>Dashboard</h1>
+<!--<h1>Dashboard</h1>-->
 
 @endsection
 @section('view.scripts')

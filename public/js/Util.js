@@ -1,6 +1,6 @@
 var Util = {
-    URL_BASE:location.origin = location.protocol + "//" + location.host + "/",
-    self:null,
+    URL_BASE: location.origin = location.protocol + "//" + location.host + "/",
+    self: null,
     _init: function () {
         self = Util;
     }
@@ -125,6 +125,54 @@ var Util = {
             .addClass('active')
             .closest('.treeview')
             .addClass('active');
+    }
+    ,
+    /**
+     * Obtiene la altura de la ventana actual
+     * @returns {*|jQuery}
+     */
+    getHeightFromWindow: function () {
+        return $(window).height();
+    }
+    ,
+    /**
+     *
+     * @param title
+     * @param msj
+     * @param cb_ok
+     * @param cb_cancel
+     */
+    confirm: function (obj, title, cb_ok, cb_cancel) {
+        (new PNotify({
+            title: title, //'Confirmation Needed',
+            text: '¿Desea continuar?',
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function () {
+            if (obj === undefined) {
+                cb_ok();
+            } else {
+                cb_ok(obj);
+            }
+        }).on('pnotify.cancel', function () {
+            if (cb_cancel !== undefined) {
+                if (obj === undefined) {
+                    cb_cancel();
+                } else {
+                    cb_cancel(obj);
+                }
+            }
+        });
     }
 
 

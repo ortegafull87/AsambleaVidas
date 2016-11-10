@@ -15,13 +15,12 @@ var Track = {
     }
     ,
     resizeContents: function () {
-        var dif = 220;
+        var dif = 240;
         var wh = $(window).height();
         var ventana_H = wh - dif;
         $('#cont_tracks').slimScroll({
             height: ventana_H + 'px'
         });
-        $("#box_form_new_track").height(wh - 195);
     }
     ,
     tracksFormActions: function (e) {

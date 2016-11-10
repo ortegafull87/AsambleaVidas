@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('htmlheader_title')
     Editar {{ trans('adminlte_lang::message.titlepagemoTracks') }} | ADM

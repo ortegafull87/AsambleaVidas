@@ -38,7 +38,7 @@ var Author = {
     ,
     resizeContents: function () {
 
-        var dif = 295;
+        var dif = 300;
         var wh = $(window).height();
         var ventana_H = wh - dif;
 

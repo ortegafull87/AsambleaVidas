@@ -51,7 +51,7 @@
                         <td class="text-center">
                             <a href="{{ url('/admin/users/'.$user->id) }}" id="{{$user->id}}"
                                data-status="{{$user->status_id}}" data-name="{{$user->name}}">
-                                @if($user->status_id == 1)
+                                @if($user->status_id == 3)
                                     <i class="fa fa-thumbs-down fa-lg " aria-hidden="true" title="Dar de baja"></i>
                                 @else
                                     <i class="fa fa-thumbs-up fa-lg " aria-hidden="true" title="Dar de alta"></i>

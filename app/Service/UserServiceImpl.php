@@ -63,10 +63,10 @@ class UserServiceImpl implements UserService
 
         try {
             switch ($status_id) {
-                case 1:
+                case 3:
                     $update = $this->userDao->setBajaUsuario($id);
                     break;
-                case 2:
+                case 4:
                     $update = $this->userDao->setAltaUsuario($id);
                     break;
                 default:

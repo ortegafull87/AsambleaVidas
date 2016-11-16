@@ -29,6 +29,7 @@ class AlbumeDaoImpl implements AlbumeDao
             $albume = new Albume;
             $albume->title = $params['albumeTitle'];
             $albume->genre = $params['albumGenre'];
+            $albume->description = $params['description'];
             $albume->folder = $params['folder'];
             $albume->save();
 

@@ -23,8 +23,8 @@
 
 <div class="row">
 
-	<div class="col-sm-1 col-md-3"></div>
-	<div class="col-sm-10 col-md-6">
+	<div class="col-sm-1 col-md-2"></div>
+	<div class="col-sm-10 col-md-8">
 		<div class="box" id="box_form_new_track">
 			<div class="box-header with-border">
 				<h3 class="box-title"></h3>
@@ -57,7 +57,10 @@
 							@endforeach
 						</select>
 					</div>
-					
+					<br>
+					<div class="input-group max-width">
+						<textarea id="alb_description" class="max-width"></textarea>
+					</div>
 				</form>
 			</div><!-- ./box-body -->
 			<div class="box-footer">
@@ -65,7 +68,7 @@
 			</div><!-- /.box-footer -->
 		</div>
 	</div>
-	<div class="col-sm-1 col-md-3"></div>
+	<div class="col-sm-1 col-md-2"></div>
 </div>
 </div><!-- end row -->
 

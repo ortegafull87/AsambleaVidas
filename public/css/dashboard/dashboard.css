@@ -69,4 +69,13 @@ span.upload-path {
     display: inline-block;
 }
 
+.text-description{
+    width:100%;
+}
+.max-width{
+    width:100%;
+}
+.c-pointer{
+    cursor:pointer;
+}
 /*========================== COMUNES ========================*/

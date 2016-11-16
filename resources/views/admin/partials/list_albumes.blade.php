@@ -2,8 +2,8 @@
 	<h3 class="box-title"></h3>
 	@if($albumes->total() > 10)
 	<div class="info-pagination pull-left">
-		{{trans('adminlte_lang::message.page')}}: 	{{$albumes->currentPage()}} 
-		{{trans('adminlte_lang::message.of')}} 		{{$albumes->lastPage()}} 
+		{{trans('adminlte_lang::message.page')}}: 	{{$albumes->currentPage()}}
+		{{trans('adminlte_lang::message.of')}} 		{{$albumes->lastPage()}}
 	</div>
 	{{$albumes->total()}} {{trans('adminlte_lang::message.total')}}
 	@else
@@ -34,6 +34,7 @@
 				<td>No.</td>
 				<td>T&iacute;tulo</td>
 				<td>G&eacute;nero</td>
+				<td class="text-center">Descripción</td>
 				<td>Creado</td>
 				<td>Modificado</td>
 				<td></td>
@@ -48,6 +49,15 @@
 				<td>{{$iter++}}</td>
 				<td>{{$albume->title}} </td>
 				<td>{{$albume->genre}}</td>
+					@if($albume->description != "" )
+						<td class="popover-description c-pointer text-center" cdata-title="{{$albume->title}}" data-description="{{$albume->description}}">
+							<div class="fa fa-info-circle max-width"></div>
+						</td>
+					@else
+						<td class="popover-description c-pointer text-center" data-title="{{$albume->title}}" data-description="Sin descripción">
+							<div class="fa fa-exclamation max-width"></div>
+						</td>
+					@endif
 				<td>{{$albume->created_at}}</td>
 				<td>{{$albume->updated_at}}</td>
 				<td><a href="albumes/{{$albume->id}}/edit" id="athr_edit_{{$albume->id}}"><i class="fa fa-edit fa-lg" aria-hidden="true" title="Editar"></i></a></td>

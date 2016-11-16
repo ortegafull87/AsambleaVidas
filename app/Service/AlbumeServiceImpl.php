@@ -42,6 +42,7 @@ class AlbumeServiceImpl implements AlbumeService
             $pahtAudioFiles = env('URL_BASE_AUDIOFILES');
             $albumeTitle = $request->getRequest()->input("title");
             $albumGenre = $request->getRequest()->input("genre");
+            $description = $request->getRequest()->input("description");
 
             $folder = sha1($albumeTitle . '_' . $albumGenre);
 
@@ -50,7 +51,8 @@ class AlbumeServiceImpl implements AlbumeService
                 (
                     'albumeTitle' => $albumeTitle,
                     'albumGenre' => $albumGenre,
-                    'folder' => $folder
+                    'folder' => $folder,
+                    'description' => $description
                 )
             );
 

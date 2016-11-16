@@ -9,13 +9,15 @@ var NewAlbume = {
     ,
     events: function () {
 
+        $('#alb_description').wysihtml5(Options.wysihtml5);
+
         $('#new_albume').submit(function (object) {
             self.newAlbume(object)
         });
 
         $(document).on('click', 'a', function () {
 
-            if($(this).data('action') === 'clear-form') {
+            if ($(this).data('action') === 'clear-form') {
                 $('#new_albume').trigger('reset');
             }
 
@@ -26,7 +28,9 @@ var NewAlbume = {
     newAlbume: function (object) {
         object.preventDefault();
         var actionForm = $(object.target).attr('action');
-        var dataString = $(object.target).serialize();
+        var description = $('#alb_description').val();
+        var dataString = $(object.target).serialize() + '&description=' + description;
+        console.debug(dataString);
         $.ajax({
             url: actionForm,
             method: 'POST',
@@ -65,6 +69,22 @@ var NewAlbume = {
                 }
             }
         });
+    }
+};
+
+var Options = {
+    wysihtml5: {
+        toolbar: {
+            "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+            "emphasis": true, //Italics, bold, etc. Default true
+            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+            "html": false, //Button which allows you to edit the generated HTML. Default false
+            "link": true, //Button to insert a link. Default true
+            "image": false, //Button to insert an image. Default true,
+            "color": true, //Button to change color of font
+            "blockquote": true, //Blockquote
+            "size": 'sm' //default: none, other options are xs, sm, lg
+        }
     }
 };
 

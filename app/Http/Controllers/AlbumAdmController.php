@@ -158,6 +158,7 @@ class AlbumAdmController extends Controller
 
         $albumeTitle = $request->input("title");
         $albumGenre = $request->input("genre");
+        $description = $request->input("description");
 
         LOG::info("Creando album: " . $albumeTitle);
 
@@ -197,6 +198,7 @@ class AlbumAdmController extends Controller
                     [
                         'title' => $albumeTitle,
                         'genre' => $albumGenre,
+                        'description' => $description
                     ]
                 );
 

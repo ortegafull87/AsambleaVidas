@@ -36,7 +36,7 @@ var User = {
                     $('#user_' + user_id + ' > td').eq(7).html(data[0].status);
                     $('#user_' + user_id + ' > td a').attr('data-status', data[0].status_id);
                     $('#user_' + user_id + ' > td a').removeData();
-                    $('#user_' + user_id + ' > td a i').attr('class', (data[0].status_id == 1) ? 'fa fa-thumbs-down fa-lg' : 'fa fa-thumbs-up fa-lg');
+                    $('#user_' + user_id + ' > td a i').attr('class', (data[0].status_id == 3) ? 'fa fa-thumbs-down fa-lg' : 'fa fa-thumbs-up fa-lg');
                     Util.showAlert('alert-success', xhr.responseJSON.message);
 
                 } else if (xhr.status >= 202 && xhr.status <= 210) {

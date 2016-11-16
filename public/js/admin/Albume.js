@@ -5,10 +5,14 @@ var Albume = {
 
     _init: function () {
         Util.setActiveSideMenu('admin/albumes');
-        $('body').on('click', 'a', Albume.albumesFormActions);
-
+        Albume.events();
         Albume.resizeContents();
         Util.setCheckBoxStyle();
+    }
+    ,
+    events: function () {
+        $('body').on('click', 'a', Albume.albumesFormActions);
+        $('body').on('mouseover', 'td.popover-description', Tools.popOver);
     }
     ,
     albumesFormActions: function (e) {
@@ -91,6 +95,25 @@ var Albume = {
                 }
             }
         })
+    }
+};
+
+var Tools = {
+    popOver: function (event) {
+        var obj = event.target;
+        var title = $(obj).data('title');
+        var description = $(obj).data('description');
+        var template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+        $(obj).children('div')
+            .popover({
+                title: title,
+                placement: 'right',
+                html: true,
+                template: template,
+                content:description,
+                trigger: 'hover',
+                animation: true
+            });
     }
 };
 $(document).ready(Albume._init);

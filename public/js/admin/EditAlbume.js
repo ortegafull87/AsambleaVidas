@@ -11,13 +11,15 @@ var EditAlbume = {
             EditAlbume.EditAlbume(object)
         });
 
+        $('#alb_description').wysihtml5(Options.wysihtml5);
+
         $('#btn_cancelar,#btn_regresar').click(function () {
             window.location.href = '/admin/albumes';
         });
 
         $(document).on('click', 'a', function () {
 
-            if($(this).data('action') === 'clear-form') {
+            if ($(this).data('action') === 'clear-form') {
                 $('#edit_albume').trigger('reset');
             }
 
@@ -27,7 +29,8 @@ var EditAlbume = {
     EditAlbume: function (object) {
         object.preventDefault();
         var actionForm = $(object.target).attr('action');
-        var dataString = $(object.target).serialize();
+        var description = $('#alb_description').val();
+        var dataString = $(object.target).serialize() + '&description=' + description;
         $.ajax({
             url: actionForm,
             method: 'PATCH',
@@ -68,6 +71,22 @@ var EditAlbume = {
                 }
             }
         });
+    }
+};
+
+var Options = {
+    wysihtml5: {
+        toolbar: {
+            "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+            "emphasis": true, //Italics, bold, etc. Default true
+            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+            "html": false, //Button which allows you to edit the generated HTML. Default false
+            "link": true, //Button to insert a link. Default true
+            "image": false, //Button to insert an image. Default true,
+            "color": true, //Button to change color of font
+            "blockquote": true, //Blockquote
+            "size": 'sm' //default: none, other options are xs, sm, lg
+        }
     }
 };
 $(document).ready(EditAlbume._init);

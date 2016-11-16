@@ -6,9 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddDescriptionToAlbumesTable' => $baseDir . '/database/migrations/2016_11_11_035223_add_description_to_albumes_table.php',
+    'AddDescriptionToTracksTable' => $baseDir . '/database/migrations/2016_11_11_035158_add_description_to_tracks_table.php',
     'AddEmailsToAuthorsTable' => $baseDir . '/database/migrations/2016_11_04_022805_add_emails_to_authors_table.php',
+    'AddFieldsToProfilesTable' => $baseDir . '/database/migrations/2016_11_11_043122_add_fields_to_profiles_table.php',
     'AddFolderToAlbumesTable' => $baseDir . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
     'AddStatusToUsersTable' => $baseDir . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
+    'AddStatusidToTracksTable' => $baseDir . '/database/migrations/2016_11_11_035623_add_statusid_to_tracks_table.php',
     'CreateAlbumesTable' => $baseDir . '/database/migrations/2016_08_05_034903_create_albumes_table.php',
     'CreateAuthorsTable' => $baseDir . '/database/migrations/2016_08_05_032358_create_authors_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',

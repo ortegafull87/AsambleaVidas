@@ -70,6 +70,11 @@
                             </select>
                         </div>
                         <br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-file-image-o"></i></span>
+                            <input class="form-control" placeholder="Puede agregar una imagen" type="file" name="picture">
+                        </div>
+                        <br>
                         <div class="input-group max-width">
                             <textarea id="alb_description" class="max-width">
                                 {{$albume[0]->description}}

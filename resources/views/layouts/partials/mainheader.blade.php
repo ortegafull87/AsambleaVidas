@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/4178-200.png" height="30"></span>
+        <span class="logo-mini"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="30"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/4178-200.png" height="40"> <b>Vivela</b>Tor&aacute;h.org </span>
+        <span class="logo-lg"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="40"> <b>Vivela</b>Tor&aacute;h.org </span>
     </a>
 
     <!-- Header Navbar -->

@@ -14,6 +14,7 @@ use App\Library\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mockery\CountValidator\Exception;
+use App\Library\Util;
 use App;
 
 class AlbumeServiceImpl implements AlbumeService
@@ -46,23 +47,34 @@ class AlbumeServiceImpl implements AlbumeService
 
             $folder = sha1($albumeTitle . '_' . $albumGenre);
 
+            $file = $request->getRequest()->hasFile('picture');
+
+            $pictureName = ($file) ? $albumeTitle . '.' . $request->getRequest()->file('picture')->getClientOriginalExtension() : '';
+
             $basicRequest = new BasicRequest();
             $basicRequest->setData(array
                 (
                     'albumeTitle' => $albumeTitle,
                     'albumGenre' => $albumGenre,
                     'folder' => $folder,
-                    'description' => $description
+                    'description' => $description,
+                    'picture' => $pictureName,
                 )
             );
 
             DB::beginTransaction();
 
             if ($this->albumeDao->create($basicRequest)) {
-                if (!is_dir($pahtAudioFiles. '/' . $folder)) {
-                    mkdir($pahtAudioFiles. '/' . $folder, 0777, true);
+                if (!is_dir($pahtAudioFiles . '/' . $folder)) {
+                    mkdir($pahtAudioFiles . '/' . $folder, 0777, true);
+                    if ($file) {
+                        $request->getRequest()->file('picture')->move($pahtAudioFiles . '/' . $folder, $pictureName);
+                    }
                     DB::commit();
                 } else {
+                    if ($file) {
+                        $request->getRequest()->file('picture')->move($pahtAudioFiles . '/' . $folder, $pictureName);
+                    }
                     DB::commit();
                 }
                 return true;

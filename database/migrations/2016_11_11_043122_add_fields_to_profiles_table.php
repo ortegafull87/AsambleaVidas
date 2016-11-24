@@ -34,7 +34,6 @@ class AddFieldsToProfilesTable extends Migration
             $table->dropColumn('lastName');
             $table->dropColumn('nikName');
             $table->dropColumn('complete');
-            $table->dropColumn('birthday');
             $table->dropColumn('city_id');
         });
     }

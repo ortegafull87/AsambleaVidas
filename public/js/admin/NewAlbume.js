@@ -29,12 +29,14 @@ var NewAlbume = {
         object.preventDefault();
         var actionForm = $(object.target).attr('action');
         var description = $('#alb_description').val();
-        var dataString = $(object.target).serialize() + '&description=' + description;
-        console.debug(dataString);
+        var data = new FormData($("#new_albume")[0]);
+        data.append('description',description)
         $.ajax({
             url: actionForm,
             method: 'POST',
-            data: dataString
+            data: data,
+            processData: false,
+            contentType: false
             ,
             complete: function (xhr) {
 

@@ -3,28 +3,25 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostTrackTable extends Migration
+class CreateTablePlaylistTrack extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up(){
-        
-        Schema::create('post_track', function (Blueprint $table) {
-            $table->increments('id');
-            $table->longText('comment');
-            $table->integer('post_track_parent_id');
+    public function up()
+    {
+        Schema::create('playlist_track', function (Blueprint $table) {
+            $table->integer('playlist_id')->unsigned();
             $table->integer('track_id')->unsigned();
-            $table->integer('user_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->timestamps();
         });
-        
-        Schema::table('post_track', function ($table) {
+
+        Schema::table('playlist_track', function (Blueprint $table) {
+            $table->foreign('playlist_id')->references('id')->on('playlists');
             $table->foreign('track_id')->references('id')->on('tracks');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('status_id')->references('id')->on('status');
         });
     }
@@ -36,6 +33,6 @@ class CreatePostTrackTable extends Migration
      */
     public function down()
     {
-        Schema::drop('post_track');
+        Schema::drop('playlist_track');
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStudysTable extends Migration
+class CreateTableRatingTrack extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,17 @@ class CreateStudysTable extends Migration
      */
     public function up()
     {
-        Schema::create('studys', function (Blueprint $table) {
+        Schema::create('rating_track', function (Blueprint $table) {
             $table->increments('id');
-            $table->longText('study');
-            $table->string('video_link');
+            $table->tinyInteger('rate');
+            $table->integer('track_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->integer('status_id')->unsigned();
             $table->timestamps();
-        });        
-        
-        Schema::table('studys', function (Blueprint $table) {
+        });
+
+        Schema::table('rating_track', function (Blueprint $table) {
+            $table->foreign('track_id')->references('id')->on('tracks');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('status_id')->references('id')->on('status');
         });
     }
 
@@ -34,6 +33,6 @@ class CreateStudysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('studys');
+        Schema::drop('rating_track');
     }
 }

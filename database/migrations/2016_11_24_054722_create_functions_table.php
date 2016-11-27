@@ -37,10 +37,9 @@ class CreateFunctionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('functions');
-
         Schema::table('configurations', function (Blueprint $table) {
             $table->dropForeign(['function_id']);
         });
+        Schema::drop('functions');
     }
 }

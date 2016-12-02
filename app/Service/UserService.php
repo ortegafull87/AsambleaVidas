@@ -11,5 +11,11 @@ use App\Contracts\CRUD;
 interface UserService extends CRUD
 
 {
-
+    /**
+     * Funcion para confirmar una nueva cuenta
+     * @param $id
+     * @param $token
+     * @return mixed
+     */
+    public function confirm($id, $token);
 }

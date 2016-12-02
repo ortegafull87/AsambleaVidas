@@ -29,5 +29,13 @@ interface UserDao extends CRUD
      * @return mixed
      */
     public function getUserById($id);
-    
+
+    /**
+     * Confirma la creacion de una nueva cuenta de usuario
+     * @param $id
+     * @param $token
+     * @return mixed
+     */
+    public function confirmAcount($id, $token);
+        
 }

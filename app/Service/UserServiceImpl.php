@@ -81,7 +81,7 @@ class UserServiceImpl implements UserService
 
                 $user = $this->userDao->getUserById($id);
                 $response->setStatus(true);
-                $response->setMessage('Usuario actulizado con el estado: ' . $user[0]->status );
+                $response->setMessage('Usuario actulizado con el estado: ' . $user[0]->status);
                 $response->setData(['user' => $user]);
 
                 return $response;
@@ -122,4 +122,25 @@ class UserServiceImpl implements UserService
      * @return mixed
      */
 
+    /**
+     * Funcion para confirmar una nueva cuenta
+     * @param $id
+     * @param $token
+     * @return mixed
+     */
+    public function confirm($id, $token)
+    {
+        $confirm = false;
+        try {
+            $user = $this->userDao->confirmAcount($id, $token);
+            if (count($user)) {
+                if ($this->userDao->setAltaUsuario($id)) {
+                    $confirm = true;
+                }
+            }
+            return $confirm;
+        } catch (\Exception $ex) {
+            LOG::error($ex->getMessage());
+        }
+    }
 }

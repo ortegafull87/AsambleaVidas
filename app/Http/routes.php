@@ -19,3 +19,6 @@ Route::resource('admin/tracks', 'TrackAdmController');
 Route::resource('admin/authors','AuthorAdmController');
 Route::resource('admin/albumes', 'AlbumAdmController');
 Route::resource('admin/users', 'UserAdmController');
+
+// route confirm acount.
+Route::get('acount/new/{id}/{token}/confirm',['uses'=>'UserAdmController@confirm']);

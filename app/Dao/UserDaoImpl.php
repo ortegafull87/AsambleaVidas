@@ -134,4 +134,23 @@ class UserDaoImpl implements UserDao
             )->where('users.id', '=', $id)
             ->get();
     }
+
+    /**
+     * Confirma la creacion de una nueva cuenta de usuario
+     * @param $id
+     * @param $token
+     * @return mixed
+     */
+    public function confirmAcount($id, $token)
+    {
+        LOG::info("Confirmando cuenta creada para el usuario: " . $id . 'from: ' . UserDaoImpl::class);
+        try{
+            return User::where('id',$id)
+                ->where('register_token',$token)
+                ->get();
+        }catch(\Exception $ex){
+            LOG::error($ex->getMessage());
+            throw new Exception($ex->getMessage());
+        }
+    }
 }

@@ -124,7 +124,7 @@ return [
     'email'                   => 'Correo Electrónico',
     'password'                => 'Contraseña',
     'retrypepassword'         => 'Vuelva a escribir la contraseña',
-    'fullname'                => 'Nombre completo',
+    'fullname'                => 'Primer nombre',
     'admin'                   => 'Administrar',
 
     //COMUN ADMIN MODULE

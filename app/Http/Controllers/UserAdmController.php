@@ -26,7 +26,7 @@ class UserAdmController extends Controller
 
     public function __construct(UserService $userServcice)
     {
-        $this->middleware('auth', ['except' => ['confirm']]);
+        $this->middleware('auth', ['except' => ['confirm', 'goConfirm', 'confirmed']]);
         $this->userService = $userServcice;
     }
 
@@ -169,19 +169,50 @@ class UserAdmController extends Controller
         //
     }
 
+    public function goConfirm($name)
+    {
+        $data = [
+            'name' => $name
+        ];
+        
+        return View('auth/goconfirm', ['data' => $data]);
+    }
+
     /**
+     * confirmará la cuenta de un usuario nuevo
      * @param User $user
      */
     public function confirm($id, $token)
     {
-        // aqui se confirmará la cuenta de un usuario nuevo
+
         LOG::info('Confirmando la cuenta del usuario: ' . $id . 'from: ' . UserAdmController::class);
         try {
-            $this->userService->confirm($id, $token);
+            if ($this->userService->confirm($id, $token)) {
+                $user = [
+                    'name' => 'victor ortega'
+                ];
+                return View('auth/confirmed', ['user' => $user]);
+            }
         } catch (\Exception $ex) {
             LOG::error($ex->getMessage());
         }
 
+    }
+
+    /**
+     * @param $id
+     */
+    public function reSendConfirmation($id)
+    {
+        //
+    }
+
+    /**
+     *
+     */
+    public function changeMailConfirmation()
+    {
+        //
     }
 
     /**

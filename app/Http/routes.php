@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::resource('admin/dashboard', 'dashboardController@estatusGeneral');
 Route::resource('admin/tracks', 'TrackAdmController');
 Route::resource('admin/authors','AuthorAdmController');
@@ -21,4 +22,5 @@ Route::resource('admin/albumes', 'AlbumAdmController');
 Route::resource('admin/users', 'UserAdmController');
 
 // route confirm acount.
+Route::get('acount/new/{id}/goconfirm',['uses'=>'UserAdmController@goConfirm']);
 Route::get('acount/new/{id}/{token}/confirm',['uses'=>'UserAdmController@confirm']);

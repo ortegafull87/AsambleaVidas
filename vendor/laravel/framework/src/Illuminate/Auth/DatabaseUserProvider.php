@@ -114,7 +114,7 @@ class DatabaseUserProvider implements UserProvider
         // that there are no matching users for these given credential arrays.
         $user = $query->first();
 
-        return $this->getGenericUser($user);
+        //return $this->getGenericUser($user);
     }
 
     /**

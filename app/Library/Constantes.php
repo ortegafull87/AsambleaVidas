@@ -11,6 +11,7 @@ namespace App\Library;
 
 class Constantes
 {
+    const USER_CREATED                  = 1;
     const USER_ACTIVE                   = 3;
     const USER_INACTIVE                 = 4;
 }

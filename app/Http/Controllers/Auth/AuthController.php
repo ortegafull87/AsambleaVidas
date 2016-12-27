@@ -75,8 +75,6 @@ class AuthController extends Controller
             'register_token'=>hash('sha256',$data['email']),
         ]);
         
-        //event(new UsuarioRegistrado($user));
-
         return $user;
     }
 }

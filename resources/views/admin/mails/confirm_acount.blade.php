@@ -9,7 +9,7 @@
 @endsection
 
 @section('mail-btn')
-    <a href="http://" style="background-color:#178f8f;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;">Confirmar</a>
+    <a href="{{asset('/acount/new/'.$user->id.'/'.$user->register_token.'/confirm')}}" style="background-color:#178f8f;border-radius:4px;color:#ffffff;display:inline-block;font-family:Helvetica, Arial, sans-serif;font-size:16px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;">Confirmar</a>
 @endsection
 
 @section('mail-actions')

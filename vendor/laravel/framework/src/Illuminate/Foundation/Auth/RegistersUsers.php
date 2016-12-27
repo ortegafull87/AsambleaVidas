@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 trait RegistersUsers
 {
@@ -60,10 +61,12 @@ trait RegistersUsers
             );
         }
 
-        Auth::guard($this->getGuard())->login($this->create($request->all()));
+        //Auth::guard($this->getGuard())->login($this->create($request->all()));
+        //return redirect($this->redirectPath());
         
-
-        return redirect($this->redirectPath());
+        $user = $this->create($request->all());
+        $name = $request->input('name');
+        return redirect('acount/new/'.$name.'/goconfirm');
     }
 
     /**

@@ -71,10 +71,22 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'user'=> 'prueba.usuario',
-            'register_token'=>hash('sha256',$data['email']),
+            'user' => 'prueba.usuario',
+            'register_token' => hash('sha256', $data['email']),
         ]);
-        
+
         return $user;
     }
+
+    /**
+     * Return the authenticated response.
+     *
+     * @param  $request
+     * @param  $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory
+     */
+    /*protected function authenticated(Request $request, $user)
+    {
+
+    }*/
 }

@@ -9,7 +9,9 @@
 namespace App\Exceptions;
 
 
-class ServiceException
+use League\Flysystem\Exception;
+
+class ServiceException extends Exception
 {
 
 }

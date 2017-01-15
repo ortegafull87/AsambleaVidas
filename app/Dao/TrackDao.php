@@ -9,6 +9,7 @@
 namespace App\Dao;
 
 
+use App\Beans\BasicRequest;
 use App\Contracts\CRUD;
 
 interface TrackDao extends CRUD
@@ -16,4 +17,40 @@ interface TrackDao extends CRUD
     public function deleteTracks($ids);
     public function getTrackByDelete($id);
     public function deleteTrackById($id);
+
+    /**
+     * Obtiene todos los audios para los usuarios logeados
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForUser(BasicRequest $request);
+
+    /**
+     * Obtiene todos los audios para los visitantes
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForVisitants(BasicRequest $request);
+
+    /**
+     * Activa o desactiva el estado favorito
+     * de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function toggleFavoriteTrack(BasicRequest $request);
+
+    /**
+     * Busca si un audio es favorito para un usuario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function isFavorite(BasicRequest $request);
+
+    /**
+     * Asigna por primera vez favorito.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setFavorit(BasicRequest $request);
 }

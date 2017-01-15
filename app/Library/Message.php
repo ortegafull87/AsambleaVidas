@@ -21,5 +21,16 @@ class Message{
 	const WARNING_2X					= "Algo no anda bien. ";
 	const NOT_PRIVILEGE					= "No tiene privilegios para usar esta función";
 
+	/*App Errors*/
+	const APP_ERROR_GENERAL_PPROCESS_FAILED		= "Ups! Tubimos un inconveniente, porfavor intenta más tarde.";
+	const APP_WARNING_FUNCTION_ONLY_AUTH_USER	= "Registrate para usar esta función, es fácil, no te toma más de 3 minutos.";
+	const APP_WARNING_TRY_AGAIN			= "Ups!, intentalo de nuevo.";
+	/*App Messages*/
+	const APP_SET_FAVORITE					= "Me gusta!";
+	const APP_UNSET_FAVORITE				= "Ya no me gusta";
+
+
+
+
 
 }

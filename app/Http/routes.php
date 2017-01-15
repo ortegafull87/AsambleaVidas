@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app.inicio.index');
 });
 
 Route::resource('admin/dashboard', 'dashboardController@estatusGeneral');
@@ -24,3 +24,11 @@ Route::resource('admin/users', 'UserAdmController');
 // route confirm acount.
 Route::get('acount/new/{id}/goconfirm',['uses'=>'UserAdmController@goConfirm']);
 Route::get('acount/new/{id}/{token}/confirm',['uses'=>'UserAdmController@confirm']);
+
+//app
+Route::get('/inicio',function(){
+    return view('app.inicio.index');
+});
+
+Route::get('estudios/audios/all',['uses' => 'Aplication\Estudios\AudioController@getAll']);
+Route::post('estudios/audios/{id}/toggleFavorite',['uses' => 'Aplication\Estudios\AudioController@toggleFavoriteTrack']);

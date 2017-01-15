@@ -92,7 +92,7 @@ class Util
 
     public static function IMAGE_TYPE_FROM_MYME($str_myme_type)
     {
-        $mime_types = array (
+        $mime_types = array(
             ".ez" => "application/andrew-inset",
             ".atom" => "application/atom+xml",
             ".atomcat" => "application/atomcat+xml",
@@ -741,10 +741,30 @@ class Util
             ".movie" => "video/x-sgi-movie",
             ".ice" => "x-conference/x-cooltalk"
         );
-        
+
         $type = array_flip($mime_types);
-        
+
         return $type[$str_myme_type];
+    }
+
+    /**
+     * @param $strDate
+     */
+    public static function FORMAT_DATE_TO($strDate, $format = '')
+    {
+        Log::info('Iniciando conversión de fecha desde FORMAT_DATE_TO');
+        $datFormated = '';
+        try {
+            $date = date_create($strDate);
+            $datFormated = date_format($date, (empty($format)) ? 'd-m-Y' : $format);
+        } catch (\Exception $ex) {
+            Log::error('Error al convertir fecha: ' . $ex->getMessage());
+            $datFormated = $strDate;
+        } finally {
+            $date = null;
+            Log::info('Termina conversión de fecha');
+            return $datFormated;
+        }
     }
 
 }

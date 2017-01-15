@@ -10,6 +10,9 @@ namespace App\Dao;
 
 
 use App\Beans\BasicRequest;
+use App\Exceptions\DAOException;
+use App\Library\Constantes;
+use App\Models\Favorite;
 use App\Models\Track;
 use Mockery\CountValidator\Exception;
 use Log;
@@ -17,6 +20,67 @@ use DB;
 
 class TrackDaoImpl implements TrackDao
 {
+    /**
+     * Cantidad de registros por pagina
+     * @var
+     */
+    private $ROWS_BY_PAGE;
+
+    /**
+     * @var string
+     */
+    private $FIELDS =
+        "
+        t.*,
+        rt.rate,
+        lt.listeneds,
+        au.firstName as author_firstName, 
+        au.lastName as author_lastName, 
+        al.title as albume_title,
+        al.folder as albume_folder,
+        al.genre as albume_genre,
+        al.picture as albume_picture,
+        po.posted 
+        ";
+    /**
+     * @var string
+     */
+    private $FAVORITE_FIELD_VISIT = ",4 as favorite";
+
+    /**
+     * @var string
+     */
+    private $FAVORITE_FIELD_USER = ",f.status_id as favorite";
+
+    /**
+     * @var string
+     */
+    private $TABLE_RATE = "(Select track_id, sum(rate)/count(rate) as rate from rating_track group by track_id) as rt";
+
+    /**
+     * @var string
+     */
+    private $TABLE_LISTENEDS = "(select track_id, count(track_id) as listeneds from listeneds group by track_id) as lt";
+
+    /**
+     * @var string
+     */
+    private $TABLE_POSTEDS = "(select track_id, count(track_id) as posted from post_track group by track_id) as po";
+
+    /**
+     * IdUser usado para obtener los registros
+     * de las actividades del  usuario.
+     * @var
+     */
+    private $idUser;
+
+    /**
+     * TrackDaoImpl constructor.
+     */
+    function __construct()
+    {
+        $this->ROWS_BY_PAGE = env('APP_AUDIO_ROWS_BY_PAGE');
+    }
 
     /**
      * Crea un o varios nuevos elementos
@@ -141,6 +205,127 @@ class TrackDaoImpl implements TrackDao
             return Track::find($id)->delete();
         } catch (\Exception $e) {
             throw new Exception($e);
+        }
+    }
+
+    /**
+     * Obtiene todos los audios para los usuarios logeados
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForUser(BasicRequest $request)
+    {
+        Log::info('Inicia getAllAudioForUser desde' . AudioDao::class);
+        $this->idUser = $request->getId();
+        try {
+            return DB::table('tracks as t')
+                ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_USER))
+                ->join('authors as au', 't.author_id', '=', 'au.id')
+                ->join('albumes as al', 't.albume_id', '=', 'al.id')
+                ->leftjoin(DB::raw($this->TABLE_RATE), function ($join) {
+                    $join->on('t.id', '=', 'rt.track_id');
+                })
+                ->leftjoin(DB::raw($this->TABLE_LISTENEDS), function ($join) {
+                    $join->on('t.id', '=', 'lt.track_id');
+                })
+                ->leftjoin(DB::raw($this->TABLE_POSTEDS), function ($join) {
+                    $join->on('t.id', '=', 'po.track_id');
+                })
+                ->leftjoin('favorites as f', function ($join) {
+                    $join->on('t.id', '=', 'f.track_id');
+                    $join->on('f.user_id', '=', DB::raw($this->idUser));
+                })
+                ->where('t.status_id', '=', 1)//Cambiar 1 por 3
+                ->paginate($this->ROWS_BY_PAGE);
+
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+            throw new DAOException($ex->getMessage());
+        }
+    }
+
+    /**
+     * Obtiene todos los audios para los visitantes
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForVisitants(BasicRequest $request)
+    {
+        Log::info('Inicia getAllAudioForVisitants desde' . AudioDao::class);
+        try {
+            return DB::table('tracks as t')
+                ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_VISIT))
+                ->join('authors as au', 't.author_id', '=', 'au.id')
+                ->join('albumes as al', 't.albume_id', '=', 'al.id')
+                ->leftjoin(DB::raw($this->TABLE_RATE), function ($join) {
+                    $join->on('t.id', '=', 'rt.track_id');
+                })
+                ->leftjoin(DB::raw($this->TABLE_LISTENEDS), function ($join) {
+                    $join->on('t.id', '=', 'lt.track_id');
+                })
+                ->leftjoin(DB::raw($this->TABLE_POSTEDS), function ($join) {
+                    $join->on('t.id', '=', 'po.track_id');
+                })
+                ->where('t.status_id', '=', Constantes::USER_CREATED)//Cambiar 1 por 3
+                ->paginate($this->ROWS_BY_PAGE);
+
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+            throw new DAOException($ex->getMessage());
+        }
+    }
+
+    /**
+     * Activa o desactiva el estado favorito
+     * de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function toggleFavoriteTrack(BasicRequest $request)
+    {
+        Log::info('Inicia toggleFavoriteTrack desde: ' . TrackDaoImpl::class);
+        try {
+            return Favorite::where('track_id', $request->getId())
+                ->where('user_id', $request->getData()['idUser'])
+                ->update(['status_id' => $request->getData()['idStatus']]);
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Busca si un audio es favorito para un usuario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function isFavorite(BasicRequest $request)
+    {
+        Log::info('Inicia isFavorite desde: ' . TrackDaoImpl::class);
+        try {
+            return Favorite::where('track_id', $request->getId())
+                ->where('user_id', $request->getData()['idUser'])
+                ->get();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Asigna por primera vez favorito.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setFavorit(BasicRequest $request)
+    {
+        Log::info('Inicia setFavorit desde: ' . TrackDaoImpl::class);
+        try {
+            $favorito = new Favorite;
+            $favorito->track_id = $request->getId();
+            $favorito->user_id = $request->getData()['idUser'];
+            $favorito->status_id = Constantes::STATUS_ACTIVE;
+            $favorito->save();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
         }
     }
 }

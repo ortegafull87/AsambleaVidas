@@ -8,16 +8,20 @@
 
 namespace App\Service;
 
+use App\Beans\HttpResponse;
 use App\Beans\ServiceResponse;
 use App\Dao\TrackDaoImpl as TrackDao;
 use App\Beans\BasicRequest;
 use App\Dao\AlbumeDaoImpl as AlbumeDao;
+use App\Exceptions\DAOException;
+use App\Library\Constantes;
 use DB;
+use App\Exceptions\ServiceException;
 use Log;
 use Mockery\CountValidator\Exception;
 
 
-class TrackServiceImpl implements AlbumeService
+class TrackServiceImpl implements TrackService
 {
     protected $trackDao;
     protected $albumeDao;
@@ -240,6 +244,81 @@ class TrackServiceImpl implements AlbumeService
             $serviceResponse->setMessage($e->getMessage());
             DB::rollBack();
             return $serviceResponse;
+        }
+    }
+
+    /**
+     * Obtiene todos los audios para los usuarios logeados
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForUser(BasicRequest $request)
+    {
+        Log::info('Obteniendo todo los audios desde  getAllAudioForUser en: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getAllAudioForUser($request);
+        } catch (DAOException $dex) {
+            Log::error($dex);
+            throw DAOException($dex->getMessage());
+        } catch (Exception $ex) {
+            Log::error($ex);
+            throw ServiceException($ex->getMessage());
+        }
+    }
+
+    /**
+     * Obtiene todos los audios para los visitantes
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getAllAudioForVisitants(BasicRequest $request)
+    {
+        Log::info('Obteniendo todo los audios desde getAllAudioForVisitants en: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getAllAudioForVisitants($request);
+        } catch (DAOException $dex) {
+            Log::error($dex);
+            throw DAOException($dex->getMessage());
+        } catch (Exception $ex) {
+            Log::error($ex);
+            throw ServiceException($ex->getMessage());
+        }
+    }
+
+    /**
+     * Activa o desactiva el estado favorito
+     * de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function toggleFavoriteTrack(BasicRequest $request)
+    {
+        Log::info('Inicia toggleFavoriteTrack desde: ' . TrackServiceImpl::class);
+        try {
+            $idUser = $request->getData()['idUser'];
+            $isFavorite = $this->trackDao->isFavorite($request);
+            if (count($isFavorite) > 0) {
+                Log::info(count($isFavorite));
+                if ($isFavorite[0]->status_id == Constantes::STATUS_INACTIVE) {
+                    $request->setData(['idStatus' => Constantes::STATUS_ACTIVE, 'idUser' => $idUser]);
+                    $this->trackDao->toggleFavoriteTrack($request);
+                    return Constantes::STATUS_ACTIVE;
+                } else {
+                    $request->setData(['idStatus' => Constantes::STATUS_INACTIVE, 'idUser' => $idUser]);
+                    $this->trackDao->toggleFavoriteTrack($request);
+                    return Constantes::STATUS_INACTIVE;
+                }
+            } else {
+                $request->setData(['idUser' => $idUser]);
+                $this->trackDao->setFavorit($request);
+                return Constantes::STATUS_ACTIVE;
+            }
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            Log::error("Error desde Service");
+            throw new ServiceException($ex);
         }
     }
 }

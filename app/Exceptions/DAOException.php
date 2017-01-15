@@ -9,7 +9,9 @@
 namespace App\Exceptions;
 
 
-class DAOException extends \Doctrine\Instantiator\Exception\InvalidArgumentException
+use League\Flysystem\Exception;
+
+class DAOException extends Exception
 {
 
 }

@@ -13,6 +13,7 @@ use App\Beans\BasicRequest;
 use App\Exceptions\DAOException;
 use App\Library\Constantes;
 use App\Models\Favorite;
+use App\Models\RatingTrack;
 use App\Models\Track;
 use Mockery\CountValidator\Exception;
 use Log;
@@ -65,7 +66,7 @@ class TrackDaoImpl implements TrackDao
     /**
      * @var string
      */
-    private $TABLE_POSTEDS = "(select track_id, count(track_id) as posted from post_track group by track_id) as po";
+    private $TABLE_POSTEDS = "(select track_id, count(track_id) as posted from post_track where status_id = %d group by track_id) as po";
 
     /**
      * IdUser usado para obtener los registros
@@ -80,6 +81,7 @@ class TrackDaoImpl implements TrackDao
     function __construct()
     {
         $this->ROWS_BY_PAGE = env('APP_AUDIO_ROWS_BY_PAGE');
+        $this->TABLE_POSTEDS = sprintf($this->TABLE_POSTEDS,Constantes::STATUS_ACTIVE);
     }
 
     /**
@@ -324,6 +326,72 @@ class TrackDaoImpl implements TrackDao
             $favorito->user_id = $request->getData()['idUser'];
             $favorito->status_id = Constantes::STATUS_ACTIVE;
             $favorito->save();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Verifica si el solicitante ya calificado
+     * el track
+     * @return mixed
+     */
+    public function isRateBefore(BasicRequest $request)
+    {
+        Log::info('Inicia isRateBefore desde: ' . TrackDaoImpl::class);
+        try {
+            if ($request->getData()['idUser'] > 0) {
+                return RatingTrack::where('user_id', $request->getData()['idUser'])
+                    ->where('track_id', $request->getId())
+                    ->get();
+            } else {
+                return RatingTrack::where('visitor_id', $request->getData()['idVisitor'])
+                    ->where('track_id', $request->getId())
+                    ->get();
+            }
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Califica un track del 1 al 5
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setRate(BasicRequest $request)
+    {
+        Log::info('Inicia setRate desde: ' . TrackDaoImpl::class);
+        try {
+            $ratingTrack = new RatingTrack;
+            $ratingTrack->track_id = $request->getId();
+            $ratingTrack->user_id = $request->getData()['idUser'];
+            $ratingTrack->visitor_id = $request->getData()['idVisitor'];
+            $ratingTrack->rate = $request->getData()['rate'];
+            return $ratingTrack->save();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Modifica un calificaion
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function modifyRate(BasicRequest $request)
+    {
+        Log::info('Inicia modifyRate desde: ' . TrackDaoImpl::class);
+        try {
+            if ($request->getData()['idUser'] > 0) {
+                return RatingTrack::where('user_id', '=', $request->getData()['idUser'])
+                    ->where('track_id','=', $request->getId())
+                    ->update(['rate' => $request->getData()['rate']]);
+            } else {
+                return RatingTrack::where('visitor_id', '=', $request->getData()['idVisitor'])
+                    ->where('track_id','=', $request->getId())
+                    ->update(['rate' => $request->getData()['rate']]);
+            }
         } catch (\Exception $ex) {
             throw new DAOException($ex);
         }

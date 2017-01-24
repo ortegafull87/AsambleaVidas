@@ -32,3 +32,4 @@ Route::get('/inicio',function(){
 
 Route::get('estudios/audios/all',['uses' => 'Aplication\Estudios\AudioController@getAll']);
 Route::post('estudios/audios/{id}/toggleFavorite',['uses' => 'Aplication\Estudios\AudioController@toggleFavoriteTrack']);
+Route::post('estudios/audios/{id}/{rate}/setRate',['uses' => 'Aplication\Estudios\AudioController@setRate']);

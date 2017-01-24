@@ -71,7 +71,7 @@ class AudioController extends Controller
     {
         Log::info('Inicia toggleFavoriteTrack desde: ' . AudioController::class);
         try {
-            $idTrack = Request();
+            //$idTrack = Request();
             $response = new HttpResponse();
             if (Auth::guest()) {
                 $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
@@ -79,17 +79,17 @@ class AudioController extends Controller
             } else {
                 $request = new BasicRequest();
                 $request->setId($id);
-                $request->setData(['idUser'=>Auth::user()->id]);
+                $request->setData(['idUser' => Auth::user()->id]);
                 $toggleFavoriteTrack = $this->trackService->toggleFavoriteTrack($request);
                 switch ($toggleFavoriteTrack) {
                     case Constantes::STATUS_ACTIVE :
                         $response->setMessage(Message::APP_SET_FAVORITE);
-                        $response->setData(['idEstatus'=>Constantes::STATUS_ACTIVE, 'class' => '.favorite']);
+                        $response->setData(['idEstatus' => Constantes::STATUS_ACTIVE, 'class' => '.favorite']);
                         return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
                         break;
                     case Constantes::STATUS_INACTIVE :
                         $response->setMessage(Message::APP_UNSET_FAVORITE);
-                        $response->setData(['idEstatus'=>Constantes::STATUS_INACTIVE]);
+                        $response->setData(['idEstatus' => Constantes::STATUS_INACTIVE]);
                         return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
                         break;
                     default:
@@ -97,6 +97,40 @@ class AudioController extends Controller
                         return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
 
                 };
+            }
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    function setRate($id, $rate)
+    {
+        Log::info('Inicia seRate desde: ' . AudioController::class);
+        Log::info('rate:' . $rate);
+        try {
+            $response = new HttpResponse();
+            $request = new BasicRequest();
+            $request->setId($id);
+            if (Auth::guest()) {
+                $request->setData(['idUser' => 0, 'idVisitor' => 98, 'rate' => $rate]);//Poner el id del visitante
+            } else {
+                $request->setData(['idUser' => Auth::user()->id, 'idVisitor' => 0, 'rate' => $rate]);
+            }
+            $isRate = $this->trackService->setRate($request);
+            if($isRate){
+                $response->setMessage(sprintf(Message::APP_SET_RATE,$rate));
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+            }else{
+                $response->setMessage(Message::APP_WARNING_TRY_AGAIN);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
             }
         } catch (ServiceException $sex) {
             Log::error($sex);

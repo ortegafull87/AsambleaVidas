@@ -53,4 +53,25 @@ interface TrackDao extends CRUD
      * @return mixed
      */
     public function setFavorit(BasicRequest $request);
+
+    /**
+     * Califica un track del 1 al 5
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setRate(BasicRequest $request);
+
+    /**
+     * Verifica si el solicitante ya calificado
+     * el track
+     * @return mixed
+     */
+    public function isRateBefore(BasicRequest $request);
+
+    /**
+     * Modifica un calificaion
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function modifyRate(BasicRequest $request);
 }

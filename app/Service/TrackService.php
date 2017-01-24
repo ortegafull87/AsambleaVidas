@@ -35,4 +35,11 @@ interface TrackService extends CRUD
      * @return mixed
      */
     public function toggleFavoriteTrack(BasicRequest $request);
+
+    /**
+     * Califica un track del 1 al 5
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setRate(BasicRequest $request);
 }

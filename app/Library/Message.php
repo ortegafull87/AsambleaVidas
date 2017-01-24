@@ -28,9 +28,7 @@ class Message{
 	/*App Messages*/
 	const APP_SET_FAVORITE					= "Me gusta!";
 	const APP_UNSET_FAVORITE				= "Ya no me gusta";
-
-
-
+	const APP_SET_RATE 						= "Calificado con %d estrellas";
 
 
 }

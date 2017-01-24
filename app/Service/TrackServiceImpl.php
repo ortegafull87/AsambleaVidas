@@ -321,4 +321,27 @@ class TrackServiceImpl implements TrackService
             throw new ServiceException($ex);
         }
     }
+
+    /**
+     * Califica un track del 1 al 5
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setRate(BasicRequest $request)
+    {
+        Log::info('Inicia setRate desde: ' . TrackServiceImpl::class);
+        try {
+            if (count($this->trackDao->isRateBefore($request)) > 0) {
+                return $this->trackDao->modifyRate($request);
+            } else {
+                return $this->trackDao->setRate($request);
+            }
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            Log::error("Error desde Service");
+            throw new ServiceException($ex);
+        }
+    }
 }

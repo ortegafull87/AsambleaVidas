@@ -344,4 +344,24 @@ class TrackServiceImpl implements TrackService
             throw new ServiceException($ex);
         }
     }
+
+    /**
+     * Ingresa un registro en la tabal listenes
+     * para contavilizar las reproducciones.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setListened(BasicRequest $request)
+    {
+        Log::info('Inicia setListened desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->setListened($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            Log::error("Error desde Service");
+            throw new ServiceException($ex);
+        }
+    }
 }

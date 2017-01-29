@@ -13,6 +13,7 @@ use App\Beans\BasicRequest;
 use App\Exceptions\DAOException;
 use App\Library\Constantes;
 use App\Models\Favorite;
+use App\Models\Listened;
 use App\Models\RatingTrack;
 use App\Models\Track;
 use Mockery\CountValidator\Exception;
@@ -81,7 +82,7 @@ class TrackDaoImpl implements TrackDao
     function __construct()
     {
         $this->ROWS_BY_PAGE = env('APP_AUDIO_ROWS_BY_PAGE');
-        $this->TABLE_POSTEDS = sprintf($this->TABLE_POSTEDS,Constantes::STATUS_ACTIVE);
+        $this->TABLE_POSTEDS = sprintf($this->TABLE_POSTEDS, Constantes::STATUS_ACTIVE);
     }
 
     /**
@@ -218,7 +219,7 @@ class TrackDaoImpl implements TrackDao
     public function getAllAudioForUser(BasicRequest $request)
     {
         Log::info('Inicia getAllAudioForUser desde' . AudioDao::class);
-        $this->idUser = $request->getId();
+        $this->idUser = $request->getData()['idUser'];
         try {
             return DB::table('tracks as t')
                 ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_USER))
@@ -238,6 +239,7 @@ class TrackDaoImpl implements TrackDao
                     $join->on('f.user_id', '=', DB::raw($this->idUser));
                 })
                 ->where('t.status_id', '=', 1)//Cambiar 1 por 3
+                ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 
         } catch (\Exception $ex) {
@@ -269,6 +271,7 @@ class TrackDaoImpl implements TrackDao
                     $join->on('t.id', '=', 'po.track_id');
                 })
                 ->where('t.status_id', '=', Constantes::USER_CREATED)//Cambiar 1 por 3
+                ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 
         } catch (\Exception $ex) {
@@ -385,13 +388,34 @@ class TrackDaoImpl implements TrackDao
         try {
             if ($request->getData()['idUser'] > 0) {
                 return RatingTrack::where('user_id', '=', $request->getData()['idUser'])
-                    ->where('track_id','=', $request->getId())
+                    ->where('track_id', '=', $request->getId())
                     ->update(['rate' => $request->getData()['rate']]);
             } else {
                 return RatingTrack::where('visitor_id', '=', $request->getData()['idVisitor'])
-                    ->where('track_id','=', $request->getId())
+                    ->where('track_id', '=', $request->getId())
                     ->update(['rate' => $request->getData()['rate']]);
             }
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Ingresa un registro en la tabal listenes
+     * para contavilizar las reproducciones.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setListened(BasicRequest $request)
+    {
+        Log::info('Inicia setListened desde: ' . TrackDaoImpl::class);
+        try {
+            $listened = new Listened;
+            $listened->track_id = $request->getId();
+            $listened->user_id = $request->getData()['idUser'];
+            $listened->visitor_id = $request->getData()['idVisitor'];
+            return $listened->save();
+
         } catch (\Exception $ex) {
             throw new DAOException($ex);
         }

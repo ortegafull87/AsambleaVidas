@@ -1,0 +1,53 @@
+/*
+== OverWrite Bootstrap classes
+*/
+
+.page-header {
+    margin: 60px 0 20px 0;
+    font-size: 33px;
+}
+
+.content {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.cont-audio audio {
+    width: 100%;
+}
+
+.post-audio-info tbody tr td:nth-child(2) {
+    font-weight: 400;
+}
+
+@media (min-width: 768px) {
+    .content-header {
+        padding: 15px 0px 0px;
+    }
+}
+.do-comment{
+    padding: 15px 0px 25px 0px;
+    font-weight: 400;
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+    .post-audio_description {
+        padding: 10px 30px !important;
+        font-weight: 400;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+
+    .content {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .post-audio_description {
+        padding: 10px 30px !important;
+    }
+}

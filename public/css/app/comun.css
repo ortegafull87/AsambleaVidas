@@ -34,6 +34,10 @@
     font-weight: 600;
 }
 
+.navbar-brand {
+    padding: 0px 10px 0px 15px;
+}
+
 /*
 
 ############ track-box-container ###########
@@ -123,10 +127,15 @@ div.box div.flag i.fa{
 div.box div.flag i.fa:hover{
     color: #f13426;
 }
-
-
 .favorite{
     color: #f13426!important;
+}
+.toggle-favorite i{
+    border-bottom: 1px dotted #0a70f8;
+}
+.toggle-favorite i:hover{
+    color: #f13426!important;
+    border-bottom: 1px dotted #f13426;
 }
 
 div.box div.flag i{

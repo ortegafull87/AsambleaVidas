@@ -22,7 +22,7 @@ return [
     'registermember'          => 'Registar un nuevo miembro',
     'terms'                   => 'Estoy de acuerdo',
     'conditions'              => 'Términos y Condiciones',
-    'register'                => 'Registro',
+    'register'                => 'Registrar',
     'login'                   => 'Iniciar Sesión',
     'membreship'              => 'Ya soy miembro',
     'passwordclickreset'      => 'Haga clic aquí para restablecer la contraseña:',
@@ -219,5 +219,8 @@ return [
 
     //FORM
     'revertchanges'                 => 'Deshacer cambios',
+
+    // App
+
 
 ];

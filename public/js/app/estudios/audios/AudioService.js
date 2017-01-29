@@ -26,6 +26,12 @@ var AudioService = {
              });*/
             AudioService.ajax.post(url, callback);
         }
+        ,
+        listened: function (url, callback) {
+            $.post(url, function (data) {
+                callback(data.message);
+            });
+        }
     }
     ,
     ajax: {

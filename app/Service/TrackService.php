@@ -42,4 +42,12 @@ interface TrackService extends CRUD
      * @return mixed
      */
     public function setRate(BasicRequest $request);
+
+    /**
+     * Ingresa un registro en la tabal listenes
+     * para contavilizar las reproducciones.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setListened(BasicRequest $request);
 }

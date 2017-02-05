@@ -50,4 +50,24 @@ interface TrackService extends CRUD
      * @return mixed
      */
     public function setListened(BasicRequest $request);
+
+    /**
+     * Ontiene los comentarios de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getPostsTrack(BasicRequest $request);
+
+    /**
+     * Obtiene el ultimo post insertado
+     * @return mixed
+     */
+    public function getLastPostTrack($id);
+    
+    /**
+     * Da de alta un nuevo comentario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setPostTrack(BasicRequest $request);
 }

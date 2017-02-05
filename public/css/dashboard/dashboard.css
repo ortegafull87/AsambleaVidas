@@ -78,4 +78,10 @@ span.upload-path {
 .c-pointer{
     cursor:pointer;
 }
+
+div.box-top {
+    height: 110px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 /*========================== COMUNES ========================*/

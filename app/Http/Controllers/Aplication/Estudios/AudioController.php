@@ -13,8 +13,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use App\Service\TrackServiceImpl as TrackService;
+use Illuminate\Support\Facades\View;
+use Mockery\CountValidator\Exception;
 
 class AudioController extends Controller
 {
@@ -46,8 +49,9 @@ class AudioController extends Controller
                 $request->setData(['idUser' => Auth::user()->id]);
                 $audio = $this->trackService->getAllAudioForUser($request);
             }
+            $postsTrack = $this->trackService->getPostsTrack($request);
 
-            return view('app.estudios.audios.post_track', ['audio' => $audio]);
+            return view('app.estudios.audios.post_track', ['audio' => $audio, 'posts' => $postsTrack]);
 
         } catch (ServiceException $sex) {
             Log::error($sex);
@@ -76,6 +80,38 @@ class AudioController extends Controller
         }
         return view('app.estudios.audios.all_tracks', ['audios' => $audios]);
 
+    }
+
+    /**
+     * @return View
+     */
+    public function getPerPage()
+    {
+        try {
+            $request = new BasicRequest();
+            $response = new HttpResponse();
+            if (Auth::guest()) {
+                $audios = $this->trackService->getAllAudioForVisitants($request);
+            } else {
+                $request->setData(['idUser' => Auth::user()->id]);
+                $audios = $this->trackService->getAllAudioForUser($request);
+            }
+            $response->setMessage("OK");
+            $vista = View::make('app/estudios/audios/box_track', ['audios' => $audios]);
+            $response->setView($vista);
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -190,6 +226,61 @@ class AudioController extends Controller
                 $response->setMessage(Message::APP_WARNING_TRY_AGAIN);
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
             }
+
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function setPostTrack($id, Request $httpRequest)
+    {
+        Log::info('Inicia setPostTrack desde: ' . AudioController::class);
+        try {
+            $response = new HttpResponse();
+            $request = new BasicRequest();
+            //Verifica si la solicitud es de un usuario logeado
+            if (Auth::guest()) {
+                $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_FORBIDDEN);
+            } else {
+
+                //Valida los datos obligatorios
+                Log::debug(Input::get('comment'));
+                if (0 == $id || empty(Input::get('comment'))) {
+                    throw new Exception(sprintf(
+                        Message::APP_ERROR_SET_MESSAGE_NO_PARAMS,
+                        $id,
+                        $httpRequest->input('comment')));
+                }
+                //Setea los valores necesarios
+                $request->setId($id);
+                $request->setData([
+                    'comment' => $httpRequest->input('comment'),
+                    'postTrackParentId' => $httpRequest->input('postTrackParentId'),
+                    'userId' => Auth::user()->id
+                ]);
+                //Ejecuta el servisio
+                $idPostTrack = $this->trackService->setPostTrack($request);
+                if ($idPostTrack > 0) {
+                    $lastPost = $this->trackService->getLastPostTrack($idPostTrack);
+                    $response->setMessage("posted");
+                    $vista = View::make('app/comun/post', ['posts' => $lastPost]);
+                    $response->setView($vista);
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+                } else {
+                    $response->setMessage(Message::APP_WARNING_TRY_AGAIN);
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+                }//<-- else
+
+            }//<-- else
 
         } catch (ServiceException $sex) {
             Log::error($sex);

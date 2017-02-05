@@ -173,6 +173,8 @@ class TrackAdmController extends Controller
                     'tracks.created_at',
                     'tracks.updated_at',
                     'tracks.file',
+                    'tracks.sketch',
+                    'tracks.remote_repository',
                     'authors.id as idAuthor',
                     'authors.firstName',
                     'authors.lastName',
@@ -233,6 +235,8 @@ class TrackAdmController extends Controller
                 'title' => $request->input('trk_titulo'),
                 'author_id' => $request->input('trk_author'),
                 'albume_id' => $request->input('trk_albume'),
+                'sketch' => $request->input('trk_sketch'),
+                'remote_repository' => $request->input('trk_url'),
             ]);
 
             $serviceResponse = $this->trackService->update($basicRequest);

@@ -14,6 +14,7 @@ use App\Exceptions\DAOException;
 use App\Library\Constantes;
 use App\Models\Favorite;
 use App\Models\Listened;
+use App\Models\PostTrack;
 use App\Models\RatingTrack;
 use App\Models\Track;
 use Mockery\CountValidator\Exception;
@@ -116,12 +117,15 @@ class TrackDaoImpl implements TrackDao
                     'tracks.created_at',
                     'tracks.updated_at',
                     'tracks.file',
+                    'tracks.sketch',
+                    'tracks.remote_repository',
                     'authors.id as idAuthor',
                     'authors.firstName',
                     'authors.lastName',
                     'albumes.id as idAlbume',
                     'albumes.title as titleAlbume',
-                    'albumes.folder');
+                    'albumes.folder',
+                    'albumes.picture');
             if ($request->getId() > 0) {
                 $tracks->where('tracks.id', '=', $request->getId());
             }
@@ -146,6 +150,7 @@ class TrackDaoImpl implements TrackDao
     public function update(BasicRequest $request)
     {
         LOG::info(TrackDaoImpl::class);
+        Log::debug($request->getData());
         try {
             Track::where('id', $request->getId())->update($request->getData());
         } catch (\Exception $e) {
@@ -184,7 +189,6 @@ class TrackDaoImpl implements TrackDao
     public function getTrackByDelete($id)
     {
         LOG::info(TrackDaoImpl::class);
-        LOG::info($id);
         try {
             return DB::table('tracks')
                 ->join('authors', 'tracks.author_id', '=', 'authors.id')
@@ -257,6 +261,8 @@ class TrackDaoImpl implements TrackDao
     {
         Log::info('Inicia getAllAudioForVisitants desde' . AudioDao::class);
         try {
+            Log::info("Rows by page");
+            Log::info($this->ROWS_BY_PAGE);
             return DB::table('tracks as t')
                 ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_VISIT))
                 ->join('authors as au', 't.author_id', '=', 'au.id')
@@ -420,4 +426,73 @@ class TrackDaoImpl implements TrackDao
             throw new DAOException($ex);
         }
     }
+
+    /**
+     * Ontiene los comentarios de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getPostsTrack(BasicRequest $request)
+    {
+        Log::info('Inicia getPostsTrack desde: ' . TrackDaoImpl::class);
+        try {
+            return DB::table('post_track')
+                ->join('users', 'post_track.user_id', '=', 'users.id')
+                ->select('post_track.*', 'users.name')
+                ->where('post_track.track_id', '=', $request->getId())
+                ->where('post_track.status_id','=', Constantes::STATUS_ACTIVE)
+                ->orderBy('post_track.created_at', 'DESC')
+                ->paginate(10);
+
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Obtiene el ultimo post insertado
+     * @return mixed
+     */
+    public function getLastPostTrack($id)
+    {
+        Log::info('Inicia getLastPostTrack desde: ' . TrackDaoImpl::class);
+        try {
+            return DB::table('post_track')
+                ->join('users', 'post_track.user_id', '=', 'users.id')
+                ->select('post_track.*', 'users.name')
+                ->where('post_track.id', '=', $id)
+                ->get();
+
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Da de alta un nuevo comentario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setPostTrack(BasicRequest $request)
+    {
+        Log::info('Inicia setPostTrack desde: ' . TrackDaoImpl::class);
+        try {
+            if (empty($request->getData()['comment'])) {
+                new Exception("El comentario es necesario para esta acción");
+            }
+            $setPostTrack = new PostTrack;
+            $setPostTrack->comment = $request->getData()['comment'];
+            $setPostTrack->post_track_parent_id = $request->getData()['postTrackParentId'];
+            $setPostTrack->user_id = $request->getData()['userId'];
+            $setPostTrack->track_id = $request->getId();
+            $setPostTrack->status_id = 3;
+            $setPostTrack->save();
+
+            return $setPostTrack->id;
+
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
 }

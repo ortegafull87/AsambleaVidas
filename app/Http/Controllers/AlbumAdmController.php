@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Beans\BasicRequest;
+use App\Exceptions\ServiceException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -101,10 +102,10 @@ class AlbumAdmController extends Controller
 
             }
 
-            $basicRequest =  new BasicRequest();
+            $basicRequest = new BasicRequest();
             $basicRequest->setRequest($request);
 
-            if($this->albumeService->create($basicRequest)) {
+            if ($this->albumeService->create($basicRequest)) {
                 $response->setMessage('Albume creado.');
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_CREATED);
             }
@@ -154,13 +155,10 @@ class AlbumAdmController extends Controller
      */
     public function update(Request $request, $id)
     {
+        LOG::info("Editando desde: " . AlbumAdmController::class);
+
         $response = new HttpResponse();
-
-        $albumeTitle = $request->input("title");
-        $albumGenre = $request->input("genre");
-        $description = $request->input("description");
-
-        LOG::info("Creando album: " . $albumeTitle);
+        $basicRequest = new BasicRequest();
 
         try {
 
@@ -173,6 +171,7 @@ class AlbumAdmController extends Controller
                 'required' => ' El campo \':attribute\' es obligatorio ',
             ];
 
+            Log::debug($request->input('title'));
 
             $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -185,27 +184,24 @@ class AlbumAdmController extends Controller
 
             }
 
-            /**DB::table('albumes')
-             * ->where('id',$id)
-             * ->update(
-             * [
-             * 'title'=> $albumeTitle,
-             * 'genre' => $albumGenre,
-             * ]);*/
+            $basicRequest->setId($id);
+            $basicRequest->setRequest($request);
+            $isUpdated = $this->albumeService->update($basicRequest);
 
-            Albume::where('id', $id)
-                ->update(
-                    [
-                        'title' => $albumeTitle,
-                        'genre' => $albumGenre,
-                        'description' => $description
-                    ]
-                );
+            if ($isUpdated) {
+                Log::debug("Albume actualizado");
+                $response->setMessage(Message::SUCCESS_ALBUMES_UPDATED);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_CREATED);
+            } else {
+                $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
-
-            $response->setMessage(Message::SUCCESS_ALBUMES_UPDATED);
-            return response()->json($response->toArray(), HttpStatusCode::HTTP_CREATED);
-
+        } catch (ServiceException $e) {
+            LOG::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         } catch (\Exception $e) {
             LOG::error($e->getMessage());
             $response->setMessage(Message::ERROR_5X);

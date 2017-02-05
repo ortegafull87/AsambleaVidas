@@ -31,8 +31,10 @@ Route::get('/inicio', function () {
 });
 // app audio
 Route::get('estudios/audios/all', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
+Route::post('estudios/audios/perPage', ['uses' => 'Aplication\Estudios\AudioController@getPerPage']);
 Route::post('estudios/audios/{id}/toggleFavorite', ['uses' => 'Aplication\Estudios\AudioController@toggleFavoriteTrack']);
 Route::post('estudios/audios/{id}/{rate}/setRate', ['uses' => 'Aplication\Estudios\AudioController@setRate']);
 Route::post('estudios/audios/{id}/setListened', ['uses' => 'Aplication\Estudios\AudioController@setListened']);
-
 Route::get('estudios/audios/post/{id}/track', ['uses' => 'Aplication\Estudios\AudioController@getPostTrack']);
+Route::post('estudios/audios/post/{id}/setPostTrack', ['uses' => 'Aplication\Estudios\AudioController@setPostTrack']);
+Route::get('estudios/audios/download', ['uses' => 'Aplication\Estudios\AudioController@downloadAudio']);

@@ -9,6 +9,7 @@
 namespace App\Dao;
 
 use App\Beans\BasicRequest;
+use App\Exceptions\DAOException;
 use App\Models\Albume;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -61,7 +62,17 @@ class AlbumeDaoImpl implements AlbumeDao
      */
     public function update(BasicRequest $request)
     {
-        // TODO: Implement update() method.
+        Log::info('Inicia update desde: ' . AlbumeDaoImpl::class);
+        //Log::debug($request->getData());
+        try {
+            if (!$request->getId()) {
+                throw new Exception("El id del albume es necesario para actualizar");
+            }
+            return Albume::where('id', $request->getId())
+                ->update($request->getData());
+        } catch (\Exception $ex) {
+            throw new DAOException($ex->getMessage());
+        }
     }
 
     /**
@@ -71,7 +82,7 @@ class AlbumeDaoImpl implements AlbumeDao
      */
     public function delete(BasicRequest $request)
     {
-        
+
     }
 
     /**
@@ -85,7 +96,7 @@ class AlbumeDaoImpl implements AlbumeDao
             return Albume::where('id', $id)->get();
         } catch (\Exception $e) {
             LOG::error($e->getMessage());
-            throw new Exception($e->getMessage());
+            throw new DAOException($e->getMessage());
         }
     }
 }

@@ -86,6 +86,12 @@ class TrackServiceImpl implements TrackService
                 if ($track[0]->idAlbume != $data['albume_id']) {
                     $upDateTrack = Array('albume_id' => $data['albume_id']) + $upDateTrack;
                 }
+                if ($track[0]->sketch != $data['sketch']) {
+                    $upDateTrack = Array('sketch' => $data['sketch']) + $upDateTrack;
+                }
+                if ($track[0]->remote_repository != $data['remote_repository']) {
+                    $upDateTrack = Array('remote_repository' => $data['remote_repository']) + $upDateTrack;
+                }
 
                 LOG::info('Actualizando archivo cargado');
                 //Actualizamos el registro segun lo enviado.
@@ -137,6 +143,12 @@ class TrackServiceImpl implements TrackService
                 }
                 if ($track[0]->idAlbume != $data['albume_id']) {
                     $upDateTrack = Array('albume_id' => $data['albume_id']) + $upDateTrack;
+                }
+                if ($track[0]->sketch != $data['sketch']) {
+                    $upDateTrack = Array('sketch' => $data['sketch']) + $upDateTrack;
+                }
+                if ($track[0]->remote_repository != $data['remote_repository']) {
+                    $upDateTrack = Array('remote_repository' => $data['remote_repository']) + $upDateTrack;
                 }
 
                 //Actualizamos el registro segun lo enviado.
@@ -364,4 +376,60 @@ class TrackServiceImpl implements TrackService
             throw new ServiceException($ex);
         }
     }
+
+    /**
+     * Ontiene los comentarios de un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getPostsTrack(BasicRequest $request)
+    {
+        Log::info('Inicia getPostsTrack desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getPostsTrack($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            Log::error("Error desde Service");
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Obtiene el ultimo post insertado
+     * @return mixed
+     */
+    public function getLastPostTrack($id)
+    {
+        Log::info('Inicia getLastPostTrack desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getLastPostTrack($id);
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Da de alta un nuevo comentario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function setPostTrack(BasicRequest $request)
+    {
+        Log::info('Inicia setPostTrack desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->setPostTrack($request);
+
+        } catch (DAOException $dao) {
+            Log::error("Error desde DAO");
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
 }

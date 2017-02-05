@@ -18,6 +18,9 @@
     border-right-width: 0;
 }
 
+.media-middle{
+    vertical-align: top;
+}
 /*sobre escritura de clases bootstrap*/
 
 .btn-register {
@@ -66,8 +69,6 @@
     transition: all 0.3s ease-out;
 }
 
-
-
 .track-box-container div.box:hover {
 
     -webkit-box-shadow: 0px 0px 30px 0px rgba(50, 50, 50, 0.75);
@@ -77,34 +78,40 @@
     -webkit-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
-div.box div.box-top{
+
+div.box div.box-top {
     height: 110px;
     background-repeat: no-repeat;
-    background-position:center;
+    background-position: center;
 }
 
-div.box div.box-content{
+div.box div.box-content {
     padding: 15px 15px 0px 15px;
 }
-div.box div.box-footer{
+
+div.box div.box-footer {
     /*height: 250px;*/
     padding: 15px;
     font-size: 14px;
 }
-div.box div.box-footer div.share div{
+
+div.box div.box-footer div.share div {
     display: inline-block;
     width: 32.5%;
 }
-div.box div.box-footer div.share div:nth-child(1){
+
+div.box div.box-footer div.share div:nth-child(1) {
     text-align: left;
 }
 
-div.box div.box-footer div.share div:nth-child(2){
+div.box div.box-footer div.share div:nth-child(2) {
     text-align: center;
 }
-div.box div.box-footer div.share div:nth-child(3){
+
+div.box div.box-footer div.share div:nth-child(3) {
     text-align: right;
 }
+
 div.box div.flag {
     border-left: 22px solid #d2d6de;
     border-right: 22px solid #d2d6de;
@@ -116,7 +123,7 @@ div.box div.flag {
     position: absolute;
 }
 
-div.box div.flag i.fa{
+div.box div.flag i.fa {
     color: rgba(0, 0, 0, 0.6);
     font-size: 29px;
     background-color: #d2d6de;
@@ -124,74 +131,90 @@ div.box div.flag i.fa{
     cursor: pointer;
 }
 
-div.box div.flag i.fa:hover{
+div.box div.flag i.fa:hover {
     color: #f13426;
 }
-.favorite{
-    color: #f13426!important;
+
+.favorite {
+    color: #f13426 !important;
 }
-.toggle-favorite i{
+
+.toggle-favorite i {
     border-bottom: 1px dotted #0a70f8;
 }
-.toggle-favorite i:hover{
-    color: #f13426!important;
+
+.toggle-favorite i:hover {
+    color: #f13426 !important;
     border-bottom: 1px dotted #f13426;
 }
 
-div.box div.flag i{
+div.box div.flag i {
     position: absolute;
     left: -14px;
     top: 6px;
 }
+
 /*border: thin solid darkgray;*/
-div.box div.box-content div.title{
+div.box div.box-content div.title {
     padding-bottom: 5px;
 }
-div.box div.box-content div.data{
+
+div.box div.box-content div.data {
     padding-bottom: 5px;
 }
-div.box div.box-content div.data div{
+
+div.box div.box-content div.data div {
     display: inline-block;
 }
-div.box div.box-content div.data div:nth-child(1){
+
+div.box div.box-content div.data div:nth-child(1) {
     width: 30%;
 }
-div.box div.box-content div.data div:nth-child(2){
+
+div.box div.box-content div.data div:nth-child(2) {
     width: 66.5%;
 }
+
 /*div.box div.box-content div.data div:nth-child(3){
     width: 22%;
 }*/
-.more-info{
+.more-info {
     cursor: pointer;
     left: 5px;
     position: absolute;
     text-shadow: 0 1px #a5a5a5;
     top: 2px;
 }
-div.box div.box-content div.sinapsis{
+
+div.box div.box-content div.sinapsis {
     color: #6f6f6f;
     text-align: justify;
     height: 120px;
     padding: 0px 0px 10px 0px;
+    font-weight: 400;
 }
-div.box div.box-content div.controls audio{
+
+div.box div.box-content div.controls audio {
     width: 100%;
 }
-div.box div.box-content div.score{
+
+div.box div.box-content div.score {
     padding-top: 10px;
 }
-div.box div.box-content div.score div.comments a{
+
+div.box div.box-content div.score div.comments a {
     color: #505a5f;
 }
-div.box div.box-content div.score div.comments a:hover{
+
+div.box div.box-content div.score div.comments a:hover {
     color: dodgerblue;
 }
-div.box div.box-content div.score div.comments label{
+
+div.box div.box-content div.score div.comments label {
     /*margin-right: 15px;*/
 }
 
-div.box div.box-content div.score .playeds{
+div.box div.box-content div.score .playeds {
     font-weight: 700;
     margin-right: 15px;
 }
@@ -213,7 +236,8 @@ div.box div.box-footer div.share div a {
 div.box div.box-footer div.share a:hover {
     color: dodgerblue;
 }
-div.box div.option-share{
+
+div.box div.option-share {
     background-color: #4285f4;
     bottom: -40px;
     padding: 10px 0px;
@@ -224,54 +248,72 @@ div.box div.option-share{
     transition: all 0.3s ease-out;
 
 }
-.option-share-up{
-    bottom: 0px!important;
+
+.option-share-up {
+    bottom: 0px !important;
     -webkit-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
-div.box div.option-share div{
+
+div.box div.option-share div {
     display: inline-block;
     text-align: center;
     width: 32.5%;
 }
-div.box div.option-share span.fa-times{
-    position:absolute;
-    right:5px;
+
+div.box div.option-share span.fa-times {
+    position: absolute;
+    right: 5px;
     top: 2px;
     color: #2b6ad2;
     cursor: pointer;
 }
-div.box div.option-share span.fa-times:hover{
+
+div.box div.option-share span.fa-times:hover {
     color: #FFFFFF;
 }
-div.box div.option-share div a{
+
+div.box div.option-share div a {
     color: whitesmoke;
 }
 
-div.rate a{
+div.rate a {
     color: #4285f4;
 }
 
-div.rate a:hover{
+div.rate a:hover {
     color: #4285f4;
 }
 
-.no-content{
+.no-content {
     display: table;
     height: 100px;
     width: 100%;
     text-align: center;
     color: #cacaca;
 }
-.no-content span label{
+
+.no-content span label {
     display: block;
 }
-.no-content span{
+
+.no-content span {
     display: table-cell;
     vertical-align: middle;
 }
 
+/**
+Post Track
+**/
 
+.media .media-body {
+    font-size: 1em;
+    font-weight: 400;
+}
+
+.media .media-body h5 {
+    font-weight: 700;
+}
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
@@ -322,21 +364,21 @@ div.rate a:hover{
 
     border-radius: 2em;
 
-    -webkit-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, .1);
 
-    -moz-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, .1);
 
-    box-shadow: 0 1px 0px rgba(0,0,0,.1);
+    box-shadow: 0 1px 0px rgba(0, 0, 0, .1);
 
     background: #f1f1f1;
 
     background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
 
-    background: -moz-linear-gradient(top,  #fff,  #ededed);
+    background: -moz-linear-gradient(top, #fff, #ededed);
 
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie7 */
 
-    -ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie8 */
 
 }
 
@@ -364,11 +406,11 @@ div.rate a:hover{
 
     border-radius: 2em;
 
-    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .2);
 
-    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .2);
 
-    box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .2);
 
 }
 
@@ -384,7 +426,7 @@ div.rate a:hover{
 
     width: 27px;
 
-    text-shadow: 0 1px 1px rgba(0,0,0,.6);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .6);
 
     -webkit-border-radius: 2em;
 
@@ -396,16 +438,39 @@ div.rate a:hover{
 
     background: -webkit-gradient(linear, left top, left bottom, from(#9e9e9e), to(#454545));
 
-    background: -moz-linear-gradient(top,  #9e9e9e,  #454545);
+    background: -moz-linear-gradient(top, #9e9e9e, #454545);
 
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie7 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie7 */
 
-    -ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie8 */
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie8 */
 
 }
 
-button.registrar{
+.comments {
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+button.registrar {
     padding: 5px;
+}
+
+.media .media-body .foot-post{
+    font-size: 0.85em;
+    margin-top: 10px;
+}
+.media .media-body .foot-post span{
+    margin-right: 20px;
+    color: #5a5e56;
+}
+
+.media .media-body .foot-post span a {
+    color: #5a5e56;
+    border-bottom: 1px dotted #5a5e56;
+}
+.media .media-body .foot-post span a:hover {
+    color: #4285f4;
+    border-bottom: 1px dotted #4285f4;
 }
 
 /*

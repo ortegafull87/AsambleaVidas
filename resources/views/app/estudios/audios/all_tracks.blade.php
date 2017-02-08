@@ -27,7 +27,8 @@
 @endsection
 
 @section('content')
-    <div class="track-box-container">
+    <input type="hidden" id="hdn_currentPage" value="2">
+    <div class="track-box-container" data-lastp="{{$audios->lastPage()}}">
          @include('app.estudios.audios.box_track')
     </div>
 @endsection

@@ -4,9 +4,13 @@
 var Audio = {
     _self: null,
     TIME_COUNT_PLAYED: 3.0,
+    LAST_PAGE: 0,
+    SPINNER: '<div class="spiner"><span class="fa fa-2x fa-spinner fa-spin"></span></div>',
+    ajaxDone:true,
     _init: function () {
         _self = Audio;
         _self.events();
+        _self.LAST_PAGE = $("div.track-box-container").data('lastp');
     },
 
     events: function () {
@@ -36,7 +40,7 @@ var Audio = {
             Audio.toggleFavorite(object);
         });//Listener
 
-        $(document).on('click','div.toggle-favorite i',function(object){
+        $(document).on('click', 'div.toggle-favorite i', function (object) {
             Audio.toggleFavorite(object);
         });
         //Listener para registrar en un toast
@@ -56,6 +60,37 @@ var Audio = {
             }
         });
 
+        $(document).on('click', '#btn_post', function (object) {
+            Audio.setPost(object);
+        });
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() === ($(document).height() - $(window).height())) {
+                if(_self.ajaxDone) {
+                    Audio.getTrackPerPage();
+                }
+            }
+        });
+    }
+    ,
+    /**
+     *
+     * @param selector
+     */
+    onSpinner: function (selector) {
+        if (!$('.spiner').length > 0) {
+            $(selector).append(_self.SPINNER);
+            _self.ajaxDone = false;
+        }
+    }
+    ,
+    /**
+     *
+     * @param selector
+     */
+    offSpinner: function (selector) {
+        $('.spiner').remove();
+        _self.ajaxDone = true;
     }
     ,
     /**
@@ -93,6 +128,19 @@ var Audio = {
     ,
     /**
      *
+     */
+    getTrackPerPage: function () {
+        var currentPage = $('#hdn_currentPage');
+        if (currentPage.val() <= _self.LAST_PAGE) {
+            AudioService.ajax.get.trakPerPage(currentPage.val(), function (xhr) {
+                $('.track-box-container').append(xhr.view);
+                currentPage.val((parseInt(currentPage.val())) + 1);
+            });
+        }
+    }
+    ,
+    /**
+     *
      * @param object
      */
     setRate: function (object) {
@@ -111,6 +159,26 @@ var Audio = {
                     stack: false,
                     icon: 'info'
                 });//toast
+            }//if
+        });//AudioService
+    }
+    ,
+    /**
+     *
+     * @param object
+     */
+    setPost: function (object) {
+        var post = $('input#txt_post');
+        var url = post.data('url');
+        var data = {
+            "comment": post.val(),
+            "postTrackParentId": 0,
+        };
+        AudioService.set.post(url, data, function (xhr) {
+            if (xhr != null) {
+                var response = JSON.parse(xhr.responseText);
+                $('.comments').prepend(response.view);
+                post.val('');
             }//if
         });//AudioService
     }

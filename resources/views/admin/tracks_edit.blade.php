@@ -86,6 +86,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-external-link-square"></i></span>
+                                <input name="trk_url" class="form-control" type="url"  placeholder="link del repositorio externo del audio" value="{{$pistas[0]->remote_repository}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="trk_sketch" class="form-group btn-block" placeholder="Ingresa una breve reseña de este material">
+                                {{$pistas[0]->sketch}}
+                            </textarea>
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputEmail1">{{ trans('adminlte_lang::message.actualTrackAdmEditTrack') }}</label>
                             <a class="audio {skin:'blue', animate:true, width:'100%', volume:0.8, autoplay:false, loop:false}"
                                href="{{ url($paht.'/'.$pistas[0]->folder.'/'.$pistas[0]->file) }}">{{$pistas[0]->title}}</a>

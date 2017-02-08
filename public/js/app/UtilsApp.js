@@ -41,5 +41,14 @@ var Util = {
             console.info(xhr);
         }
     }
+    ,
+    /**
+     * 
+     * @param id
+     * @param html
+     */
+    insertPost:function(html){
+        $('.comments').prepend(html);
+    }
 };
 $(document).ready(Util._init);

@@ -1,7 +1,8 @@
 @foreach($audios as $audio)
     <div id="box_{{$audio->id}}" class="box">
         <div class="more-info text-right" data-toggle="tooltip" data-placement="right" title="Más información.">
-            <i class="fa fa-info-circle fa"></i>
+            <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}"><i class="fa fa-info-circle"
+                                                                                style="font-size: 18px;"></i></a>
         </div>
         <div class="flag" data-url="{{asset('estudios/audios/'.$audio->id.'/toggleFavorite')}}"
              data-titulo="{{$audio->title}}" title="Agregar a mis favoritos">
@@ -11,9 +12,14 @@
                 <i class="fa fa-heart fa-2x" aria-hidden="true"></i>
             @endif
         </div>
-        <div class="box-top"
-             style="background-image: url('{{asset('img/app/tracks/Template-Pista-Vivelatorah.png')}}')">
-        </div>
+    @if(empty($audio->albume_picture))
+        <!--<div class="box-top" style="background-image: url('https://images.alphacoders.com/689/thumb-350-689704.jpg')"></div>-->
+            <div class="box-top"
+                 style="background-image: url('{{asset(env('URL_BASE_ALBUMES').'default.jpg')}}'); background-size: cover;"></div>
+        @else
+            <div class="box-top"
+                 style="background-image: url('{{asset(env('URL_BASE_ALBUMES').$audio->albume_picture)}}');background-size: cover;"></div>
+        @endif
         <div class="box-content">
             <div class="title" title="{{$audio->title}}">
                 <label title="Super Title">{{$audio->title}}</label>
@@ -30,8 +36,8 @@
             </div>
             <div class="sinapsis">
                 @if(strlen($audio->description)>0)
-                    <?php echo str_limit($audio->description,215)?>
-                    @if(strlen($audio->description)>215)
+                    <?php echo str_limit($audio->sketch, 215)?>
+                    @if(strlen($audio->sketch)>215)
                         <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}">Seguir leyendo</a>
                     @endif
                 @else
@@ -77,10 +83,18 @@
                     </a>-->
                 </div>
                 <div>
-                    <a href="#" title="Descargar">
-                        <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                        Descargar
-                    </a>
+                    @if(empty($audio->remote_repository))
+                        <a href="#" title="Descargar">
+                            <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                            Descargar
+                        </a>
+                    @else
+                        <a href="{{env('URL_GOOGLE_REPOSITORY').'='.explode('=',$audio->remote_repository)[1]}}"
+                           title="Descargar" target="_blank">
+                            <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                            Descargar
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -12,7 +12,7 @@
 
         .login-box-msg i {
             font-size: 60px;
-
+            color: #046a96;
             -ms-transform: rotate(-13deg); /* IE 9 */
             -webkit-transform: rotate(-13deg); /* Safari */
             transform: rotate(-13deg); /* Standard syntax */
@@ -25,8 +25,8 @@
     <body class="hold-transition login-page" data-base="{{ asset('/') }}">
     <div class="login-box">
         <div class="login-logo">
-            <span class="logo-lg"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="40"></span><a
-                    href="{{ url('/home') }}"><b>vivela</b>tor&aacute;h</a>
+            <span class="logo-lg"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="50"></span><a
+                    href="{{ url('/home') }}"><b style="color:#046a96;">vivela</b><span style="color:#00abf4;">Toráh</span></a>
         </div><!-- /.login-logo -->
 
         @if (count($errors) > 0)

@@ -19,7 +19,7 @@ return [
     'remember'                => 'Recuérdame',
     'buttonsign'              => 'Entrar',
     'forgotpassword'          => 'Olvidé mi contraseña',
-    'registermember'          => 'Registar un nuevo miembro',
+    'registermember'          => 'Registro nuevo usuario',
     'terms'                   => 'Estoy de acuerdo',
     'conditions'              => 'Términos y Condiciones',
     'register'                => 'Registro',
@@ -125,6 +125,7 @@ return [
     'password'                => 'Contraseña',
     'retrypepassword'         => 'Vuelva a escribir la contraseña',
     'fullname'                => 'Nombre completo',
+    'firstname'               => 'Nombre',
 
     //COMUN ADMIN MODULE
     'btnActualizarAdm'        => 'Actualizar',

@@ -9,6 +9,7 @@ return array(
     'AddDescriptionToAlbumesTable' => $baseDir . '/database/migrations/2016_11_11_035223_add_description_to_albumes_table.php',
     'AddDescriptionToTracksTable' => $baseDir . '/database/migrations/2016_11_11_035158_add_description_to_tracks_table.php',
     'AddEmailsToAuthorsTable' => $baseDir . '/database/migrations/2016_11_04_022805_add_emails_to_authors_table.php',
+    'AddFieldRemoteRepositoryToTracksTable' => $baseDir . '/database/migrations/2017_02_01_205207_add_field_remoteRepository_to_tracks_table.php',
     'AddFieldsToProfilesTable' => $baseDir . '/database/migrations/2016_11_11_043122_add_fields_to_profiles_table.php',
     'AddFolderToAlbumesTable' => $baseDir . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
     'AddPictureStatusidToAlbumeTable' => $baseDir . '/database/migrations/2016_11_17_062056_add_picture_statusid_to_albume_table.php',

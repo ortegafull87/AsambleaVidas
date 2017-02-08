@@ -2,7 +2,6 @@
 <html>
 
 @include('layouts.partials.htmlheader')
-
 @yield('content')
 
 </html>

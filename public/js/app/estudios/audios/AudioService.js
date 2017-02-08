@@ -16,7 +16,7 @@ var AudioService = {
             });
         },
         /**
-         * Agre el track a favoritos
+         * Agrega el track a favoritos
          * @param url
          * @param callback
          */
@@ -24,25 +24,45 @@ var AudioService = {
             /*$.post(url, function (data) {
              callback(data);
              });*/
-            AudioService.ajax.post(url, callback);
+            AudioService.ajax.post(url, {}, callback);
         }
         ,
+        /**
+         * Agrega un registro a la lista de listeneds
+         * (Reproducidos)
+         * @param url
+         * @param callback
+         */
         listened: function (url, callback) {
             $.post(url, function (data) {
                 callback(data.message);
             });
         }
+        ,
+        post: function (url, data, callback) {
+            AudioService.ajax.post(url, data, callback)
+        }
+
     }
     ,
     ajax: {
-        get: function () {
+        get: {
+            trakPerPage: function (page, callback) {
+                _self.onSpinner('.track-box-container');
+                $.post('http://localhost:8000/estudios/audios/perPage?page=' + page, function (xhr) {
+                    _self.offSpinner();
+                    callback(xhr);
+
+                });
+            }
 
         }
         ,
-        post: function (url, callback) {
+        post: function (url, data, callback) {
             $.ajax({
                 type: "POST",
-                url: url
+                url: url,
+                data: data
                 ,
                 complete: function (xhr) {
                     Util.response(xhr, callback);

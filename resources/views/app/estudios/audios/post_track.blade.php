@@ -60,26 +60,32 @@
                     @endif
                 </div>
                 <div class="box-footer clearfix">
+                    <!-- Code here -->
+                </div>
+            </div><!-- /Box-info -->
+            <div class="box box-default">
+                <div class="box-header with-border">
                     <div class="do-comment">
-
                         <div class="input-group">
                                 <span class="input-group-addon" style="padding: 0;">
-                                                            <img alt="32x32" class="media-object"
-                                                                 data-src="holder.js/32x32"
-                                                                 style="width: 32px; height: 32px;"
-                                                                 src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTlkZThlMjQ2MiB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1OWRlOGUyNDYyIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxNCIgeT0iMzYuNSI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4="
-                                                                 data-holder-rendered="true">
+                                    <img src="{{asset('/img/avatar3.png')}}" height="32" width="32">
                                 </span>
-                            <input type="text" class="form-control" placeholder="Añade un comentario...">
+                            <input id='txt_post'
+                                   data-url="{{asset('estudios/audios/post/'.$audio->id.'/setPostTrack')}}" type="text"
+                                   class="form-control" placeholder="Añade un comentario...">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat">Comentar</button>
+                                <button id='btn_post' type="button" class="btn btn-info btn-flat">Comentar</button>
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="box-body">
                     <div class="comments">
-                        @include('app.comun.comments')
+                        @include('app.comun.post')
                     </div>
-
+                </div>
+                <div class="box-footer clearfix text-center">
+                    <button type="button" class="btn btn-default">Mostrar más</button>
                 </div>
             </div>
         </div><!-- /Section -->

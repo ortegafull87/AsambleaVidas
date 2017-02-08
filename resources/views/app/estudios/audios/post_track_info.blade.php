@@ -8,8 +8,15 @@
                         Compartir</a>
                 </div>
                 <div class="col-xs-5 text-right">
-                    <a href="#"><i class="ion-android-download" aria-hidden="true"></i>
-                        Descargar</a>
+                    @if(empty($audio->remote_repository))
+                        <a href="#"><i
+                                    class="ion-android-download" aria-hidden="true"></i>
+                            Descargar</a>
+                    @else
+                        <a href="{{env('URL_GOOGLE_REPOSITORY').'='.explode('=',$audio->remote_repository)[1]}}" target="_blank"><i
+                                    class="ion-android-download" aria-hidden="true"></i>
+                            Descargar</a>
+                    @endif
                 </div>
             </div>
         </th>

@@ -47,10 +47,9 @@
                 <div class="box-body">
                     <form id='edit_albume' action="{{ url('/admin/albumes/'.$albume[0]->id) }}" method="post"
                           enctype="multipart/form-data">
-                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-folder-open"></i></span>
-                            <input class="form-control" placeholder="Titulo" type="text" name="title"
+                            <input id="title" class="form-control" placeholder="Titulo" type="text" name="title"
                                    value="{{$albume[0]->title}}" required>
                         </div>
                         <br>
@@ -68,6 +67,10 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <br>
+                        <div class="box-top" style="background-image: url('{{asset(env('URL_BASE_ALBUMES').$albume[0]->picture)}}');background-size: cover;">
+
                         </div>
                         <br>
                         <div class="input-group">
@@ -104,5 +107,6 @@
 @endsection
 @section('view.scripts')
     <!-- script file here -->
+    <script src="{{ asset('/js/app/Setup.js') }}"></script>
     <script src="{{ asset('/js/admin/EditAlbume.js') }}" type="text/javascript"></script>
 @endsection

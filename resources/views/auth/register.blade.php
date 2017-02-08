@@ -9,7 +9,7 @@
     <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <span class="logo-lg"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="40"></span><a href="{{ url('/home') }}"><b>vivela</b>tor&aacute;h</a>
+            <span class="logo-lg"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="50"></span><a href="{{ url('/home') }}"><b style="color:#046a96;">vivela</b><span style="color:#00abf4;">Toráh</span></a>
         </div>
 
         @if (count($errors) > 0)

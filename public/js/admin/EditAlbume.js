@@ -7,7 +7,6 @@ var EditAlbume = {
     ,
     events: function () {
         $('#edit_albume').submit(function (object) {
-            object.preventDefault();
             EditAlbume.EditAlbume(object)
         });
 
@@ -30,11 +29,15 @@ var EditAlbume = {
         object.preventDefault();
         var actionForm = $(object.target).attr('action');
         var description = $('#alb_description').val();
-        var dataString = $(object.target).serialize() + '&description=' + description;
+        var data = new FormData($("#edit_albume")[0]);
+        data.append('_method', 'patch');
+        data.append('description',description)
         $.ajax({
             url: actionForm,
-            method: 'PATCH',
-            data: dataString
+            method: 'POST',
+            data: data,
+            processData: false,
+            contentType: false
             ,
             complete: function (xhr) {
 

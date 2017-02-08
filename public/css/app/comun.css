@@ -156,7 +156,8 @@ div.box div.flag i {
 
 /*border: thin solid darkgray;*/
 div.box div.box-content div.title {
-    padding-bottom: 5px;
+    /*padding-bottom: 5px;*/
+    font-size: 20px;
 }
 
 div.box div.box-content div.data {
@@ -313,6 +314,12 @@ Post Track
 
 .media .media-body h5 {
     font-weight: 700;
+}
+
+.spiner {
+    width: 100%!important;
+    text-align: center;
+    color: #007db3;
 }
 
 /* Extra small devices (phones, less than 768px) */

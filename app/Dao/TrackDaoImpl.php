@@ -29,6 +29,8 @@ class TrackDaoImpl implements TrackDao
      */
     private $ROWS_BY_PAGE;
 
+    private $SELECT_TRACKS = null;
+
     /**
      * @var string
      */
@@ -103,7 +105,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function Read(BasicRequest $request)
     {
-        LOG::info(TrackDaoImpl::class);
+        Log::debug(TrackDaoImpl::class);
 
         try {
 
@@ -149,8 +151,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function update(BasicRequest $request)
     {
-        LOG::info(TrackDaoImpl::class);
-        Log::debug($request->getData());
+        Log::debug(TrackDaoImpl::class);
         try {
             Track::where('id', $request->getId())->update($request->getData());
         } catch (\Exception $e) {
@@ -166,7 +167,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function delete(BasicRequest $request)
     {
-        LOG::info(TrackDaoImpl::class);
+        Log::debug(TrackDaoImpl::class);
         try {
             return Track::where('id', $request->getId())->delete();
         } catch (\Exception $e) {
@@ -177,7 +178,7 @@ class TrackDaoImpl implements TrackDao
 
     public function deleteTracks($ids)
     {
-        LOG::info(TrackDaoImpl::class);
+        Log::debug(TrackDaoImpl::class);
         try {
             return DB::table('tracks')->whereIn('id', $ids)->delete();
         } catch (\Exception $e) {
@@ -188,7 +189,7 @@ class TrackDaoImpl implements TrackDao
 
     public function getTrackByDelete($id)
     {
-        LOG::info(TrackDaoImpl::class);
+        Log::debug(TrackDaoImpl::class);
         try {
             return DB::table('tracks')
                 ->join('authors', 'tracks.author_id', '=', 'authors.id')
@@ -205,9 +206,9 @@ class TrackDaoImpl implements TrackDao
 
     public function deleteTrackById($id)
     {
-        LOG::info(TrackDaoImpl::class);
-        LOG::info('deleteTrackById');
-        LOG::info($id);
+        Log::debug(TrackDaoImpl::class);
+        Log::debug('deleteTrackById');
+        Log::debug($id);
         try {
             return Track::find($id)->delete();
         } catch (\Exception $e) {
@@ -222,7 +223,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function getAllAudioForUser(BasicRequest $request)
     {
-        Log::info('Inicia getAllAudioForUser desde' . AudioDao::class);
+        Log::debug('Inicia getAllAudioForUser desde' . AudioDao::class);
         $this->idUser = $request->getData()['idUser'];
         try {
             return DB::table('tracks as t')
@@ -259,10 +260,10 @@ class TrackDaoImpl implements TrackDao
      */
     public function getAllAudioForVisitants(BasicRequest $request)
     {
-        Log::info('Inicia getAllAudioForVisitants desde' . AudioDao::class);
+        Log::debug('Inicia getAllAudioForVisitants desde' . AudioDao::class);
         try {
-            Log::info("Rows by page");
-            Log::info($this->ROWS_BY_PAGE);
+            Log::debug("Rows by page");
+            Log::debug($this->ROWS_BY_PAGE);
             return DB::table('tracks as t')
                 ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_VISIT))
                 ->join('authors as au', 't.author_id', '=', 'au.id')
@@ -294,7 +295,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function toggleFavoriteTrack(BasicRequest $request)
     {
-        Log::info('Inicia toggleFavoriteTrack desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia toggleFavoriteTrack desde: ' . TrackDaoImpl::class);
         try {
             return Favorite::where('track_id', $request->getId())
                 ->where('user_id', $request->getData()['idUser'])
@@ -311,7 +312,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function isFavorite(BasicRequest $request)
     {
-        Log::info('Inicia isFavorite desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia isFavorite desde: ' . TrackDaoImpl::class);
         try {
             return Favorite::where('track_id', $request->getId())
                 ->where('user_id', $request->getData()['idUser'])
@@ -328,7 +329,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function setFavorit(BasicRequest $request)
     {
-        Log::info('Inicia setFavorit desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia setFavorit desde: ' . TrackDaoImpl::class);
         try {
             $favorito = new Favorite;
             $favorito->track_id = $request->getId();
@@ -347,7 +348,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function isRateBefore(BasicRequest $request)
     {
-        Log::info('Inicia isRateBefore desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia isRateBefore desde: ' . TrackDaoImpl::class);
         try {
             if ($request->getData()['idUser'] > 0) {
                 return RatingTrack::where('user_id', $request->getData()['idUser'])
@@ -370,7 +371,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function setRate(BasicRequest $request)
     {
-        Log::info('Inicia setRate desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia setRate desde: ' . TrackDaoImpl::class);
         try {
             $ratingTrack = new RatingTrack;
             $ratingTrack->track_id = $request->getId();
@@ -390,7 +391,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function modifyRate(BasicRequest $request)
     {
-        Log::info('Inicia modifyRate desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia modifyRate desde: ' . TrackDaoImpl::class);
         try {
             if ($request->getData()['idUser'] > 0) {
                 return RatingTrack::where('user_id', '=', $request->getData()['idUser'])
@@ -414,7 +415,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function setListened(BasicRequest $request)
     {
-        Log::info('Inicia setListened desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia setListened desde: ' . TrackDaoImpl::class);
         try {
             $listened = new Listened;
             $listened->track_id = $request->getId();
@@ -434,13 +435,13 @@ class TrackDaoImpl implements TrackDao
      */
     public function getPostsTrack(BasicRequest $request)
     {
-        Log::info('Inicia getPostsTrack desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia getPostsTrack desde: ' . TrackDaoImpl::class);
         try {
             return DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
                 ->select('post_track.*', 'users.name')
                 ->where('post_track.track_id', '=', $request->getId())
-                ->where('post_track.status_id','=', Constantes::STATUS_ACTIVE)
+                ->where('post_track.status_id', '=', Constantes::STATUS_ACTIVE)
                 ->orderBy('post_track.created_at', 'DESC')
                 ->paginate(10);
 
@@ -455,7 +456,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function getLastPostTrack($id)
     {
-        Log::info('Inicia getLastPostTrack desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia getLastPostTrack desde: ' . TrackDaoImpl::class);
         try {
             return DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
@@ -475,7 +476,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function setPostTrack(BasicRequest $request)
     {
-        Log::info('Inicia setPostTrack desde: ' . TrackDaoImpl::class);
+        Log::debug('Inicia setPostTrack desde: ' . TrackDaoImpl::class);
         try {
             if (empty($request->getData()['comment'])) {
                 new Exception("El comentario es necesario para esta acción");
@@ -495,4 +496,107 @@ class TrackDaoImpl implements TrackDao
         }
     }
 
+    /**
+     * Obtiene la cantidad de tracks dado un id
+     * de estado.
+     * @param $id
+     * @return mixed
+     */
+    public function getCountTracks($id)
+    {
+        Log::debug('Inicia getCountTracks desde: ' . TrackDaoImpl::class);
+        try {
+            return Track::where('status_id', '=', $id)->count();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Obtiene una lista de tracks deacuerdo a un filtro
+     * selecionado
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getSmartListTracks(BasicRequest $request)
+    {
+        // TODO: Implement getSmartListTracks() method.
+    }
+
+    /**
+     * Cabia de estado un track
+     * @param $id
+     * @return mixed
+     */
+    public function updateStatusTrack(BasicRequest $request)
+    {
+        Log::debug('Inicia updateStatusTrack desde: ' . TrackDaoImpl::class);
+        try {
+            return Track::where('id', '=', $request->getId())
+                ->update(['status_id' => $request->getData()['statusId']]);
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Actualiza la información de un track
+     * como titulo, skect, description y lo pones
+     * en estatus para revisión.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updateTrackInReview(BasicRequest $request)
+    {
+        // TODO: Implement updateTrackInReview() method.
+    }
+
+    /**
+     * Autoriza un track para su publicacion definitiva en al app
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function autorizeTrackInReview(BasicRequest $request)
+    {
+        // TODO: Implement autorizeTrackInReview() method.
+    }
+
+    private function elementary_select_tracks()
+    {
+        Log::debug('Inicia elementary_select_tracks desde: ' . TrackDaoImpl::class);
+        try {
+            return DB::table('tracks')
+                ->join('authors', 'tracks.author_id', '=', 'authors.id')
+                ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+                ->select(
+                    'tracks.*',
+                    'authors.firstName',
+                    'authors.lastName',
+                    'albumes.title as titleAlbume',
+                    'Albumes.genre');
+
+        } catch (\Exception $ex) {
+            throw new Exception($ex);
+        }
+
+    }
+
+    /**
+     * Obtiene una lista de tracks por estado
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getListTracksByState(BasicRequest $request)
+    {
+        Log::debug('Inicia getListTracksByState desde: ' . TrackDaoImpl::class);
+        try{
+            $tracks = $this->elementary_select_tracks();
+            return $tracks
+                ->where('tracks.status_id', '=', $request->getData()['statusId'])
+                ->paginate($request->getData()['rows_by_page']);
+        }catch(\Exception $ex){
+            throw new DAOException($ex);
+        }
+    }
+    
 }

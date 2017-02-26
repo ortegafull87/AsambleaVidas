@@ -84,4 +84,21 @@ div.box-top {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.no-content {
+    display: table;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    color: #cacaca;
+}
+
+.no-content span label {
+    display: block;
+}
+
+.no-content span {
+    display: table-cell;
+    vertical-align: middle;
+}
 /*========================== COMUNES ========================*/

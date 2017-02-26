@@ -42,6 +42,22 @@ var Util = {
         }
     }
     ,
+    responseError:function(xhr){
+        if (typeof(xhr.responseText) === 'string') {
+            Util.response(xhr, callback);
+        } else {
+            $.toast({
+                heading: 'Ups! lo sentimos :(',
+                text: 'Tubimos un inconveninete',
+                position: 'mid-center',
+                stack: false,
+                icon: 'error',
+                hideAfter: 6000
+            });//toast
+            console.info(xhr);
+        }
+    }
+    ,
     /**
      * 
      * @param id

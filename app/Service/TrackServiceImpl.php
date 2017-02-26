@@ -13,6 +13,7 @@ use App\Beans\ServiceResponse;
 use App\Dao\TrackDaoImpl as TrackDao;
 use App\Beans\BasicRequest;
 use App\Dao\AlbumeDaoImpl as AlbumeDao;
+use App\Dao\TrackDaoImpl;
 use App\Exceptions\DAOException;
 use App\Library\Constantes;
 use DB;
@@ -61,7 +62,7 @@ class TrackServiceImpl implements TrackService
      */
     public function update(BasicRequest $request)
     {
-        LOG::info(TrackServiceImpl::class);
+        Log::debug(TrackServiceImpl::class);
         $URL_BASE_AUDIOFILES = env('URL_BASE_AUDIOFILES');
         $serviceResponse = new ServiceResponse();
         try {
@@ -74,8 +75,8 @@ class TrackServiceImpl implements TrackService
             $upDateTrack = Array();
 
             if ($httpRequest->hasFile('file')) {//Actualización con archivo
-                LOG::info('Actualización con archivo');
-                LOG::info('Contruyendo array de cambios');
+                Log::debug('Actualización con archivo');
+                Log::debug('Contruyendo array de cambios');
 
                 if ($track[0]->title != $data['title']) {
                     $upDateTrack = Array('title' => $data['title'], 'file' => $data['title'] . '.mp3');
@@ -93,7 +94,7 @@ class TrackServiceImpl implements TrackService
                     $upDateTrack = Array('remote_repository' => $data['remote_repository']) + $upDateTrack;
                 }
 
-                LOG::info('Actualizando archivo cargado');
+                Log::debug('Actualizando archivo cargado');
                 //Actualizamos el registro segun lo enviado.
                 $daoBasicRequest = new BasicRequest();
                 $daoBasicRequest->setId($request->getId());
@@ -103,7 +104,7 @@ class TrackServiceImpl implements TrackService
                 //Verificamos si el archivo existe.
                 $carpeta = $URL_BASE_AUDIOFILES . '/' . $track[0]->folder . '/';
                 $file = $carpeta . $track[0]->file;
-                LOG::info($file);
+                Log::debug($file);
                 if (is_file($file)) {
                     if (unlink($file)) {
                         if ($track[0]->idAlbume != $data['albume_id']) {// si la actualización implica un cambio de albume
@@ -133,8 +134,8 @@ class TrackServiceImpl implements TrackService
 
 
             } else {//Actualización si archivo
-                LOG::info('Actualización sin archivo');
-                LOG::info('Construyendo array de cambios.');
+                Log::debug('Actualización sin archivo');
+                Log::debug('Construyendo array de cambios.');
                 if ($track[0]->title != $data['title']) {
                     $upDateTrack = Array('title' => $data['title'], 'file' => $data['title'] . '.mp3');
                 }
@@ -161,7 +162,7 @@ class TrackServiceImpl implements TrackService
                 if ($track[0]->title != $data['title']) {
 
                     $carpeta = $URL_BASE_AUDIOFILES . '/' . $track[0]->folder . '/';
-                    LOG::info($carpeta . $track[0]->file);
+                    Log::debug($carpeta . $track[0]->file);
 
                     //Verificamos si el archivo existe.
                     if (is_file($carpeta . $track[0]->file)) {
@@ -212,7 +213,7 @@ class TrackServiceImpl implements TrackService
      */
     public function delete(BasicRequest $request)
     {
-        LOG::info(TrackServiceImpl::class);
+        Log::debug(TrackServiceImpl::class);
         $serviceResponse = new ServiceResponse();
         $array_deleted = array();
         try {
@@ -266,14 +267,13 @@ class TrackServiceImpl implements TrackService
      */
     public function getAllAudioForUser(BasicRequest $request)
     {
-        Log::info('Obteniendo todo los audios desde  getAllAudioForUser en: ' . TrackServiceImpl::class);
+        Log::debug('Obteniendo todo los audios desde  getAllAudioForUser en: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->getAllAudioForUser($request);
         } catch (DAOException $dex) {
-            Log::error($dex);
-            throw DAOException($dex->getMessage());
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw ServiceException($dex->getMessage());
         } catch (Exception $ex) {
-            Log::error($ex);
             throw ServiceException($ex->getMessage());
         }
     }
@@ -285,14 +285,13 @@ class TrackServiceImpl implements TrackService
      */
     public function getAllAudioForVisitants(BasicRequest $request)
     {
-        Log::info('Obteniendo todo los audios desde getAllAudioForVisitants en: ' . TrackServiceImpl::class);
+        Log::debug('Obteniendo todo los audios desde getAllAudioForVisitants en: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->getAllAudioForVisitants($request);
         } catch (DAOException $dex) {
-            Log::error($dex);
-            throw DAOException($dex->getMessage());
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw ServiceException($dex->getMessage());
         } catch (Exception $ex) {
-            Log::error($ex);
             throw ServiceException($ex->getMessage());
         }
     }
@@ -305,12 +304,12 @@ class TrackServiceImpl implements TrackService
      */
     public function toggleFavoriteTrack(BasicRequest $request)
     {
-        Log::info('Inicia toggleFavoriteTrack desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia toggleFavoriteTrack desde: ' . TrackServiceImpl::class);
         try {
             $idUser = $request->getData()['idUser'];
             $isFavorite = $this->trackDao->isFavorite($request);
             if (count($isFavorite) > 0) {
-                Log::info(count($isFavorite));
+                Log::debug(count($isFavorite));
                 if ($isFavorite[0]->status_id == Constantes::STATUS_INACTIVE) {
                     $request->setData(['idStatus' => Constantes::STATUS_ACTIVE, 'idUser' => $idUser]);
                     $this->trackDao->toggleFavoriteTrack($request);
@@ -326,10 +325,9 @@ class TrackServiceImpl implements TrackService
                 return Constantes::STATUS_ACTIVE;
             }
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
-            Log::error("Error desde Service");
             throw new ServiceException($ex);
         }
     }
@@ -341,7 +339,7 @@ class TrackServiceImpl implements TrackService
      */
     public function setRate(BasicRequest $request)
     {
-        Log::info('Inicia setRate desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia setRate desde: ' . TrackServiceImpl::class);
         try {
             if (count($this->trackDao->isRateBefore($request)) > 0) {
                 return $this->trackDao->modifyRate($request);
@@ -349,10 +347,9 @@ class TrackServiceImpl implements TrackService
                 return $this->trackDao->setRate($request);
             }
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
-            Log::error("Error desde Service");
             throw new ServiceException($ex);
         }
     }
@@ -365,14 +362,13 @@ class TrackServiceImpl implements TrackService
      */
     public function setListened(BasicRequest $request)
     {
-        Log::info('Inicia setListened desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia setListened desde: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->setListened($request);
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
-            Log::error("Error desde Service");
             throw new ServiceException($ex);
         }
     }
@@ -384,14 +380,13 @@ class TrackServiceImpl implements TrackService
      */
     public function getPostsTrack(BasicRequest $request)
     {
-        Log::info('Inicia getPostsTrack desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia getPostsTrack desde: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->getPostsTrack($request);
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
-            Log::error("Error desde Service");
             throw new ServiceException($ex);
         }
     }
@@ -402,11 +397,11 @@ class TrackServiceImpl implements TrackService
      */
     public function getLastPostTrack($id)
     {
-        Log::info('Inicia getLastPostTrack desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia getLastPostTrack desde: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->getLastPostTrack($id);
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
             throw new ServiceException($ex);
@@ -420,16 +415,97 @@ class TrackServiceImpl implements TrackService
      */
     public function setPostTrack(BasicRequest $request)
     {
-        Log::info('Inicia setPostTrack desde: ' . TrackServiceImpl::class);
+        Log::debug('Inicia setPostTrack desde: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->setPostTrack($request);
 
         } catch (DAOException $dao) {
-            Log::error("Error desde DAO");
+            Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
         } catch (\Exception $ex) {
             throw new ServiceException($ex);
         }
     }
 
+    /**
+     * Obtiene el conteo de los diferentes estados de un track
+     * dado un array de estados.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getCountTracksFilters(Array $data)
+    {
+        Log::debug('Inicia getCountTracksFilters desde: ' . TrackServiceImpl::class);
+        try {
+            foreach ($data as $index => $filter){
+                Log::debug($filter['genre']);
+                $data[$index]['count'] = $this->trackDao->getCountTracks($filter['id']);
+            }
+            return $data;
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Cabia de estado un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updateStatusTrack(BasicRequest $request)
+    {
+        Log::debug('Inicia updateStatusTrack desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->updateStatusTrack($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Actualiza la información de un track
+     * como titulo, skect, description y lo pones
+     * en estatus para revisión.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updateTrackInReview(BasicRequest $request)
+    {
+        // TODO: Implement updateTrackInReview() method.
+    }
+
+    /**
+     * Autoriza un track para su publicacion definitiva en al app
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function autorizeTrackInReview(BasicRequest $request)
+    {
+        // TODO: Implement autorizeTrackInReview() method.
+    }
+
+
+    /**
+     * Obtiene una lista de tracks por estado
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getListTracksByState(BasicRequest $request)
+    {
+        Log::debug('Inicia getListTracksByState desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getListTracksByState($request);
+        } catch (DAOException $dao) {
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+    
 }

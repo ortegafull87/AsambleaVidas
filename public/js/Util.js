@@ -174,6 +174,15 @@ var Util = {
             }
         });
     }
+    ,
+
+    /**
+     * Abre una url dada en la pagina actual
+     * @param url
+     */
+    openUrl:function (url) {
+        window.location.href=url;
+    }
 
 
 };

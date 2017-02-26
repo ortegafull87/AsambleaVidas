@@ -1,6 +1,7 @@
 var Track = {
 
     _init: function () {
+        Track.events();
         Util.setActiveSideMenu('admin/tracks');
         Track.resizeContents();
         $('body').on('click', 'a', Track.tracksFormActions);
@@ -14,8 +15,19 @@ var Track = {
 
     }
     ,
+    events: function () {
+        $(document).on('click', 'td.review_action button', function (object) {
+            var action = $(object.target).data('action');
+            if (action === "revisar" || action === "actualizar") {
+                alert(action);
+            } else if (action === "activar") {
+                Track.activar(object);
+            }
+        });
+    }
+    ,
     resizeContents: function () {
-        var dif = 240;
+        var dif = 300;
         var wh = $(window).height();
         var ventana_H = wh - dif;
         $('#cont_tracks').slimScroll({
@@ -61,9 +73,9 @@ var Track = {
                 if (xhr.status >= 200 && xhr.status < 202) {
                     console.log(xhr.responseJSON);
                     Util.showAlert('alert-success', xhr.responseJSON.message);
-                    for(var item in xhr.responseJSON.data){
+                    for (var item in xhr.responseJSON.data) {
                         // Se eliminan las pistas seleccionadas
-                        $('tr#'+xhr.responseJSON.data[item]).fadeOut();
+                        $('tr#' + xhr.responseJSON.data[item]).fadeOut();
                     }
 
                 } else if (xhr.status >= 202 && xhr.status <= 210) {
@@ -77,12 +89,12 @@ var Track = {
             ,
             error: function (xhr) {
 
-                if(xhr.status === 500){
+                if (xhr.status === 500) {
 
                     Util.showAlert('alert-danger', Messages.es.ERROR_500);
                     console.log(xhr);
 
-                }else if (typeof(xhr.responseText) === 'string') {
+                } else if (typeof(xhr.responseText) === 'string') {
                     console.debug(xhr);
                     var response = JSON.parse(xhr.responseText);
                     console.log(Messages.es.ERROR_UPDATED);

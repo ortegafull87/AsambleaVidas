@@ -21,6 +21,14 @@ Route::resource('admin/authors', 'AuthorAdmController');
 Route::resource('admin/albumes', 'AlbumAdmController');
 Route::resource('admin/users', 'UserAdmController');
 
+//Review
+Route::get('admin/review/',['uses' => 'TrackAdmController@getListTracksByState']);
+Route::get('admin/review/{filter}/tracks',['uses' => 'TrackAdmController@getListTracksByFilter']);
+Route::get('admin/review/{filter}/track/to/autorize',['uses' => 'TrackAdmController@getTrackForReview']);
+Route::get('admin/review/{filter}/track/to/update',['uses' => 'TrackAdmController@getTrackForUpdate']);
+Route::post('admin/track/{id}/autorize',['uses' => 'TrackAdmController@setAutorizeTrack']);
+Route::post('admin/tracks/review/{id}/{status}/update',['uses' => 'TrackAdmController@updateStatusTrack']);
+
 // route confirm acount.
 Route::get('acount/new/{id}/goconfirm', ['uses' => 'UserAdmController@goConfirm']);
 Route::get('acount/new/{id}/{token}/confirm', ['uses' => 'UserAdmController@confirm']);
@@ -38,3 +46,6 @@ Route::post('estudios/audios/{id}/setListened', ['uses' => 'Aplication\Estudios\
 Route::get('estudios/audios/post/{id}/track', ['uses' => 'Aplication\Estudios\AudioController@getPostTrack']);
 Route::post('estudios/audios/post/{id}/setPostTrack', ['uses' => 'Aplication\Estudios\AudioController@setPostTrack']);
 Route::get('estudios/audios/download', ['uses' => 'Aplication\Estudios\AudioController@downloadAudio']);
+
+// app config
+Route::get('configuration/profile/{id}/user', ['uses' => 'Aplication\Config\ProfileController@get']);

@@ -12,6 +12,8 @@ class Message{
 	const SUCCESS_ALBUMES_DELETED_ONE	= "Álbume eliminado"; 
 	const SUCCESS_ALBUMES_DELETED_MANY	= "Álbumes eliminados";  
 	const ERROR_ALBUMES_FOREIGN_KEY 	= "El Albume(es) que desea eliminar ya se encuentran asignados a una o más pistas, no es posible eliminarlos";
+	/*Modulo Track*/
+	const TRACK_REVIEW_UPDATED			= "Actualización exitosa!!";
 
 	/*Exceptions*/
 	const EXCEPTION_NO_ROOT_PRIVILEGE	= "Lo sentimos tuvimos algunos inconvenientes, obteniendo sus privilegios";

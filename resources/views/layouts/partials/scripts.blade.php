@@ -28,6 +28,10 @@
 <script src="{{ asset('/js/lang.js') }}" type="text/javascript"></script>
 <!-- Util -->
 <script src="{{ asset('/js/Util.js') }}" type="text/javascript"></script>
+<!-- SetUp -->
+<script src="{{ asset('/js/app/Setup.js') }}" type="text/javascript"></script>
+<!-- AdminServices -->
+<script src="{{ asset('/js/admin/AdminServices.js') }}" type="text/javascript"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance thedashboard
       fixed layout. -->

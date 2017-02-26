@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Beans\BasicRequest;
 use App\Beans\HttpResponse;
+use App\Exceptions\ServiceException;
+use App\Library\Constantes;
 use App\Library\HttpStatusCode;
 use App\Library\Message;
 use Illuminate\Http\Request;
@@ -80,7 +82,8 @@ class TrackAdmController extends Controller
      */
     public function store(Request $request)
     {
-        LOG:info(TrackAdmController::class);
+        LOG:
+        info(TrackAdmController::class);
         $title = $request->input('trk_titulo');
         $author_id = $request->input('trk_author');
         $albume_id = $request->input('trk_albume');
@@ -283,11 +286,11 @@ class TrackAdmController extends Controller
             }
             $serviceResponse = $this->trackService->delete($basicRequest);
 
-            if($serviceResponse){
+            if ($serviceResponse) {
                 $response->setMessage($serviceResponse->getMessage());
                 $response->setData($serviceResponse->getData());
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
-            }else{
+            } else {
                 $response->setMessage(Message::ERROR_5X);
                 $response->setError($serviceResponse->getMessage());
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
@@ -295,6 +298,157 @@ class TrackAdmController extends Controller
 
         } catch (\Exception $e) {
             LOG::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getListTracksByState()
+    {
+        try {
+            LOG::info('Iniciando controlador getListTracksByState: desde: ' . TrackAdmController::class);
+            $basicRequest = new BasicRequest();
+            $basicRequest->setData(['statusId' => Constantes::STATUS_CREATED,'rows_by_page' => 10]);
+            $tracks = $this->trackService->getListTracksByState($basicRequest);
+            $filters = $this->trackService->getCountTracksFilters(Constantes::$ALBUME_GENRE);
+            $nameFilter = 'Activos';
+            return View(
+                'admin/reviews/main_review',
+                ['pistas' => $tracks,
+                    'filters' => $filters,
+                    'nameFilter' => $nameFilter]);
+
+        } catch (ServiceException $e) {
+
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    public function getListTracksByFilter($filter)
+    {
+        try {
+            LOG::info('Iniciando controlador getListTracksByFilter: desde: ' . TrackAdmController::class);
+            $nameFilter = null;
+            $basicRequest = new BasicRequest();
+            $basicRequest->setData(['statusId' => $filter,'rows_by_page' => 10]);
+            $tracks = $this->trackService->getListTracksByState($basicRequest);
+            $filters = $this->trackService->getCountTracksFilters(Constantes::$ALBUME_GENRE);
+
+            switch ($filter) {
+
+                case Constantes::STATUS_CREATED :
+                    $nameFilter = 'Nuevos';
+                    break;
+                case Constantes::STATUS_VALID :
+                    $nameFilter = "pendientes de validaci&oacute;n";
+                    break;
+                case Constantes::STATUS_INACTIVE:
+                    $nameFilter = "Inactivos";
+                    break;
+                case Constantes::STATUS_AUDITED :
+                    $nameFilter = "auditados";
+                    break;
+                default:
+                    $nameFilter = "Sin clasificai&oacute;n";
+                    break;
+            }
+            return View('admin/reviews/main_review', ['pistas' => $tracks, 'filters' => $filters, 'nameFilter' => $nameFilter]);
+
+
+        } catch (ServiceException $e) {
+
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    public function getTrackForReview($filter)
+    {
+        try {
+            LOG::info('Iniciando controlador getTrackForReview: desde: ' . TrackAdmController::class);
+
+            $tracks = DB::table('tracks')
+                ->join('authors', 'tracks.author_id', '=', 'authors.id')
+                ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+                ->select(
+                    'tracks.*',
+                    'authors.firstName',
+                    'authors.lastName',
+                    'albumes.title as titleAlbume',
+                    'Albumes.genre')
+                ->where('tracks.id', '=', $filter)
+                ->get();
+
+            return View('admin/reviews/review', ['pistas' => $tracks]);
+        } catch (ServiceException $e) {
+
+        } catch (\Exception $e) {
+
+        }
+
+    }
+
+    public function getTrackForUpdate($id)
+    {
+        LOG::info('Iniciando controlador getTrackForReview: desde: ' . TrackAdmController::class);
+
+        $tracks = DB::table('tracks')
+            ->join('authors', 'tracks.author_id', '=', 'authors.id')
+            ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+            ->select(
+                'tracks.*',
+                'authors.firstName',
+                'authors.lastName',
+                'albumes.title as titleAlbume',
+                'Albumes.genre')
+            ->where('tracks.id', '=', $id)
+            ->get();
+
+        return View('admin/reviews/update', ['pistas' => $tracks]);
+    }
+
+    public function updateTrackInReview($id, Request $request)
+    {
+        LOG::info('Iniciando controlador updateTrackInReview: desde: ' . TrackAdmController::class);
+    }
+
+    public function autorizeTrackInReview($id, Request $request)
+    {
+        LOG::info('Iniciando controlador autorizeTrackInReview: desde: ' . TrackAdmController::class);
+
+
+    }
+
+    public function updateStatusTrack($id, $status)
+    {
+        LOG::info('Iniciando controlador updateStatusTrack: desde: ' . TrackAdmController::class);
+        $response = new HttpResponse();
+        $basicRequest = new BasicRequest();
+        $serviceResponse = null;
+        try {
+            $basicRequest->setId($id);
+            $basicRequest->setData(['statusId' => $status]);
+
+            $serviceResponse = $this->trackService->updateStatusTrack($basicRequest);
+
+            if ($serviceResponse) {
+                $response->setMessage(Message::TRACK_REVIEW_UPDATED);
+                $response->setData(['id' => $id, 'status' => $status]);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            } else {
+                $response->setMessage(Message::ERROR_5X);
+                $response->setError($serviceResponse);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        } catch (ServiceException $e) {
+            Log::error($e->getMessage());
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $response->setMessage(Message::ERROR_5X);
             $response->setError($e->getMessage());
             return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);

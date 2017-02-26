@@ -102,4 +102,43 @@ interface TrackDao extends CRUD
      * @return mixed
      */
     public function setPostTrack(BasicRequest $request);
+
+    /**
+     * Obtiene la cantidad de tracks dado un id
+     * de estado.
+     * @param $id
+     * @return mixed
+     */
+    public function getCountTracks($id);
+
+    /**
+     * Cambia de estado un track
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updateStatusTrack(BasicRequest $request);
+
+    /**
+     * Obtiene una lista de tracks por estado
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getListTracksByState(BasicRequest $request);
+    
+
+    /**
+     * Actualiza la información de un track
+     * como titulo, skect, description y lo pones
+     * en estatus para revisión.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updateTrackInReview(BasicRequest $request);
+
+    /**
+     * Autoriza un track para su publicacion definitiva en al app
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function autorizeTrackInReview(BasicRequest $request);
 }

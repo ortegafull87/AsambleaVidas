@@ -110,6 +110,13 @@
                     <span>{{ trans('adminlte_lang::message.dblinkUsers') }}</span>
                 </a>
             </li>
+            <!-- Authors -->
+            <li>
+                <a href="{{url('admin/review')}}">
+                    <i class='fa fa-eye'></i>
+                    <span>Revista</span>
+                </a>
+            </li>
             <!--<li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>{{ trans('adminlte_lang::message.multilevel') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

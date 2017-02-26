@@ -363,6 +363,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
     );
 
     public static $classMap = array (
+        'AddColumsToTableUser' => __DIR__ . '/../..' . '/database/migrations/2017_02_07_231418_add_colums_to_table_user.php',
         'AddDescriptionToAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035223_add_description_to_albumes_table.php',
         'AddDescriptionToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035158_add_description_to_tracks_table.php',
         'AddEmailsToAuthorsTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_04_022805_add_emails_to_authors_table.php',

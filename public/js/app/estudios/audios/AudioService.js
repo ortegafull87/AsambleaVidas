@@ -83,7 +83,7 @@ var AudioService = {
                         console.info(xhr);
                     }
                 }
-            })
+            });
         }
         ,
         put: function () {

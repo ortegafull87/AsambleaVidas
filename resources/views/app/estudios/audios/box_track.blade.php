@@ -36,7 +36,7 @@
             </div>
             <div class="sinapsis">
                 @if(strlen($audio->description)>0)
-                    <?php echo str_limit($audio->sketch, 215)?>
+                    <?php echo $audio->sketch?>
                     @if(strlen($audio->sketch)>215)
                         <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}">Seguir leyendo</a>
                     @endif

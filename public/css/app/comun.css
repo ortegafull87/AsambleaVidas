@@ -3,7 +3,9 @@
 */
 
 /*sobre escritura de clases bootstrap*/
-
+p{
+    font-weight: 400!important;
+}
 .navbar-brand {
     padding: 6px;
 }
@@ -288,7 +290,7 @@ div.rate a:hover {
 
 .no-content {
     display: table;
-    height: 100px;
+    height: 100%;
     width: 100%;
     text-align: center;
     color: #cacaca;

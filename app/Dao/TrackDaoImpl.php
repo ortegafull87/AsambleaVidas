@@ -243,7 +243,7 @@ class TrackDaoImpl implements TrackDao
                     $join->on('t.id', '=', 'f.track_id');
                     $join->on('f.user_id', '=', DB::raw($this->idUser));
                 })
-                ->where('t.status_id', '=', 1)//Cambiar 1 por 3
+                ->where('t.status_id', '=', Constantes::STATUS_ACTIVE)
                 ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 
@@ -277,7 +277,7 @@ class TrackDaoImpl implements TrackDao
                 ->leftjoin(DB::raw($this->TABLE_POSTEDS), function ($join) {
                     $join->on('t.id', '=', 'po.track_id');
                 })
-                ->where('t.status_id', '=', Constantes::USER_CREATED)//Cambiar 1 por 3
+                ->where('t.status_id', '=', Constantes::USER_ACTIVE)
                 ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 
@@ -548,7 +548,20 @@ class TrackDaoImpl implements TrackDao
      */
     public function updateTrackInReview(BasicRequest $request)
     {
-        // TODO: Implement updateTrackInReview() method.
+
+        Log::debug('Inicia updateTrackInReview desde: ' . TrackDaoImpl::class);
+        try {
+            return Track::where('id', '=', $request->getId())
+                ->update(
+                    [
+                        'sketch' => $request->getData()['sketch'],
+                        'description' => $request->getData()['documentacion'],
+                        'status_id' => $request->getData()['statusId'],
+                    ]
+                );
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
     }
 
     /**
@@ -558,7 +571,18 @@ class TrackDaoImpl implements TrackDao
      */
     public function autorizeTrackInReview(BasicRequest $request)
     {
-        // TODO: Implement autorizeTrackInReview() method.
+        try {
+            return Track::where('id', '=', $request->getId())
+                ->update(
+                    [
+                        'sketch' => $request->getData()['sketch'],
+                        'description' => $request->getData()['documentacion'],
+                        'status_id' => $request->getData()['statusId'],
+                    ]
+                );
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
     }
 
     private function elementary_select_tracks()
@@ -581,6 +605,23 @@ class TrackDaoImpl implements TrackDao
 
     }
 
+    private function smart_finder_select()
+    {
+        Log::debug('Inicia smart_finder_select desde: ' . TrackDaoImpl::class);
+        try {
+            return DB::table('tracks')
+                ->join('authors', 'tracks.author_id', '=', 'authors.id')
+                ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
+                ->select(
+                    'tracks.id as id',
+                    'tracks.title as label');
+
+        } catch (\Exception $ex) {
+            throw new Exception($ex);
+        }
+
+    }
+
     /**
      * Obtiene una lista de tracks por estado
      * @param BasicRequest $request
@@ -589,14 +630,79 @@ class TrackDaoImpl implements TrackDao
     public function getListTracksByState(BasicRequest $request)
     {
         Log::debug('Inicia getListTracksByState desde: ' . TrackDaoImpl::class);
-        try{
+        try {
             $tracks = $this->elementary_select_tracks();
             return $tracks
                 ->where('tracks.status_id', '=', $request->getData()['statusId'])
                 ->paginate($request->getData()['rows_by_page']);
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             throw new DAOException($ex);
         }
     }
-    
+
+    /**
+     * Obtiene los datos de un track para su respectiva
+     * actualizacion y revision.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackForReview(BasicRequest $request)
+    {
+        Log::debug('Inicia getTrackForReview desde: ' . TrackDaoImpl::class);
+        try {
+            $tracks = $this->elementary_select_tracks();
+            return $tracks
+                ->where('tracks.id', '=', $request->getId())
+                ->get();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Funcion inteligente para buscar track
+     * por las siguientes concidencias:
+     * Titulo, Autor, Fecha, Albume, Genero
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function findTracks(BasicRequest $request)
+    {
+
+        Log::debug('Inicia findTracks desde: ' . TrackDaoImpl::class);
+        try {
+            $tracks = $this->smart_finder_select();
+            $str = $request->getData()['str'];
+            $str = '%' . $str . '%';
+            return $tracks
+                ->where('tracks.title', 'like', $str)
+                ->orWhere('authors.firstName', 'like', $str)
+                ->orWhere('authors.lastName', 'like', $str)
+                ->orWhere('albumes.title', 'like', $str)
+                ->orWhere('Albumes.genre', 'like', $str)
+                ->orWhere('tracks.created_at', 'like', $str)
+                ->get();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Funcion que ontiene información de un track para
+     * la revista.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackById(BasicRequest $request)
+    {
+        Log::debug('Inicia getTrackById desde: ' . TrackDaoImpl::class);
+        try {
+            $tracks = $this->elementary_select_tracks();
+            return $tracks
+                ->where('tracks.id', '=', $request->getId())
+                ->get();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
 }

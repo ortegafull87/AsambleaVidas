@@ -309,10 +309,10 @@ class TrackAdmController extends Controller
         try {
             LOG::info('Iniciando controlador getListTracksByState: desde: ' . TrackAdmController::class);
             $basicRequest = new BasicRequest();
-            $basicRequest->setData(['statusId' => Constantes::STATUS_CREATED,'rows_by_page' => 10]);
+            $basicRequest->setData(['statusId' => Constantes::STATUS_CREATED, 'rows_by_page' => 10]);
             $tracks = $this->trackService->getListTracksByState($basicRequest);
             $filters = $this->trackService->getCountTracksFilters(Constantes::$ALBUME_GENRE);
-            $nameFilter = 'Activos';
+            $nameFilter = 'Nuevos';
             return View(
                 'admin/reviews/main_review',
                 ['pistas' => $tracks,
@@ -326,36 +326,22 @@ class TrackAdmController extends Controller
         }
     }
 
+    /**
+     * @param $filter
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getListTracksByFilter($filter)
     {
+        LOG::info('Iniciando controlador getListTracksByFilter: desde: ' . TrackAdmController::class);
         try {
-            LOG::info('Iniciando controlador getListTracksByFilter: desde: ' . TrackAdmController::class);
             $nameFilter = null;
             $basicRequest = new BasicRequest();
-            $basicRequest->setData(['statusId' => $filter,'rows_by_page' => 10]);
+            $basicRequest->setData(['statusId' => $filter, 'rows_by_page' => 10]);
             $tracks = $this->trackService->getListTracksByState($basicRequest);
             $filters = $this->trackService->getCountTracksFilters(Constantes::$ALBUME_GENRE);
+            $nameFilter = $this->getFilterLabel($filter);
 
-            switch ($filter) {
-
-                case Constantes::STATUS_CREATED :
-                    $nameFilter = 'Nuevos';
-                    break;
-                case Constantes::STATUS_VALID :
-                    $nameFilter = "pendientes de validaci&oacute;n";
-                    break;
-                case Constantes::STATUS_INACTIVE:
-                    $nameFilter = "Inactivos";
-                    break;
-                case Constantes::STATUS_AUDITED :
-                    $nameFilter = "auditados";
-                    break;
-                default:
-                    $nameFilter = "Sin clasificai&oacute;n";
-                    break;
-            }
             return View('admin/reviews/main_review', ['pistas' => $tracks, 'filters' => $filters, 'nameFilter' => $nameFilter]);
-
 
         } catch (ServiceException $e) {
 
@@ -364,23 +350,37 @@ class TrackAdmController extends Controller
         }
     }
 
-    public function getTrackForReview($filter)
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getTrackById($id)
+    {
+        LOG::info('Iniciando controlador getTrackById: desde: ' . TrackAdmController::class);
+        try {
+            $nameFilter = null;
+            $basicRequest = new BasicRequest();
+            $basicRequest->setId($id);
+            $tracks = $this->trackService->getTrackById($basicRequest);
+            $filters = $this->trackService->getCountTracksFilters(Constantes::$ALBUME_GENRE);
+            //$nameFilter = $this->getFilterLabel($id);
+            $nameFilter = "";
+            return View('admin/reviews/main_review', ['pistas' => $tracks, 'filters' => $filters, 'nameFilter' => $nameFilter]);
+
+        } catch (ServiceException $e) {
+
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    public function getTrackForReview($id)
     {
         try {
             LOG::info('Iniciando controlador getTrackForReview: desde: ' . TrackAdmController::class);
-
-            $tracks = DB::table('tracks')
-                ->join('authors', 'tracks.author_id', '=', 'authors.id')
-                ->join('albumes', 'tracks.albume_id', '=', 'albumes.id')
-                ->select(
-                    'tracks.*',
-                    'authors.firstName',
-                    'authors.lastName',
-                    'albumes.title as titleAlbume',
-                    'Albumes.genre')
-                ->where('tracks.id', '=', $filter)
-                ->get();
-
+            $basicRequest = new BasicRequest();
+            $basicRequest->setId($id);
+            $tracks = $this->trackService->getTrackForReview($basicRequest);
             return View('admin/reviews/review', ['pistas' => $tracks]);
         } catch (ServiceException $e) {
 
@@ -412,13 +412,130 @@ class TrackAdmController extends Controller
     public function updateTrackInReview($id, Request $request)
     {
         LOG::info('Iniciando controlador updateTrackInReview: desde: ' . TrackAdmController::class);
+
+        try {
+            $basicRequest = new BasicRequest();
+            $response = new HttpResponse();
+            LOG::debug('Ejecutando filtro');
+            //Filtro
+            $validator = Validator::make($request->all(),
+                array('documentacion' => 'required'),
+                ['required' => Message::FORM_EMTY_PARAM]);
+
+            if ($validator->fails()) {
+                LOG::debug('Parámetros invalidos recibidos');
+                $errorRules = $validator->errors()->all();
+                $response->setMessage(Message::WARNING_2X);
+                $response->setError($errorRules);
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+            }
+            //Componer el sketch
+            LOG::debug('Construyendo resumen');
+            $sketch = filter_var($request->input('documentacion'), FILTER_SANITIZE_STRING);
+
+            LOG::debug('Seteando valores');
+            $basicRequest->setId($id);
+            $basicRequest->setData(
+                [
+                    'sketch' => str_limit($sketch, env('LIMIT_SKETCH_STRING')),
+                    'documentacion' => $request->input('documentacion'),
+                    'statusId' => Constantes::STATUS_VALID,
+                ]
+            );
+
+            $updateTrack = $this->trackService->updateTrackInReview($basicRequest);
+
+            if ($updateTrack) {
+                LOG::debug('Track actualizado');
+                $response->setMessage(Message::TRACK_REVIEW_UPDATED_NEXT);
+                $response->setData(null);
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            } else {
+                LOG::debug('Track no actualizado');
+                $response->setMessage(Message::ERROR_5X);
+                $response->setError("");
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+        } catch (ServiceException $e) {
+            LOG::error($e);
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            LOG::error($e);
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function autorizeTrackInReview($id, Request $request)
     {
         LOG::info('Iniciando controlador autorizeTrackInReview: desde: ' . TrackAdmController::class);
+        try {
+            $basicRequest = new BasicRequest();
+            $response = new HttpResponse();
 
+            //Filtro
+            LOG::debug('Ejecutando filtro');
+            $validator = Validator::make($request->all(),
+                array('documentacion' => 'required'),
+                ['required' => Message::FORM_EMTY_PARAM]);
 
+            if ($validator->fails()) {
+                LOG::debug('Parámetros invalidos recibidos');
+                $errorRules = $validator->errors()->all();
+                $response->setMessage(Message::WARNING_2X);
+                $response->setError($errorRules);
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_ACCEPTED);
+            }
+
+            //Componer el sketch
+            LOG::debug('Construyendo resumen');
+            $sketch = filter_var($request->input('documentacion'), FILTER_SANITIZE_STRING);
+
+            LOG::debug('Seteando valores');
+            $basicRequest->setId($id);
+            $basicRequest->setData(
+                [
+
+                    'sketch' => str_limit($sketch, env('LIMIT_SKETCH_STRING')),
+                    'documentacion' => $request->input('documentacion'),
+                    'statusId' => Constantes::STATUS_ACTIVE,
+                ]
+            );
+
+            $autorizeTrack = $this->trackService->autorizeTrackInReview($basicRequest);
+
+            if ($autorizeTrack) {
+                $response->setMessage("Track Autorizado");
+                $response->setData(null);
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            } else {
+                $response->setMessage("Track No autorizado");
+                $response->setMessage(Message::ERROR_5X);
+                $response->setError("");
+                LOG::debug('Termina controlador: updateTrackInReview');
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+        } catch (ServiceException $e) {
+            LOG::error($e);
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $e) {
+            LOG::error($e);
+            $response->setMessage(Message::ERROR_5X);
+            $response->setError($e->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function updateStatusTrack($id, $status)
@@ -453,5 +570,37 @@ class TrackAdmController extends Controller
             $response->setError($e->getMessage());
             return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * @param $filter
+     * @return string
+     */
+    private function getFilterLabel($filter)
+    {
+        $nameFilter = "";
+
+        switch ($filter) {
+
+            case Constantes::STATUS_CREATED :
+                $nameFilter = 'Nuevos';
+                break;
+            case Constantes::STATUS_VALID :
+                $nameFilter = "pendientes de validaci&oacute;n";
+                break;
+            case Constantes::STATUS_ACTIVE:
+                $nameFilter = "activos";
+                break;
+            case Constantes::STATUS_INACTIVE:
+                $nameFilter = "inactivos";
+                break;
+            case Constantes::STATUS_AUDITED :
+                $nameFilter = "auditados";
+                break;
+            default:
+                $nameFilter = "Sin clasificai&oacute;n";
+                break;
+        }
+        return $nameFilter;
     }
 }

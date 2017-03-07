@@ -477,7 +477,15 @@ class TrackServiceImpl implements TrackService
      */
     public function updateTrackInReview(BasicRequest $request)
     {
-        // TODO: Implement updateTrackInReview() method.
+        Log::debug('Inicia updateTrackInReview desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->updateTrackInReview($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
     }
 
     /**
@@ -487,7 +495,15 @@ class TrackServiceImpl implements TrackService
      */
     public function autorizeTrackInReview(BasicRequest $request)
     {
-        // TODO: Implement autorizeTrackInReview() method.
+        Log::debug('Inicia autorizeTrackInReview desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->autorizeTrackInReview($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
     }
 
 
@@ -507,5 +523,61 @@ class TrackServiceImpl implements TrackService
             throw new ServiceException($ex);
         }
     }
-    
+
+    /**
+     * Obtiene los datos de un track para su respectiva
+     * actualizacion y revision.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackForReview(BasicRequest $request)
+    {
+        Log::debug('Inicia getTrackForReview desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getTrackForReview($request);
+        } catch (DAOException $dao) {
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Funcion inteligente para buscar track
+     * por las siguientes concidencias:
+     * Titulo, Autor, Fecha, Albume, Genero
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function findTracks(BasicRequest $request)
+    {
+        Log::debug('Inicia findTracks desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->findTracks($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
+     * Funcion que ontiene información de un track para
+     * la revista.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackById(BasicRequest $request)
+    {
+        Log::debug('Inicia getTrackById desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getTrackById($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
 }

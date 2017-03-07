@@ -8,3 +8,7 @@
 .hide{
     display: none;
 }
+
+p {
+    font-weight: 400!important;
+}

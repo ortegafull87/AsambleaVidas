@@ -39,13 +39,13 @@ class Constantes
             'count' => 0
         ]
         ,
-        /*[
+        [
             'id'=> 3,
-            'genre' => 'Revisados',
-            'description' => 'Audios revisados recientemente.',
-            'icon' => 'fa fa-history',
+            'genre' => 'Activos',
+            'description' => 'Audios revisados y en producción.',
+            'icon' => 'fa fa-check',
             'count' => 0
-        ],*/
+        ],
         [
             'id'=> 4,
             'genre' => 'Inactivos',

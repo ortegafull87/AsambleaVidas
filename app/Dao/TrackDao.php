@@ -124,7 +124,14 @@ interface TrackDao extends CRUD
      * @return mixed
      */
     public function getListTracksByState(BasicRequest $request);
-    
+
+    /**
+     * Obtiene los datos de un track para su respectiva
+     * actualizacion y revision.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackForReview(BasicRequest $request);
 
     /**
      * Actualiza la información de un track
@@ -141,4 +148,21 @@ interface TrackDao extends CRUD
      * @return mixed
      */
     public function autorizeTrackInReview(BasicRequest $request);
+
+    /**
+     * Funcion inteligente para buscar track
+     * por las siguientes concidencias:
+     * Titulo, Autor, Fecha, Albume, Genero
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function findTracks(BasicRequest $request);
+
+    /**
+     * Funcion que ontiene información de un track para
+     * la revista.
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getTrackById(BasicRequest $request);
 }

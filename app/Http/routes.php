@@ -24,10 +24,12 @@ Route::resource('admin/users', 'UserAdmController');
 //Review
 Route::get('admin/review/',['uses' => 'TrackAdmController@getListTracksByState']);
 Route::get('admin/review/{filter}/tracks',['uses' => 'TrackAdmController@getListTracksByFilter']);
-Route::get('admin/review/{filter}/track/to/autorize',['uses' => 'TrackAdmController@getTrackForReview']);
+Route::get('admin/review/{id}/track',['uses' => 'TrackAdmController@getTrackById']);
+Route::get('admin/review/{id}/track/to/autorize',['uses' => 'TrackAdmController@getTrackForReview']);
 Route::get('admin/review/{filter}/track/to/update',['uses' => 'TrackAdmController@getTrackForUpdate']);
-Route::post('admin/track/{id}/autorize',['uses' => 'TrackAdmController@setAutorizeTrack']);
-Route::post('admin/tracks/review/{id}/{status}/update',['uses' => 'TrackAdmController@updateStatusTrack']);
+Route::post('admin/review/{id}/{status}/updateStatus',['uses' => 'TrackAdmController@updateStatusTrack']);
+Route::post('admin/review/{id}/update',['uses' => 'TrackAdmController@updateTrackInReview']);
+Route::post('admin/review/{id}/autorize',['uses' => 'TrackAdmController@autorizeTrackInReview']);
 
 // route confirm acount.
 Route::get('acount/new/{id}/goconfirm', ['uses' => 'UserAdmController@goConfirm']);
@@ -47,5 +49,9 @@ Route::get('estudios/audios/post/{id}/track', ['uses' => 'Aplication\Estudios\Au
 Route::post('estudios/audios/post/{id}/setPostTrack', ['uses' => 'Aplication\Estudios\AudioController@setPostTrack']);
 Route::get('estudios/audios/download', ['uses' => 'Aplication\Estudios\AudioController@downloadAudio']);
 
+//SmartFinder
+Route::post('smart/finder/findTracks', ['uses' => 'SmartFinderController@findTracks']);
+
 // app config
 Route::get('configuration/profile/{id}/user', ['uses' => 'Aplication\Config\ProfileController@get']);
+

@@ -9,6 +9,7 @@ var Review = {
      * Funcion de inicialización
      */
     _init: function () {
+        $('#input_search_main_admin').remove();
         Util.setActiveSideMenu('admin/review');
         _self = Review;
         _self.resizeContents();
@@ -27,41 +28,115 @@ var Review = {
         $(document).on('click', 'td.review_action button', function (object) {
             var action = $(object.target).data('action');
             if (action === "revisar" || action === "actualizar") {
+                AdminServices.util.showSpinnerInElement(object.target);
                 Util.openUrl($(object.target).data('url'));
-            } else if (action === "activar") {
-                _self.activar(object);
+            } else if (action === "update") {
+                _self.update(object);
             }
         });
 
         /**
          * control para el boton cancelar
          */
-        $(document).on('click','#btn_cancelar',function(object){
+        $(document).on('click', '#btn_cancelar', function (object) {
             var url = $(object.target).data('url');
             Util.openUrl(url);
         });
 
-    }
-    ,
-    actualizar:function(){
+        /**
+         * listener para la accion del boton actualizar
+         */
+        $(document).on('click', '#btn_actualizar', function (object) {
+            _self.actualizar(object);
+        });
 
-    }
-    ,
-    autorizar:function(){
+        /**
+         * Listener para la accion del boton autorizar
+         */
+        $(document).on('click', '#btn_autorizar', function (object) {
+            _self.autorizar(object);
+        });
+
+        //SmartFinder
+        $('#finder_track').bootcomplete({
+            url:$('body').data('url') + 'smart/finder/findTracks',
+            method:'post',
+            minLength:2,
+            afterClick:function(object){
+                var url_link = $('input#finder_track').data('url');
+                url_link = url_link.replace(':id',$(object).data('id'));
+                Util.openUrl(url_link);
+            },
+        });
 
     }
     ,
     /**
-     * Activa un audio
+     * Actualiza la informacion faltante despues de que
+     * se agrega por primera vez un track
+     * sketch, descripcion
      * @param object
      */
-    activar:function(object){
-        var track_id = $(object.target).parents('tr').data('id');
-        $.post('http://localhost:8000/admin/tracks/review/'+track_id+'/3/update',function(xhr){
-            //var respond = JSON.parse(xhr);
-            console.debug(xhr);
-            Util.showAlert('alert-success', xhr.message);
+    actualizar: function (object) {
+        var url = $(object.target).data('url');
+        var data = {
+            //"trk_title": $.trim($('#trk_titulo').val()),
+            "documentacion": CKEDITOR.instances.documentacion.getData()
+        };
+        AdminServices.util.SpinerInButtonOn('btn_actualizar');
+        AdminServices.set.actualizarTrack(url, data, function (xhr) {
+            $('#btn_cancelar').html("<i class='fa fa-arrow-left' aria-hidden='true'></i> Regresar");
+        })
+    }
+    ,
+    /**
+     * Autoriza y actualiza un track para su visualización
+     * en producción.
+     * @param object
+     */
+    autorizar: function (object) {
+        var url = $(object.target).data('url');
+        var data = {
+            //"trk_title": $.trim($('#trk_titulo').val()),
+            "documentacion": CKEDITOR.instances.documentacion.getData()
+        };
+        AdminServices.util.SpinerInButtonOn('btn_autorizar');
+        AdminServices.set.autorizeTrack(url, data, function (xhr) {
+            Util.showAlert('alert-success', xhr.responseJSON.message);
+            $('#btn_cancelar').html("<i class='fa fa-arrow-left' aria-hidden='true'></i> Regresar");
+            _self.toggleSpinerInButton('btn_autorizar');
+        })
+    }
+    ,
+    /**
+     * Actualiza el estatus de un track
+     * @param object
+     */
+    update: function (object) {
+        var url = $(object.target).data('url');
+        AdminServices.util.showSpinnerInElement(object.target);
+        AdminServices.set.updateStatusTrack(url, {}, function (xhr) {
+            //Util.showAlert('alert-success', xhr.message);
+
+            $(object.target).parents('tr').fadeOut('fast');
+            _self.incressAmoungFilter($(object.target).data('idst'));
+            //Make animation
+
+
         });
+    }
+    ,
+    incressAmoungFilter: function (id) {
+        var element = '#pd_' + id;
+        var amoung = parseInt($('#pd_' + id).html());
+        setTimeout(function () {
+            $(element).addClass('animated bounceIn');
+            $(element).html(1 + amoung);
+            setTimeout(function () {
+                $(element).removeClass('animated bounceIn');
+            }, 500);
+        }, 1000);
+
     }
     ,
     /**

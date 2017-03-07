@@ -87,7 +87,7 @@ div.box-top {
 
 .no-content {
     display: table;
-    height: 100px;
+    height: 100%;
     width: 100%;
     text-align: center;
     color: #cacaca;
@@ -100,5 +100,9 @@ div.box-top {
 .no-content span {
     display: table-cell;
     vertical-align: middle;
+}
+
+p {
+    font-weight: 400!important;
 }
 /*========================== COMUNES ========================*/

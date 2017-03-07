@@ -14,6 +14,7 @@ class Message{
 	const ERROR_ALBUMES_FOREIGN_KEY 	= "El Albume(es) que desea eliminar ya se encuentran asignados a una o más pistas, no es posible eliminarlos";
 	/*Modulo Track*/
 	const TRACK_REVIEW_UPDATED			= "Actualización exitosa!!";
+	const TRACK_REVIEW_UPDATED_NEXT		= "Actualización exitosa!! este material ha sido enviado a revisi&oacute;n";
 
 	/*Exceptions*/
 	const EXCEPTION_NO_ROOT_PRIVILEGE	= "Lo sentimos tuvimos algunos inconvenientes, obteniendo sus privilegios";
@@ -22,6 +23,7 @@ class Message{
 	const ERROR_5X 						= "Lo sentimos tuvimos algunos inconvenientes, por favor contacta al administrador.";
 	const WARNING_2X					= "Algo no anda bien. ";
 	const NOT_PRIVILEGE					= "No tiene privilegios para usar esta función";
+	const FORM_EMTY_PARAM				= ' No es posible continuar si el campo \':attribute\' est&aacute; vac&iacute;o.';
 
 	/*App Errors*/
 	const APP_ERROR_GENERAL_PPROCESS_FAILED		= "Ups! Tubimos un inconveniente, porfavor intenta más tarde.";

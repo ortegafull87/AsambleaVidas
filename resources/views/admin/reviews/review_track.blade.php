@@ -29,16 +29,33 @@
                             <td class="filterable-cell">{{$pista->updated_at}}</td>
                             <td class="filterable-cell review_action">
                                 @if($pista->status_id == 6)
-                                    <button class="btn btn-block btn-primary btn-xs" data-action="revisar" data-url="{{asset('admin/review/'.$pista->id.'/track/to/autorize')}}">Revisar
+                                    <button class="btn btn-block btn-success btn-xs" data-action="revisar"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/track/to/autorize')}}">
+                                        Revisar
                                     </button>
                                 @elseif($pista->status_id == 4)
-                                    <button class="btn btn-block btn-success btn-xs" data-action="activar">Activar
+                                    <button class="btn btn-block btn-info btn-xs" data-action="update"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/3/updateStatus')}}"
+                                            data-idst="3">Activar
+                                    </button>
+                                @elseif($pista->status_id == 3)
+                                    <button class="btn btn-block btn-default btn-xs" data-action="update"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/4/updateStatus')}}"
+                                            data-idst="4">Desactivar
+                                    </button>
+                                    <button class="btn btn-block bg-maroon btn-xs" data-action="update"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/6/updateStatus')}}"
+                                            data-idst="6">Auditar
                                     </button>
                                 @elseif($pista->status_id == 2)
-                                    <button class="btn btn-block btn-primary btn-xs" data-action="revisar" data-url="{{asset('admin/review/'.$pista->id.'/track/to/autorize')}}">Revisar
+                                    <button class="btn btn-block btn-success btn-xs" data-action="revisar"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/track/to/autorize')}}">
+                                        Revisar
                                     </button>
                                 @elseif($pista->status_id == 1)
-                                    <button class="btn btn-block btn-info btn-xs" data-action="actualizar" data-url="{{asset('admin/review/'.$pista->id.'/track/to/update')}}">Actualizar
+                                    <button class="btn btn-block btn-info btn-xs" data-action="actualizar"
+                                            data-url="{{asset('admin/review/'.$pista->id.'/track/to/update')}}">
+                                        Actualizar
                                     </button>
                                 @endif
                             </td>
@@ -52,6 +69,8 @@
         @endif
     </div><!-- ./box-body -->
     <div class="box-footer" style="min-height: 61px;">
-        {{$pistas->links()}}
+        @if(method_exists($pistas,'links'))
+            {{$pistas->links()}}
+        @endif
     </div>
 </div>

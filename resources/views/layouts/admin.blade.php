@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="sidebar-mini skin-black-light">
+<body class="sidebar-mini skin-black-light" data-url="{{asset('')}}">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')

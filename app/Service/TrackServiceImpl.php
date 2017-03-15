@@ -16,6 +16,7 @@ use App\Dao\AlbumeDaoImpl as AlbumeDao;
 use App\Dao\TrackDaoImpl;
 use App\Exceptions\DAOException;
 use App\Library\Constantes;
+use App\Library\SendMail;
 use DB;
 use App\Exceptions\ServiceException;
 use Log;
@@ -437,7 +438,7 @@ class TrackServiceImpl implements TrackService
     {
         Log::debug('Inicia getCountTracksFilters desde: ' . TrackServiceImpl::class);
         try {
-            foreach ($data as $index => $filter){
+            foreach ($data as $index => $filter) {
                 Log::debug($filter['genre']);
                 $data[$index]['count'] = $this->trackDao->getCountTracks($filter['id']);
             }
@@ -459,7 +460,15 @@ class TrackServiceImpl implements TrackService
     {
         Log::debug('Inicia updateStatusTrack desde: ' . TrackServiceImpl::class);
         try {
-            return $this->trackDao->updateStatusTrack($request);
+            $updated = $this->trackDao->updateStatusTrack($request);
+            if ($updated) {
+                if (Constantes::STATUS_VALID == $request->getData()['statusId']) {
+                    SendMail::notificationReview(env('ID_USER_REVIEW'), ['status_id' => Constantes::STATUS_VALID]);
+                } else if (Constantes::STATUS_AUDITED == $request->getData()['statusId']) {
+                    SendMail::notificationReview(env('ID_USER_REVIEW'), ['status_id' => Constantes::STATUS_AUDITED]);
+                }
+            }
+            return $updated;
         } catch (DAOException $dao) {
             Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);
@@ -479,7 +488,11 @@ class TrackServiceImpl implements TrackService
     {
         Log::debug('Inicia updateTrackInReview desde: ' . TrackServiceImpl::class);
         try {
-            return $this->trackDao->updateTrackInReview($request);
+            $updated = $this->trackDao->updateTrackInReview($request);
+            if ($updated) {
+                SendMail::notificationReview(env('ID_USER_REVIEW'), ['status_id' => Constantes::STATUS_VALID]);
+            }
+            return $updated;
         } catch (DAOException $dao) {
             Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);

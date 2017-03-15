@@ -85,6 +85,7 @@ var Review = {
         };
         AdminServices.util.SpinerInButtonOn('btn_actualizar');
         AdminServices.set.actualizarTrack(url, data, function (xhr) {
+            Util.showAlert('alert-success', xhr.responseJSON.message);
             $('#btn_cancelar').html("<i class='fa fa-arrow-left' aria-hidden='true'></i> Regresar");
         })
     }

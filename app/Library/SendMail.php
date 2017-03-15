@@ -40,4 +40,29 @@ class SendMail
             return $status;
         }
     }
+
+    /**
+     * Envia Notificaciones de eventos en la app
+     * @param $id
+     * @param array $data
+     */
+    public static function notificationReview($id, Array $data)
+    {
+        LOG::info('Enviando correo de notificación de revisiones pendientes: ' . $id);
+        $status = false;
+        try {
+            $user = User::find($id);
+            Mail::send('admin.mails.notification_review', ['user' => $user, 'data' => $data], function ($m) use ($user) {
+                $m->from(env('MAIL_USERNAME'), env('APP_DNS'));
+                $m->to($user->email, $user->name)->subject('Revisiones pendientes.');
+                //$m->to('ortegafull87@gmail.com', $user->name)->subject('Notificación ');
+            });
+            $status = true;
+            LOG::info('Notificación enviada por correo a:' . $user->email);
+        } catch (\Exception $ex) {
+            LOG::error($ex->getMessage());
+        } finally {
+            return $status;
+        }
+    }
 }

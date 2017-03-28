@@ -34,6 +34,8 @@ class Message{
 	const APP_SET_FAVORITE					= "Me gusta!";
 	const APP_UNSET_FAVORITE				= "Ya no me gusta";
 	const APP_SET_RATE 						= "Calificado con %d estrellas";
+	const APP_NOT_FILE_RECIVER				= "No se recibido ningun archivo";
+	const APP_PROFILE_IMAGE_UPDATED			= "Imagen de perfil actualizada.";
 
 
 }

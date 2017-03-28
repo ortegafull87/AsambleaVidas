@@ -71,7 +71,8 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'user' => 'prueba.usuario',
+            'user' => '',
+            'gandle' => '',
             'register_token' => hash('sha256', $data['email']),
         ]);
 

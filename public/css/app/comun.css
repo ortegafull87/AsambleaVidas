@@ -3,9 +3,10 @@
 */
 
 /*sobre escritura de clases bootstrap*/
-p{
-    font-weight: 400!important;
+p {
+    font-weight: 400 !important;
 }
+
 .navbar-brand {
     padding: 6px;
 }
@@ -20,9 +21,10 @@ p{
     border-right-width: 0;
 }
 
-.media-middle{
+.media-middle {
     vertical-align: top;
 }
+
 /*sobre escritura de clases bootstrap*/
 
 .btn-register {
@@ -319,7 +321,7 @@ Post Track
 }
 
 .spiner {
-    width: 100%!important;
+    width: 100% !important;
     text-align: center;
     color: #007db3;
 }
@@ -464,11 +466,12 @@ button.registrar {
     padding: 5px;
 }
 
-.media .media-body .foot-post{
+.media .media-body .foot-post {
     font-size: 0.85em;
     margin-top: 10px;
 }
-.media .media-body .foot-post span{
+
+.media .media-body .foot-post span {
     margin-right: 20px;
     color: #5a5e56;
 }
@@ -477,6 +480,7 @@ button.registrar {
     color: #5a5e56;
     border-bottom: 1px dotted #5a5e56;
 }
+
 .media .media-body .foot-post span a:hover {
     color: #4285f4;
     border-bottom: 1px dotted #4285f4;
@@ -485,3 +489,90 @@ button.registrar {
 /*
 ############      buscador       ###########
 */
+
+/*
+*Profile
+*/
+.image-box-container{
+    margin: 0 auto;
+    text-align: center;
+    width: 150px;
+    position: relative;
+}
+
+.btn-update-image {
+    color: dimgrey;
+    cursor: pointer;
+    display: inline-block;
+    background-color:#FFFFFF;
+    border: 1px solid darkgray;
+    border-radius:50%;
+    border: 3px solid #d2d6de;
+    height: 35px;
+    padding: 4px;
+    position: absolute;
+    right: 20px;
+    top: 68px;
+    width: 35px;
+
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.btn-update-image:hover{
+    color:#FFFFFF;
+    background-color:dimgrey;
+
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.select-avatar{
+    padding: 0px 15px;
+}
+.select-avatar ul{
+    padding: 0;
+}
+.select-avatar ul li{
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    cursor:pointer;
+    border: 2px solid #FFFFFF;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.select-avatar ul li:hover{
+    border: 2px solid #00acd6;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.select-avatar ul li:focus{
+    border: 2px solid #00acd6;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.area {
+    padding: 15px;
+}
+#dropZone {
+    border: 2px dashed #d2d2d2;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+    font-size: 15px;
+    color: #bbb;
+}
+.upload{
+    overflow: hidden !important;
+}

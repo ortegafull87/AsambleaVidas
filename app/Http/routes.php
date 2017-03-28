@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('app.inicio.index');
-});
+/*Route::get('/', function () {
+    //return view('app.inicio.index');
+});*/
+Route::get('/', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
 
 Route::resource('admin/dashboard', 'dashboardController@estatusGeneral');
 Route::resource('admin/tracks', 'TrackAdmController');
@@ -36,11 +37,11 @@ Route::get('acount/new/{id}/goconfirm', ['uses' => 'UserAdmController@goConfirm'
 Route::get('acount/new/{id}/{token}/confirm', ['uses' => 'UserAdmController@confirm']);
 
 //app
-Route::get('/inicio', function () {
+/*Route::get('/inicio', function () {
     return view('app.inicio.index');
-});
+});*/
 // app audio
-Route::get('estudios/audios/all', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
+//Route::get('estudios/audios/all', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
 Route::post('estudios/audios/perPage', ['uses' => 'Aplication\Estudios\AudioController@getPerPage']);
 Route::post('estudios/audios/{id}/toggleFavorite', ['uses' => 'Aplication\Estudios\AudioController@toggleFavoriteTrack']);
 Route::post('estudios/audios/{id}/{rate}/setRate', ['uses' => 'Aplication\Estudios\AudioController@setRate']);
@@ -53,5 +54,8 @@ Route::get('estudios/audios/download', ['uses' => 'Aplication\Estudios\AudioCont
 Route::post('smart/finder/findTracks', ['uses' => 'SmartFinderController@findTracks']);
 
 // app config
-Route::get('configuration/profile/{id}/user', ['uses' => 'Aplication\Config\ProfileController@get']);
+Route::get('configuration/profile', ['uses' => 'Aplication\Config\ProfileController@getProfile']);
+Route::patch('configuration/profile/setUpdate', ['uses' => 'Aplication\Config\ProfileController@updateProfile']);
+Route::patch('configuration/profile/setAvatar', ['uses' => 'Aplication\Config\ProfileController@setAvatarAsProfileImage']);
+Route::patch('configuration/profile/setImageBrows', ['uses' => 'Aplication\Config\ProfileController@setFileBrowsAsProfileImage']);
 

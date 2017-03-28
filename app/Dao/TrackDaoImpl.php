@@ -439,7 +439,7 @@ class TrackDaoImpl implements TrackDao
         try {
             return DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
-                ->select('post_track.*', 'users.name')
+                ->select('post_track.*', 'users.name','users.image')
                 ->where('post_track.track_id', '=', $request->getId())
                 ->where('post_track.status_id', '=', Constantes::STATUS_ACTIVE)
                 ->orderBy('post_track.created_at', 'DESC')

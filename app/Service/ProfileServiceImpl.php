@@ -13,6 +13,7 @@ use App\Dao\ProfileDaoImpl as ProfileDao;
 use App\Exceptions\DAOException;
 use App\Exceptions\ServiceException;
 use Illuminate\Support\Facades\Log;
+use App\Library\Util;
 
 class ProfileServiceImpl implements ProfileService
 {
@@ -85,7 +86,11 @@ class ProfileServiceImpl implements ProfileService
     {
         Log::debug('Iniciando updateProfile desde: ' . ProfileServiceImpl::class);
         try {
-            return $this->profileDao->updateProfile($request);
+            if ($this->profileDao->updateProfile($request)) {
+                return $request->getData()['image'];
+            } else {
+                return 0;
+            }
         } catch (DAOException $e) {
             Log::error($e);
             throw new ServiceException($e->getMessage());
@@ -129,9 +134,46 @@ class ProfileServiceImpl implements ProfileService
             $isCopy = $request
                 ->getRequest()
                 ->file('ImageBrows')
-                ->move($path, env('BASE_NAME_IMG_PROFILE') . $request->getId() . '.' . $extension);
-            if($isCopy){
-             return   $path . env('BASE_NAME_IMG_PROFILE') . $request->getId() . '.' . $extension;
+                ->move($path, 'temp-' . env('BASE_NAME_IMG_PROFILE') . $request->getId() . '.' . $extension);
+            if ($isCopy) {
+                return $path . 'temp-' . env('BASE_NAME_IMG_PROFILE') . $request->getId() . '.' . $extension;
+            }
+        } catch (DAOException $e) {
+            Log::error($e);
+            throw new ServiceException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new ServiceException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function cancelSetFileBrowsAsProfileImage(BasicRequest $request)
+    {
+        // TODO: Implement cancelSetFileBrowsAsProfileImage() method.
+    }
+
+    /**
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function ConfirmSetFileBrowsAsProfileImage(BasicRequest $request)
+    {
+        Log::debug('Iniciando ConfirmSetFileBrowsAsProfileImage desde: ' . ProfileServiceImpl::class);
+        try {
+            $patter = env('URL_BASE_IMGS').'users/temp*.*';
+            $tempImage = $request->getData()['confirm_image'];
+            $image = str_replace('temp-','',$tempImage);
+            Log::debug('image: '. $image);
+            $rename = rename(env('URL_BASE_IMGS') . $tempImage, env('URL_BASE_IMGS') . $image);
+            if ($rename) {
+                $request->setData(['image' => $image]);
+                if ($this->profileDao->updateProfile($request)) {
+                    Util::findAndSuprFiles($patter);
+                    return env('URL_BASE_IMGS') . $image;
+                }
             }
         } catch (DAOException $e) {
             Log::error($e);

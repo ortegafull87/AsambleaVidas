@@ -6,6 +6,7 @@ use App\Beans\BasicRequest;
 use App\Beans\HttpResponse;
 use App\Library\HttpStatusCode;
 use App\Library\Message;
+use App\Library\Util;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -43,11 +44,13 @@ class ProfileController extends Controller
         if (Auth::guest()) {
             abort(404);
         } else {
+            $patter = env('URL_BASE_IMGS').'avatars/*.*';
+            $avatars = Util::scanDirectory($patter);
             $bRequest = new BasicRequest();
             $bRequest->setId(Auth::User()->id);
             $user = $this->profileService->getProfile($bRequest);
             $score = $this->profileService->getScores($bRequest);
-            return View('app.config.profile', ['user' => $user, 'score' => $score]);
+            return View('app.config.profile', ['user' => $user, 'score' => $score, 'avatars' => $avatars]);
         }
 
     }
@@ -131,6 +134,7 @@ class ProfileController extends Controller
 
             if ($updateAvatar) {
                 $response->setMessage(Message::APP_PROFILE_IMAGE_UPDATED);
+                $response->setData(asset(env('URL_BASE_IMGS') . $updateAvatar));
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
             }
         } catch (ServiceException $sex) {
@@ -146,6 +150,10 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setFileBrowsAsProfileImage(Request $request)
     {
         Log::info('iniciando controlador setFileBrowsAsProfileImage desde: ' . ProfileController::class);
@@ -153,7 +161,7 @@ class ProfileController extends Controller
 
             $response = new HttpResponse();
             //validaciones
-            if(!$request->hasFile('ImageBrows')){
+            if (!$request->hasFile('ImageBrows')) {
                 $response->setMessage(Message::APP_NOT_FILE_RECIVER);
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
             }
@@ -166,8 +174,69 @@ class ProfileController extends Controller
 
             if ($updateImageBrows) {
                 $response->setMessage(Message::APP_PROFILE_IMAGE_UPDATED);
+                $response->setData(asset($updateImageBrows));
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
             }
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function confirmImageBrows(Request $request)
+    {
+        Log::info('Inicias confirmImageBrows desde: ' . ProfileController::class);
+        $response = new HttpResponse();
+        try {
+            $confirm_image = $request->input('conf_img');
+            $bRequest = new BasicRequest();
+            $bRequest->setId(Auth::User()->id);
+            $bRequest->setData(['confirm_image' => $confirm_image]);
+
+            $confirm = $this->profileService->ConfirmSetFileBrowsAsProfileImage($bRequest);
+            if ($confirm) {
+                $response->setMessage(Message::APP_PROFILE_IMAGE_UPDATED);
+                $response->setData(asset($confirm));
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            }
+
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Elimina las imagenes temporales
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cancelUpdateImage(Request $request)
+    {
+        Log::info('Inicias cancelUpdateImage desde: ' . ProfileController::class);
+        $response = new HttpResponse();
+        try {
+            $patter = env('URL_BASE_IMGS').'users/temp*.*';
+            Util::findAndSuprFiles($patter);
+            $response->setMessage('Canceled');
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
         } catch (ServiceException $sex) {
             Log::error($sex);
             $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);

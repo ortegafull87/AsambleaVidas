@@ -49,7 +49,8 @@ var AudioService = {
         get: {
             trakPerPage: function (page, callback) {
                 _self.onSpinner('.track-box-container');
-                $.post('http://localhost:8000/estudios/audios/perPage?page=' + page, function (xhr) {
+                var path = $('body').data('base');
+                $.post(path + 'estudios/audios/perPage?page=' + page, function (xhr) {
                     _self.offSpinner();
                     callback(xhr);
 

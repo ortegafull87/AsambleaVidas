@@ -68,7 +68,7 @@
                     <div class="do-comment">
                         <div class="input-group">
                                 <span class="input-group-addon" style="padding: 0;">
-                                    <img src="{{asset('/img/avatar3.png')}}" height="32" width="32">
+                                    <img src="@include('comun.imageprofile')" height="32" width="32">
                                 </span>
                             <input id='txt_post'
                                    data-url="{{asset('estudios/audios/post/'.$audio->id.'/setPostTrack')}}" type="text"
@@ -93,6 +93,7 @@
 @endsection
 
 @section('scriptsapp')
+    <script src="{{ asset('/plugins/bootcomplete/jquery.bootcomplete.js') }}" type="text/javascript"></script>
     <script src="{{asset('/js/app/estudios/audios/Audio.js') . '?v='. env('APP_VERSION')}}"
             type="text/javascript"></script>
     <script src="{{asset('/js/app/estudios/audios/AudioService.js'). '?v='. env('APP_VERSION')}}"

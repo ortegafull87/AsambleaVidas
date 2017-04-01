@@ -96,6 +96,8 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
         ),
         'C' => 
         array (
@@ -276,6 +278,14 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+        ),
         'ClassPreloader\\' => 
         array (
             0 => __DIR__ . '/..' . '/classpreloader/classpreloader/src',
@@ -348,9 +358,25 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
             array (
                 0 => __DIR__ . '/..' . '/dropbox/dropbox-sdk/lib',
             ),
+            'Doctrine\\DBAL\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
+            ),
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
+            ),
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+            ),
+            'Doctrine\\Common\\Annotations\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
         ),
         'C' => 
@@ -363,6 +389,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
     );
 
     public static $classMap = array (
+        'AddBirthdayFielToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_144529_add_birthday_fiel_to_users_table.php',
         'AddColumsToTableUser' => __DIR__ . '/../..' . '/database/migrations/2017_02_07_231418_add_colums_to_table_user.php',
         'AddDescriptionToAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035223_add_description_to_albumes_table.php',
         'AddDescriptionToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035158_add_description_to_tracks_table.php',
@@ -370,6 +397,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         'AddFieldRemoteRepositoryToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_01_205207_add_field_remoteRepository_to_tracks_table.php',
         'AddFieldsToProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_043122_add_fields_to_profiles_table.php',
         'AddFolderToAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_09_180006_add_folder_to_albumes_table.php',
+        'AddGandleFielToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_191813_add_gandle_fiel_to_users_table.php',
         'AddPictureStatusidToAlbumeTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_17_062056_add_picture_statusid_to_albume_table.php',
         'AddSketchToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_08_162834_add_sketch_to_tracks_table.php',
         'AddStatusToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
@@ -494,9 +522,12 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
+        'MakeBirthdayColTableUsers' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_064651_make_birthday_col_table_users.php',
         'ModAddVisitorIdToTableListenes' => __DIR__ . '/../..' . '/database/migrations/2017_01_25_004819_mod_add_visitor_id_to_table_listenes.php',
         'ModForignIdsToTableListenes' => __DIR__ . '/../..' . '/database/migrations/2017_01_25_023359_mod_forign_ids_to_table_listenes.php',
+        'ModGandleFielToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_191408_mod_gandle_fiel_to_users_table.php',
         'ModTableUser' => __DIR__ . '/../..' . '/database/migrations/2016_11_30_022039_mod_table_user.php',
+        'ModTableUsers' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_061129_mod_table_users.php',
         'PHPUnit_Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit_Extensions_GroupTestSuite' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/GroupTestSuite.php',
         'PHPUnit_Extensions_PhptTestCase' => __DIR__ . '/..' . '/phpunit/phpunit/src/Extensions/PhptTestCase.php',

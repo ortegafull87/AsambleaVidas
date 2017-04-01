@@ -1,0 +1,1 @@
+{{ asset('').env('URL_BASE_IMGS').((empty(Auth::User()->image))?'no-image-profile.png':Auth::User()->image)}}

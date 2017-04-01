@@ -182,7 +182,7 @@ var Util = {
      */
     openUrl:function (url) {
         window.location.href=url;
-    }
+    },
 
 
 };

@@ -49,4 +49,16 @@ interface ProfileService
      * @return mixed
      */
     public function setFileBrowsAsProfileImage(BasicRequest $request);
+
+    /**
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function cancelSetFileBrowsAsProfileImage(BasicRequest $request);
+
+    /**
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function ConfirmSetFileBrowsAsProfileImage(BasicRequest $request);
 }

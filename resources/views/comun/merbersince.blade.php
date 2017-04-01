@@ -1,0 +1,1 @@
+{{ \App\Library\Util::FORMAT_DATE_TO(Auth::user()->created_at,'M Y') }}

@@ -58,4 +58,6 @@ Route::get('configuration/profile', ['uses' => 'Aplication\Config\ProfileControl
 Route::patch('configuration/profile/setUpdate', ['uses' => 'Aplication\Config\ProfileController@updateProfile']);
 Route::patch('configuration/profile/setAvatar', ['uses' => 'Aplication\Config\ProfileController@setAvatarAsProfileImage']);
 Route::patch('configuration/profile/setImageBrows', ['uses' => 'Aplication\Config\ProfileController@setFileBrowsAsProfileImage']);
+Route::patch('configuration/profile/confirmImageBrows', ['uses' => 'Aplication\Config\ProfileController@confirmImageBrows']);
+Route::delete('configuration/profile/cancelImage', ['uses' => 'Aplication\Config\ProfileController@cancelUpdateImage']);
 

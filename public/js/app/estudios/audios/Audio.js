@@ -6,7 +6,7 @@ var Audio = {
     TIME_COUNT_PLAYED: 3.0,
     LAST_PAGE: 0,
     SPINNER: '<div class="spiner"><span class="fa fa-2x fa-spinner fa-spin"></span></div>',
-    ajaxDone:true,
+    ajaxDone: true,
     _init: function () {
         _self = Audio;
         _self.events();
@@ -55,7 +55,7 @@ var Audio = {
             var url = $(object.target).data('url');
             if (currentTime < Audio.TIME_COUNT_PLAYED) {
                 AudioService.set.listened(url, function (data) {
-                    console.info(data);
+                    //console.info(data);
                 });
             }
         });
@@ -66,10 +66,31 @@ var Audio = {
 
         $(window).scroll(function () {
             if ($(this).scrollTop() === ($(document).height() - $(window).height())) {
-                if(_self.ajaxDone) {
+                if (_self.ajaxDone) {
                     Audio.getTrackPerPage();
                 }
             }
+        });
+
+        //ayuda de busqueda
+        $('#finder_track').on('focus', function () {
+            var placeholder = $(this).attr('placeholder');
+            $(this).attr('placeholder', 'Puedes buscar por nombre, autor, serie, etc');
+            $(this).on('focusout', function () {
+                $(this).attr('placeholder', placeholder);
+            });
+        });
+
+        //SmartFinder
+        $('#finder_track').bootcomplete({
+            url: $('body').data('base') + 'smart/finder/findTracks',
+            method: 'post',
+            minLength: 2,
+            afterClick: function (object) {
+                var url_link = $('input#finder_track').data('url');
+                url_link = url_link.replace(':id', $(object).data('id'));
+                Util.openUrl(url_link);
+            },
         });
     }
     ,

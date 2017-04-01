@@ -767,4 +767,49 @@ class Util
         }
     }
 
+    /**
+     * @param $path
+     * @return bool
+     */
+    public static function findAndSuprFiles($path)
+    {
+        Log:info('Iniciando findAndSuprFiles desde: ' . Util::class);
+        try {
+            Log::debug($path);
+            $files = glob($path);
+            if (is_array($files)) {
+                Log::debug($files);
+                foreach ($files as $file) {
+                    unlink($file);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @param $path
+     * @return array|bool
+     */
+    public static function scanDirectory($path)
+    {
+        Log:info('Iniciando scanDirectory desde: ' . Util::class);
+        try {
+            Log::debug($path);
+            $files = glob($path);
+            if (is_array($files)) {
+                return $files;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
 }

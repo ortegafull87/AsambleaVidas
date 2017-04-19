@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use App\Service\ProfileServiceImpl as ProfileService;
@@ -44,7 +45,7 @@ class ProfileController extends Controller
         if (Auth::guest()) {
             abort(404);
         } else {
-            $patter = env('URL_BASE_IMGS').'avatars/*.*';
+            $patter = env('URL_BASE_IMGS') . 'avatars/*.*';
             $avatars = Util::scanDirectory($patter);
             $bRequest = new BasicRequest();
             $bRequest->setId(Auth::User()->id);
@@ -130,7 +131,7 @@ class ProfileController extends Controller
                 'image' => $avatar,
             ]);
 
-            $updateAvatar = $this->profileService->updateProfile($bRequest);
+            $updateAvatar = $this->profileService->updateImageProfile($bRequest);
 
             if ($updateAvatar) {
                 $response->setMessage(Message::APP_PROFILE_IMAGE_UPDATED);
@@ -233,10 +234,50 @@ class ProfileController extends Controller
         Log::info('Inicias cancelUpdateImage desde: ' . ProfileController::class);
         $response = new HttpResponse();
         try {
-            $patter = env('URL_BASE_IMGS').'users/temp*.*';
+            $patter = env('URL_BASE_IMGS') . 'users/temp*.*';
             Util::findAndSuprFiles($patter);
             $response->setMessage('Canceled');
             return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function updatePassword(Request $request)
+    {
+        Log::info('Inicias updatePassword desde: ' . ProfileController::class);
+        $response = new HttpResponse();
+        try {
+            $bRequest = new BasicRequest();
+            $bRequest->setId(Auth::User()->id);
+            Log::debug($request->input('current_password'));
+            $bRequest->setData(
+                [
+                    'current_password' => $request->input('current_password'),
+                    'new_password' => $request->input('new_password'),
+                ]
+            );
+            $update = $this->profileService->updatePassword($bRequest);
+            if ($update) {
+                $response->setMessage('Cambio exitoso<br>Ingresa tu nueva contraseña la proxima vez que inicies sesi&oacute;n');
+                $response->setData("OK");
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            }else{
+                $response->setMessage('Tu contraseña actual no coinside');
+                $response->setData("ERROR");
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+            }
         } catch (ServiceException $sex) {
             Log::error($sex);
             $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);

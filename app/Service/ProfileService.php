@@ -61,4 +61,11 @@ interface ProfileService
      * @return mixed
      */
     public function ConfirmSetFileBrowsAsProfileImage(BasicRequest $request);
+
+    /**
+     * Actualiza el password de un usuario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePassword(BasicRequest $request);
 }

@@ -577,6 +577,20 @@ p.msj{
     display: none;
 }
 
+.app-link{
+    text-decoration: none!important;
+    font-weight: 800 !important;
+    color: #6d7169 !important;
+    border-bottom: 1px dotted #0a70f8!important;
+    cursor: pointer;
+}
+.app-link:hover{
+    color: #0a70f8 !important;
+}
+.instructions .bg-primary {
+    padding: 8px;
+}
+
 /* Dragg and dropp image*/
 
 
@@ -626,6 +640,9 @@ p.msj{
 .dropped .controls .cancel,
 .dropped .controls #btn_done{
     display: inline-block !important;
+}
+.c-pointer{
+    cursor:pointer;
 }
 
 /* Dragg and dropp image*/

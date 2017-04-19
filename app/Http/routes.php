@@ -60,4 +60,5 @@ Route::patch('configuration/profile/setAvatar', ['uses' => 'Aplication\Config\Pr
 Route::patch('configuration/profile/setImageBrows', ['uses' => 'Aplication\Config\ProfileController@setFileBrowsAsProfileImage']);
 Route::patch('configuration/profile/confirmImageBrows', ['uses' => 'Aplication\Config\ProfileController@confirmImageBrows']);
 Route::delete('configuration/profile/cancelImage', ['uses' => 'Aplication\Config\ProfileController@cancelUpdateImage']);
+Route::patch('configuration/profile/updatePassword', ['uses' => 'Aplication\Config\ProfileController@updatePassword']);
 

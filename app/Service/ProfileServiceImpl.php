@@ -12,6 +12,7 @@ use App\Beans\BasicRequest;
 use App\Dao\ProfileDaoImpl as ProfileDao;
 use App\Exceptions\DAOException;
 use App\Exceptions\ServiceException;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use App\Library\Util;
 
@@ -44,7 +45,7 @@ class ProfileServiceImpl implements ProfileService
             Log::error($e);
             throw new ServiceException($e->getMessage());
         } catch (\Exception $e) {
-            throw new ServiceException($e);
+            throw new ServiceException($e->getMessage());
         }
     }
 
@@ -72,7 +73,7 @@ class ProfileServiceImpl implements ProfileService
             Log::error($e);
             throw new ServiceException($e->getMessage());
         } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(), $e);
+            throw new ServiceException($e->getMessage());
         }
     }
 
@@ -87,6 +88,29 @@ class ProfileServiceImpl implements ProfileService
         Log::debug('Iniciando updateProfile desde: ' . ProfileServiceImpl::class);
         try {
             if ($this->profileDao->updateProfile($request)) {
+                return true;
+            } else {
+                return 0;
+            }
+        } catch (DAOException $e) {
+            Log::error($e);
+            throw new ServiceException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new ServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Actualiza solo la imagen del perfil.
+     * @param BasicRequest $request
+     * @return int
+     * @throws ServiceException
+     */
+    public function updateImageProfile(BasicRequest $request)
+    {
+        Log::debug('Iniciando updateProfile desde: ' . ProfileServiceImpl::class);
+        try {
+            if ($this->profileDao->updateProfile($request)) {
                 return $request->getData()['image'];
             } else {
                 return 0;
@@ -95,7 +119,7 @@ class ProfileServiceImpl implements ProfileService
             Log::error($e);
             throw new ServiceException($e->getMessage());
         } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(), $e);
+            throw new ServiceException($e->getMessage());
         }
     }
 
@@ -113,7 +137,7 @@ class ProfileServiceImpl implements ProfileService
             Log::error($e);
             throw new ServiceException($e->getMessage());
         } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(), $e);
+            throw new ServiceException($e->getMessage());
         }
     }
 
@@ -142,7 +166,7 @@ class ProfileServiceImpl implements ProfileService
             Log::error($e);
             throw new ServiceException($e->getMessage());
         } catch (\Exception $e) {
-            throw new ServiceException($e->getMessage(), $e);
+            throw new ServiceException($e->getMessage());
         }
     }
 
@@ -163,10 +187,10 @@ class ProfileServiceImpl implements ProfileService
     {
         Log::debug('Iniciando ConfirmSetFileBrowsAsProfileImage desde: ' . ProfileServiceImpl::class);
         try {
-            $patter = env('URL_BASE_IMGS').'users/temp*.*';
+            $patter = env('URL_BASE_IMGS') . 'users/temp*.*';
             $tempImage = $request->getData()['confirm_image'];
-            $image = str_replace('temp-','',$tempImage);
-            Log::debug('image: '. $image);
+            $image = str_replace('temp-', '', $tempImage);
+            Log::debug('image: ' . $image);
             $rename = rename(env('URL_BASE_IMGS') . $tempImage, env('URL_BASE_IMGS') . $image);
             if ($rename) {
                 $request->setData(['image' => $image]);
@@ -182,4 +206,32 @@ class ProfileServiceImpl implements ProfileService
             throw new ServiceException($e->getMessage(), $e);
         }
     }
+
+    /**
+     * Actualiza el password de un usuario
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePassword(BasicRequest $request)
+    {
+        Log::debug('Iniciando updatePassword desde: ' . ProfileServiceImpl::class);
+        try {
+            $user = $this->profileDao->getProfile($request);
+            $current_pass = $request->getData()['current_password'];
+            if (Hash::check($current_pass,$user[0]->password)) {
+                $request->setData(
+                    ['password' => Hash::make($request->getData()['new_password'])]
+                );
+                return $this->profileDao->updateProfile($request);
+            } else {
+                return false;
+            }
+        } catch (DAOException $e) {
+            Log::error($e);
+            throw new ServiceException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new ServiceException($e->getMessage(), $e);
+        }
+    }
+
 }

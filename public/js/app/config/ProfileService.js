@@ -23,8 +23,8 @@ var ProfileService = {
             ProfileService._update(url, data, callback);
         }
         ,
-        updatePassword: function () {
-
+        password: function (url, data, callback) {
+            ProfileService._update(url, data, callback);
         }
     }
     ,

@@ -24,7 +24,7 @@
         <div class="form-group">
             <label for="inputPassword" class="col-sm-2 control-label">Contraseña</label>
             <div class="col-sm-10">
-                <a href="#" class="">Cambiar mi contraseña</a>
+                <a id="mod_pass" href="#" class="app-link">Cambiar mi contraseña</a>
             </div>
         </div>
         <div class="form-group">
@@ -53,17 +53,24 @@
         <div class="form-group">
             <label for="inputBirthday" class="col-sm-2 control-label">Nacimiento</label>
             <div class="col-sm-10">
-                <input type="date" class="form-control" name="inputBirthday" value="{{$user->birthday}}">
+                <input id="datemask" type="text" class="form-control" name="inputBirthday"  value="{{$user->birthday}}">
             </div>
         </div>
-        <div class="form-group">
-            <label for="inputSkills" class="col-sm-2 control-label">Ubicación</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputLocation" name="inputLocation"
-                       placeholder="[ICO_MAPA] Selecciona tu ubicaci&oacute;n"
-                       value="{{$user->location}}">
+        <!--<div class="form-group">
+            <label for="inputBirthday" class="col-sm-2 control-label">Ubicaci&oacute;n</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" name="inputContry" placeholder="Selecciona tu pais" value="">
             </div>
-        </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" name="inputProvince" placeholder="Selecciona tu estado" value="">
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-default">
+                    <i class="fa fa-map-marker"></i>
+                </button>
+            </div>
+        </div>-->
+
         <br>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

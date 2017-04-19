@@ -15,13 +15,13 @@
 
         <ul class="list-group list-group-unbordered">
             <li class="list-group-item">
-                <b>Aportes</b> <a class="pull-right">{{$score['contributions']}}</a>
+                <b>Aportes</b> <a class="pull-right app-link">{{$score['contributions']}}</a>
             </li>
             <li class="list-group-item">
-                <b>Comentarios</b> <a class="pull-right">{{$score['comments']}}</a>
+                <b>Comentarios</b> <a class="pull-right app-link">{{$score['comments']}}</a>
             </li>
             <li class="list-group-item">
-                <b>Favoritos</b> <a class="pull-right">{{$score['favorites']}}</a>
+                <b>Favoritos</b> <a class="pull-right app-link">{{$score['favorites']}}</a>
             </li>
         </ul>
 

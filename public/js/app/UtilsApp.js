@@ -1,7 +1,16 @@
 /**
  * Created by VictorDavid on 15/01/2017.
  */
+var CONSTANTS = {
+    SPINNER_1X: '<i class="fa fa-refresh fa-spin fa-fw"></i>',
+    SPINNER_2X: '<i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>',
+    SPINNER_3X: '<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>'
+};
+
+var auxes={};
+
 var Util = {
+
     _init: function () {
 
     }
@@ -84,6 +93,31 @@ var Util = {
      */
     openUrl: function (url) {
         window.location.href = url;
+    }
+    ,
+    spinner: {
+        _button: {
+            text: null,
+
+            on: function (selector) {
+                var _aux = Util.encript(selector);
+
+                auxes[_aux] = $(selector).html();
+                var w = $(selector).width();
+                $(selector).width(w+'px');
+                $(selector).html(CONSTANTS.SPINNER_1X);
+            }
+            ,
+            off: function (selector) {
+                var _aux = Util.encript(selector);
+                $(selector).html(auxes[_aux]);
+                delete auxes[_aux];
+            }
+        }
+    }
+    ,
+    encript:function(str){
+        return $.md5(str);
     }
 };
 $(document).ready(Util._init);

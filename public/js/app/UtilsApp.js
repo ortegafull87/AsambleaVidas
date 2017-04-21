@@ -84,7 +84,7 @@ var Util = {
      * @param html
      */
     insertPost: function (html) {
-        $('.comments').prepend(html);
+        $('.post').prepend(html);
     }
     ,
     /**

@@ -1,23 +1,51 @@
 @foreach($posts as $post)
-    <div class="media">
-        <div class="media-left media-middle">
-            <a href="#">
-                <!--<img alt="64x64" class="media-object" data-src="holder.js/64x64" style="width: 64px; height: 64px;"
-                     src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNTlkZThlMjQ2MiB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1OWRlOGUyNDYyIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxNCIgeT0iMzYuNSI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4="
-                     data-holder-rendered="true">-->
-                <img src="{{ asset('').env('URL_BASE_IMGS').((empty($post->image))?'no-image-profile.png':$post->image)}}" height="54" width="54">
-            </a>
-        </div>
-        <div class="media-body">
-            <h5 class="media-heading">{{$post->name}}</h5>
-            <div class="text-comment">
-                {{$post->comment}}
-            </div>
-            <div class="foot-post">
-                <span class=""><i class="ion-clock"></i> {{\App\Library\Util::FORMAT_DATE_TO($post->created_at,'F j, Y, g:i a')}}</span>
-                <span><a href="#"><i class="ion-edit"></i> Editar</a></span>
-                <!--<span><a href="#"><i class="ion-forward"></i> Responder</a></span>-->
-            </div>
-        </div>
+    <div class="user-block" id="{{$post->id}}">
+        <img class="img-circle img-bordered-sm"
+             src="{{ asset('').env('URL_BASE_IMGS').((empty($post->image))?'no-image-profile.png':$post->image)}}"
+             alt="user image">
+                        <span class="username">
+                          <a href="#">{{$post->name}}</a>
+                            <!--<a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>-->
+                        </span>
+        <span class="description">Publicado - {{\App\Library\Util::FORMAT_DATE_TO($post->created_at,'j F Y g:i a')}}</span>
     </div>
+    <!-- /.user-block -->
+
+    <p class="post-comment" data-id="{{$post->id}}">
+        @if($post->updated_at >$post->created_at)
+            <span class="text-warning c-pointer" style="font-size: .85em" data-toggle="tooltip" data-placement="top"
+                  title="Comentario modificado {{\App\Library\Util::FORMAT_DATE_TO($post->updated_at,'j F Y g:i a')}}">...<i
+                        class="fa fa-pencil" aria-hidden="true"></i></span>
+        @endif
+        {{$post->comment}}
+    </p>
+    <ul class="list-inline" data-id="{{$post->id}}">
+        <li><a href="#" class="link-black text-sm" data-action="go-comment"><i class="fa fa-reply margin-r-5"></i>
+                Responder</a></li>
+        @if(Auth::check() && ($post->user_id == Auth::User()->id))
+            <li><a href="#" class="link-black text-sm" data-action="go-edit-comment"><i class="ion-edit margin-r-5"></i>
+                    Editar</a></li>
+        @endif
+    </ul>
+    @if(Auth::check() && ($post->user_id == Auth::User()->id))
+        <div class="edit-post well hidden" data-id="{{$post->id}}">
+            <textarea id="post_to_edit" class="form-control" data-autoresize>{{$post->comment}}</textarea>
+            <button class="btn btn-default" data-action="cancel-edit-comment"><i class="fa fa-times"
+                                                                                 aria-hidden="true"></i>
+                Cancelar
+            </button>
+            <button class="btn btn-info" data-action="edit-comment"><i class="fa fa-check" aria-hidden="true"></i>
+                Editar
+            </button>
+        </div>
+    @endif
+    <div class="input-group input-group-md hidden">
+        <input class="form-control input-sm " type="text"
+               placeholder="Presiona Enter cuando termines o el botón azul Responder" id="comment_post"
+               data-id="{{$post->id}}">
+        <span class="input-group-addon bg-aqua c-pointer" id="btn_do_comment_post">
+            Responder
+        </span>
+    </div>
+    <br>
 @endforeach

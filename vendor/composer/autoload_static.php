@@ -391,6 +391,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
     public static $classMap = array (
         'AddBirthdayFielToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_144529_add_birthday_fiel_to_users_table.php',
         'AddColumsToTableUser' => __DIR__ . '/../..' . '/database/migrations/2017_02_07_231418_add_colums_to_table_user.php',
+        'AddContryProvinceLatLngToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_09_083111_add_contry_province_lat_lng_to_users_table.php',
         'AddDescriptionToAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035223_add_description_to_albumes_table.php',
         'AddDescriptionToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035158_add_description_to_tracks_table.php',
         'AddEmailsToAuthorsTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_04_022805_add_emails_to_authors_table.php',
@@ -402,6 +403,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         'AddSketchToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_08_162834_add_sketch_to_tracks_table.php',
         'AddStatusToUsersTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_12_032500_add_status_to_users_table.php',
         'AddStatusidToTracksTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_11_035623_add_statusid_to_tracks_table.php',
+        'AddTitleFieldToNotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_12_210024_add_title_field_to_notes_table.php',
         'CreateAlbumesTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_034903_create_albumes_table.php',
         'CreateAuthorsTable' => __DIR__ . '/../..' . '/database/migrations/2016_08_05_032358_create_authors_table.php',
         'CreateConfigurationsTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_24_050638_create_configurations_table.php',
@@ -415,6 +417,7 @@ class ComposerStaticInit6d63e3cf76e6076da5792dc4ec63d2a0
         'CreateStatusTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_12_043131_create_status_table.php',
         'CreateStudysTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_24_043603_create_studys_table.php',
         'CreateTableListeneds' => __DIR__ . '/../..' . '/database/migrations/2016_11_25_054006_create_table_listeneds.php',
+        'CreateTableNotes' => __DIR__ . '/../..' . '/database/migrations/2017_04_12_195612_create_table_notes.php',
         'CreateTablePlaylistTrack' => __DIR__ . '/../..' . '/database/migrations/2016_11_25_130219_create_table_playlist_track.php',
         'CreateTablePlaylists' => __DIR__ . '/../..' . '/database/migrations/2016_11_25_055651_create_table_playlists.php',
         'CreateTableRatingStudy' => __DIR__ . '/../..' . '/database/migrations/2016_11_25_051938_create_table_rating_study.php',

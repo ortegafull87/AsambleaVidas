@@ -49,9 +49,13 @@ class ProfileController extends Controller
             $avatars = Util::scanDirectory($patter);
             $bRequest = new BasicRequest();
             $bRequest->setId(Auth::User()->id);
+            $bRequest->setData(['rows' => env('ROWS_NOTE_PROFILE')]);
             $user = $this->profileService->getProfile($bRequest);
             $score = $this->profileService->getScores($bRequest);
-            return View('app.config.profile', ['user' => $user, 'score' => $score, 'avatars' => $avatars]);
+            $notes = $this->profileService->getNotes($bRequest);
+
+            return View('app.config.profile',
+                ['user' => $user, 'score' => $score, 'avatars' => $avatars, 'notes' => $notes]);
         }
 
     }
@@ -74,7 +78,6 @@ class ProfileController extends Controller
             $email = $request->input('inputEmail');
             $gandle = $request->input('sltGandle');
             $birthday = $request->input('inputBirthday');
-            $location = $request->input('inputLocation');
 
             Log::info($birthday);
             $date = date_create($birthday);
@@ -91,7 +94,7 @@ class ProfileController extends Controller
                 'email' => $email,
                 'gandle' => $gandle,
                 'birthday' => $birthday,
-                'location' => $location,
+
             ]);
             $update = $this->profileService->updateProfile($bRequest);
 
@@ -273,7 +276,7 @@ class ProfileController extends Controller
                 $response->setMessage('Cambio exitoso<br>Ingresa tu nueva contraseña la proxima vez que inicies sesi&oacute;n');
                 $response->setData("OK");
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
-            }else{
+            } else {
                 $response->setMessage('Tu contraseña actual no coinside');
                 $response->setData("ERROR");
                 return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);

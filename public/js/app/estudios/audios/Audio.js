@@ -92,6 +92,24 @@ var Audio = {
                 Util.openUrl(url_link);
             },
         });
+
+        $.each(jQuery('textarea[data-autoresize]'), function () {
+            var offset = this.offsetHeight - this.clientHeight;
+
+            var resizeTextarea = function (el) {
+                $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+            };
+            $(this).on('keyup input', function () {
+                resizeTextarea(this);
+            }).removeAttr('data-autoresize');
+        });
+
+        //show edit comments
+        $(document).on('click', 'a[data-action="go-edit-comment"]', Audio.showEditComment);
+        //hide edit comments
+        $(document).on('click', 'button[data-action="cancel-edit-comment"]', Audio.hideEditComment);
+        //show comment post
+        $(document).on('click', 'a[data-action="go-comment"]', Audio.showCommentPost);
     }
     ,
     /**
@@ -198,10 +216,69 @@ var Audio = {
         AudioService.set.post(url, data, function (xhr) {
             if (xhr != null) {
                 var response = JSON.parse(xhr.responseText);
-                $('.comments').prepend(response.view);
+                $('.post').prepend(response.view);
                 post.val('');
             }//if
         });//AudioService
+    }
+    ,
+    /**
+     * Muestra el formulario para editar un comentario
+     * @param event
+     */
+    showEditComment: function (event) {
+        event.preventDefault();
+        var id = $(this).closest('.list-inline').data('id');
+        Audio.hideControllsComment(id);
+        $('div.edit-post[data-id="' + id + '"]').removeClass('hidden');
+        $('.edit-post[data-id="' + id + '"] > textarea').trigger('focus');
+
+    }
+    ,
+    /**
+     * Oculta el formulario para editar un commentario
+     * @param event
+     */
+    hideEditComment: function (event) {
+        event.preventDefault();
+        var id = $(this).closest('.edit-post').data('id');
+        Audio.showControllsComment(id);
+        $('div.edit-post[data-id="' + id + '"]').addClass('hidden');
+    }
+    ,
+    /**
+     * Muestra el input para ingresar una respuesta
+     * @param event
+     */
+    showCommentPost: function (event) {
+        event.preventDefault();
+        var id = $(this).closest('.list-inline').data('id');
+        Audio.hideControllsComment(id);
+        $.inputComment = $('input#comment_post[data-id="' + id + '"]');
+        $.inputComment.parent().removeClass('hidden');
+        $.inputComment.trigger('focus');
+
+        $.inputComment.focusout(function () {
+            Audio.showControllsComment(id);
+            $.inputComment.parent().addClass('hidden');
+        });
+    }
+
+    ,
+    /**
+     * Oculta los botones primarios de un comentario.
+     * @param id
+     */
+    hideControllsComment: function (id) {
+        $('.list-inline[data-id="' + id + '"]').slideUp('fast');
+    }
+    ,
+    /**
+     * Muestra los botones primarios de un comentario.
+     * @param id
+     */
+    showControllsComment: function (id) {
+        $('.list-inline[data-id="' + id + '"]').slideDown('fast');
     }
 };
 

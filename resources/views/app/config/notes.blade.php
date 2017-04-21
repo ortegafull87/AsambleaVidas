@@ -5,14 +5,21 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes 1</strong>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-
-        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes 2</strong>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+        @if(count($notes)>0)
+            @foreach($notes as $note)
+                <strong><i class="fa fa-file-text-o margin-r-5"></i> {{$note->title}}</strong>
+                <p class="text-muted" style="margin-left: 20px;">{{$note->updated_at}}</p>
+                <p>{{$note->note}}</p>
+            @endforeach
+        @else
+            @include('app.comun.no-content-message')
+        @endif
     </div>
     <!-- /.box-body -->
+    @if(count($notes)> env('ROWS_NOTE_PROFILE'))
+        <div class="box-footer text-center">
+            <a href="#" class="app-link">Mostrar todas</a>
+        </div>
+    @endif
 </div>
 <!-- /.box -->

@@ -53,7 +53,8 @@
         <div class="form-group">
             <label for="inputBirthday" class="col-sm-2 control-label">Nacimiento</label>
             <div class="col-sm-10">
-                <input id="datemask" type="text" class="form-control" name="inputBirthday"  value="{{$user->birthday}}">
+                <!--<input id="datemask" type="text" class="form-control" name="inputBirthday"  value="{{$user->birthday}}">-->
+                <input id="datemask" type="text" class="form-control" name="inputBirthday"  value="{{ date('d/m/Y',strtotime($user->birthday)) }}">
             </div>
         </div>
         <!--<div class="form-group">

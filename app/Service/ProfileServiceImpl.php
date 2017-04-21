@@ -234,4 +234,21 @@ class ProfileServiceImpl implements ProfileService
         }
     }
 
+    /**
+     * Obtiene las notas
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getNotes(BasicRequest $request)
+    {
+        Log::debug('Iniciando getNotes desde: ' . ProfileServiceImpl::class);
+        try {
+            return $this->profileDao->getNotes($request);
+        } catch (DAOException $e) {
+            Log::error($e);
+            throw new ServiceException($e->getMessage());
+        } catch (\Exception $e) {
+            throw new ServiceException($e->getMessage(), $e);
+        }
+    }
 }

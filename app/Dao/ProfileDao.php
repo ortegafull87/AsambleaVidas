@@ -21,6 +21,13 @@ interface ProfileDao
     public function getProfile(BasicRequest $request);
 
     /**
+     * Obtiene las notas
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getNotes(BasicRequest $request);
+
+    /**
      * Obtiene la cantidad de material
      * agregado a la lista de favoritos
      * @param BasicRequest $request

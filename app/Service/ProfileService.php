@@ -29,6 +29,13 @@ interface ProfileService
     public function getScores(BasicRequest $request);
 
     /**
+     * Obtiene las notas
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getNotes(BasicRequest $request);
+
+    /**
      * Actualiza los datos de un perfil
      * ecepto la contraseña y la imagen
      * @param BasicRequest $request

@@ -66,21 +66,27 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <div class="do-comment">
-                        <div class="input-group">
-                                <span class="input-group-addon" style="padding: 0;">
-                                    <img src="@include('comun.imageprofile')" height="32" width="32">
-                                </span>
-                            <input id='txt_post'
-                                   data-url="{{asset('estudios/audios/post/'.$audio->id.'/setPostTrack')}}" type="text"
-                                   class="form-control" placeholder="Añade un comentario...">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-1 text-center">
+                                <img class="img-circle img-bordered-sm" src="@include('comun.imageprofile')" height="60"
+                                     width="60">
+                            </div>
+                            <div class="col-xs-10 col-md-11" style="padding: 2.1%;padding-left: 29px;">
+                                <div class="input-group input-group-md">
+                                    <input id='txt_post'
+                                           data-url="{{asset('estudios/audios/post/'.$audio->id.'/setPostTrack')}}"
+                                           type="text"
+                                           class="form-control" placeholder="Añade un comentario...">
                             <span class="input-group-btn">
                                 <button id='btn_post' type="button" class="btn btn-info btn-flat">Comentar</button>
                             </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="comments">
+                    <div class="post">
                         @include('app.comun.post')
                     </div>
                 </div>

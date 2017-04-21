@@ -12,6 +12,7 @@ namespace App\Dao;
 use App\Beans\BasicRequest;
 use App\Exceptions\DAOException;
 use App\Models\Favorite;
+use App\Models\Note;
 use App\Models\PostTrack;
 use App\User;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +31,7 @@ class ProfileDaoImpl implements ProfileDao
         try {
             return User::where('id', $request->getId())->get();
         } catch (\Exception $e) {
-            throw new DAOException($e->getMessage(),$e);
+            throw new DAOException($e->getMessage(), $e);
         }
     }
 
@@ -48,7 +49,7 @@ class ProfileDaoImpl implements ProfileDao
                 ->get()
                 ->count();
         } catch (\Exception $e) {
-            throw new DAOException($e->getMessage(),$e);
+            throw new DAOException($e->getMessage(), $e);
         }
     }
 
@@ -64,7 +65,7 @@ class ProfileDaoImpl implements ProfileDao
         try {
             return 0;
         } catch (\Exception $e) {
-            throw new DAOException($e->getMessage(),$e);
+            throw new DAOException($e->getMessage(), $e);
         }
     }
 
@@ -82,7 +83,7 @@ class ProfileDaoImpl implements ProfileDao
                 ->get()
                 ->count();
         } catch (\Exception $e) {
-            throw new DAOException($e->getMessage(),$e);
+            throw new DAOException($e->getMessage(), $e);
         }
     }
 
@@ -99,7 +100,27 @@ class ProfileDaoImpl implements ProfileDao
             return User::where('id', $request->getId())
                 ->update($request->getData());
         } catch (\Exception $e) {
-            throw new DAOException($e->getMessage(),$e);
+            throw new DAOException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * Obtiene las notas
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getNotes(BasicRequest $request)
+    {
+        Log::debug('Inicia getNotes desde: ' . ProfileDaoImpl::class);
+        try {
+            $rows = $request->getData()['rows'];
+            if ($rows > 0) {
+                return Note::where('id', $request->getId())->paginate($rows);
+            } else {
+                return Note::where('id', $request->getId())->get();
+            }
+        } catch (\Exception $e) {
+            throw new DAOException($e->getMessage(), $e);
         }
     }
 }

@@ -1,7 +1,7 @@
 @foreach($audios as $audio)
     <div id="box_{{$audio->id}}" class="box">
         <div class="more-info text-right" data-toggle="tooltip" data-placement="right" title="Más información.">
-            <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}"><i class="fa fa-info-circle"
+            <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}"><i class="fa fa-book"
                                                                                 style="font-size: 18px;"></i></a>
         </div>
         <div class="flag" data-url="{{asset('estudios/audios/'.$audio->id.'/toggleFavorite')}}"
@@ -38,7 +38,7 @@
                 @if(strlen($audio->description)>0)
                     <?php echo $audio->sketch?>
                     @if(strlen($audio->sketch)>215)
-                        <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}">Seguir leyendo</a>
+                        <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}" class="app-link">Seguir leyendo</a>
                     @endif
                 @else
                     @include('app.comun.no-content-message')

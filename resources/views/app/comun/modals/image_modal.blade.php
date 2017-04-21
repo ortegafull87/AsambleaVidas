@@ -26,7 +26,7 @@
                             <div class="controls">
                                 <p class="msj"></p>
                                 <input type="file" id="ImageBrows" name="ImageBrows" class="hidden">
-                                <button class="btn btn-default upload">busca en tu PC</button>
+                                <button class="btn btn-primary upload">busca en tu PC</button>
                                 <button class="btn btn-link cancel">Intentar con otra imagen</button>
                                 <button id="btn_done" class="btn btn-info">Guardar</button>
                             </div>
@@ -34,10 +34,12 @@
                     </div>
                 </div>
                 <div class="select-avatar">
-                    <div class="well well-mod">
-                        <p>Si lo prefieres, puedes seleccionar un avatar de acuerdo a tu personalidad</p>
+                    <div class="instructions">
+                        <p class="bg-primary">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            Si lo prefieres, puedes seleccionar un avatar de acuerdo a tu personalidad
+                        </p>
                     </div>
-
                     <ul data-url="{{asset('configuration/profile/setAvatar')}}">
                         @foreach($avatars as $url_avatar)
                             <li><img src="{{asset($url_avatar)}}" height="50"

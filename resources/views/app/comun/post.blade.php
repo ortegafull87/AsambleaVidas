@@ -13,9 +13,7 @@
 
     <p class="post-comment" data-id="{{$post->id}}">
         @if($post->updated_at >$post->created_at)
-            <span class="text-warning c-pointer" style="font-size: .85em" data-toggle="tooltip" data-placement="top"
-                  title="Comentario modificado {{\App\Library\Util::FORMAT_DATE_TO($post->updated_at,'j F Y g:i a')}}">...<i
-                        class="fa fa-pencil" aria-hidden="true"></i></span>
+            @include('app.comun.pencil-post_updated')
         @endif
         {{$post->comment}}
     </p>
@@ -28,7 +26,7 @@
         @endif
     </ul>
     @if(Auth::check() && ($post->user_id == Auth::User()->id))
-        <div class="edit-post well hidden" data-id="{{$post->id}}">
+        <div class="edit-post well hidden" data-id="{{$post->id}}" data-url="{{asset('estudios/audios/post/'.$post->id.'/updatePostTrack')}}">
             <textarea id="post_to_edit" class="form-control" data-autoresize>{{$post->comment}}</textarea>
             <button class="btn btn-default" data-action="cancel-edit-comment"><i class="fa fa-times"
                                                                                  aria-hidden="true"></i>

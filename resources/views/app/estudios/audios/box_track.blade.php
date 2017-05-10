@@ -71,7 +71,7 @@
         <div class="box-footer">
             <div class="share">
                 <div>
-                    <a id="{{$audio->id}}" name="share" href="#" title="Compartir">
+                    <a data-action="share" data-id="{{$audio->id}}" href="#" title="Compartir">
                         <i class="fa fa-share-alt" aria-hidden="true"></i>
                         Compartir
                     </a>
@@ -97,12 +97,6 @@
                     @endif
                 </div>
             </div>
-        </div>
-        <div class="option-share">
-            <span class="fa fa-times" title="Cerrar"></span>
-            <div class="option"><a href="#"><span class="fa fa-envelope"></span> correo</a></div>
-            <div class="option"><a href="#"><span class="fa fa-facebook"></span> facebook</a></div>
-            <div class="option"><a href="#"><span class="fa fa-twitter"></span> twitter</a></div>
         </div>
     </div>
 @endforeach

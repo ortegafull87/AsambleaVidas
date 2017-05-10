@@ -606,7 +606,38 @@ p.msj{
 .instructions .bg-primary {
     padding: 8px;
 }
+.app-v-list{
+    padding: 0;
+}
+.app-v-list li{
+    border: 2px solid #FFFFFF;
+    display: inline-block;
+    color: #a5a5a5;
+    cursor: pointer;
+    height: 80px;
+    width:32%;
+    padding:15px;
+    margin-bottom:5px;
+    text-align: center;
+}
+.app-v-list li span{
+    display: block!important;
+}
+.app-v-list li.selected{
+    border: 2px solid #00acd6;
+}
 
+.app-v-list li:hover{
+    border: 2px solid #00acd6;
+}
+.app-link-icons li a{
+    tex-decoration:none;
+    color: #a5a5a5;
+}
+.app-link-icons li label{
+    display:block;
+    margin-top:2px;
+}
 /* Dragg and dropp image*/
 
 
@@ -662,3 +693,18 @@ p.msj{
 }
 
 /* Dragg and dropp image*/
+
+.app-instructions{
+    margin: 10px 5px;
+}
+.app-instructions .info{
+    position: absolute;
+    right: 35px;
+    width: 250px;
+    display: block;
+}
+
+.app-instructions .info p{
+    padding: 10px;
+    border-radius: 10px 0px 10px 10px;
+}

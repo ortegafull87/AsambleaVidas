@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Aplication\Estudios;
 
 use App\Beans\BasicRequest;
 use App\Beans\HttpResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
 use App\Library\Constantes;
 use App\Library\HttpStatusCode;
 use App\Library\Message;
+use App\Library\SendMail;
+use App\Service\TrackServiceImpl as TrackService;
 use Google\Cloud\Exception\ServiceException;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
-use App\Service\TrackServiceImpl as TrackService;
 use Illuminate\Support\Facades\View;
 use Mockery\CountValidator\Exception;
 
@@ -295,4 +295,89 @@ class AudioController extends Controller
         }
     }
 
+    public function updatePostTrack($id, Request $Request)
+    {
+        Log::info('Inicia updatePostTrack desde: ' . AudioController::class);
+        try {
+            $response = new HttpResponse();
+            $bRequest = new BasicRequest();
+
+            //Verifica si la solicitud es de un usuario logeado
+            if (Auth::guest()) {
+                $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_FORBIDDEN);
+            } else {
+                //Valida los datos obligatorios
+                if (0 == $id || empty(Input::get('comment'))) {
+                    throw new Exception(sprintf(
+                        Message::APP_ERROR_SET_MESSAGE_NO_PARAMS,
+                        $id,
+                        $Request->input('comment')));
+                }
+
+                Log::debug($Request->input('comment'));
+                //Setea los valores necesarios
+                $bRequest->setId($id);
+                $bRequest->setData([
+                    'comment' => $Request->input('comment'),
+                ]);
+                $updatePost = $this->trackService->updatePostTrack($bRequest);
+                if ($updatePost) {
+                    $post = $this->trackService->getLastPostTrack($id);
+                    $pencil = View::make('app/comun/pencil-post_updated', ['post' => $post[0]]);
+                    $response->setMessage("Updated");
+                    $response->setView($pencil);
+                    $response->setData($Request->input('comment'));
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+                }
+            }
+
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @param $id
+     * @param Request $request
+     */
+    public function shareMail($id, Request $request)
+    {
+        Log::info('Inicia shareMail desde: ' . AudioController::class);
+        $response = new HttpResponse();
+        try {
+            if (Auth::guest()) {
+                $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_FORBIDDEN);
+            } else {
+
+                $bRequest = new BasicRequest();
+                $emails = $request->input('emails');
+                Log::debug($emails);
+                $send = SendMail::share(Auth::user()->id,$emails,$id);
+                if ($send) {
+                    $response->setMessage("Compartido");
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+                }
+            }
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -48,7 +48,9 @@ Route::post('estudios/audios/{id}/{rate}/setRate', ['uses' => 'Aplication\Estudi
 Route::post('estudios/audios/{id}/setListened', ['uses' => 'Aplication\Estudios\AudioController@setListened']);
 Route::get('estudios/audios/post/{id}/track', ['uses' => 'Aplication\Estudios\AudioController@getPostTrack']);
 Route::post('estudios/audios/post/{id}/setPostTrack', ['uses' => 'Aplication\Estudios\AudioController@setPostTrack']);
+Route::patch('estudios/audios/post/{id}/updatePostTrack', ['uses' => 'Aplication\Estudios\AudioController@updatePostTrack']);
 Route::get('estudios/audios/download', ['uses' => 'Aplication\Estudios\AudioController@downloadAudio']);
+Route::post('estudios/audios/post/{id}/shareMail', ['uses' => 'Aplication\Estudios\AudioController@shareMail']);
 
 //SmartFinder
 Route::post('smart/finder/findTracks', ['uses' => 'SmartFinderController@findTracks']);

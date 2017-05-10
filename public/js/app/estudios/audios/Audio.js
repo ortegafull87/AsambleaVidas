@@ -7,16 +7,23 @@ var Audio = {
     LAST_PAGE: 0,
     SPINNER: '<div class="spiner"><span class="fa fa-2x fa-spinner fa-spin"></span></div>',
     ajaxDone: true,
+    temps:{id_share:0},
     _init: function () {
         _self = Audio;
         _self.events();
         _self.LAST_PAGE = $("div.track-box-container").data('lastp');
+        $('textarea#addressee').tagEditor({
+            forceLowercase: false,
+            removeDuplicates: true,
+            placeholder: 'Ingresa e-mail..'
+        });
     },
 
     events: function () {
         // Abre las opciones para compartir
-        $(document).on('click', '.share div a[name="share"]', function (object) {
+        /*$(document).on('click', '.share div a[name="share"]', function (object) {
             object.preventDefault();
+            alert($(object.target).data('id'));
             $(object.target)
                 .parents('.box')
                 .children('.option-share')
@@ -28,7 +35,17 @@ var Audio = {
             $(object.target)
                 .parents('.option-share')
                 .removeClass('option-share-up');
+        });*/
+
+        //Abre la modal para compartir
+        $(document).on('click', 'a[data-action="share"]', function (event) {
+            event.preventDefault();
+            Audio.temps.id_share=$(event.target).data('id');
+            $('#modal_share .modal-footer').addClass('hidden');
+            $('#modal_share').modal('show');
+            $('#my_tabs a[href="#tab_menu"]').tab('show');
         });
+
         //Listener para las estrellas rating.
         $(document).on('click', 'div.rate a', function (object) {
             object.preventDefault();
@@ -103,13 +120,24 @@ var Audio = {
                 resizeTextarea(this);
             }).removeAttr('data-autoresize');
         });
-
         //show edit comments
         $(document).on('click', 'a[data-action="go-edit-comment"]', Audio.showEditComment);
+        //go-share-email-way
+        $(document).on('click', 'button#do-share', Share.mail);
         //hide edit comments
         $(document).on('click', 'button[data-action="cancel-edit-comment"]', Audio.hideEditComment);
         //show comment post
         $(document).on('click', 'a[data-action="go-comment"]', Audio.showCommentPost);
+        //edit comment post
+        $(document).on('click', 'button[data-action="edit-comment"]', Audio.editPost);
+        //Share list
+        $(document).on('click', '.share-list > li[data-link="envelope"]', Audio.showFormShareMail);
+
+        $(document).on('click', '#btn_cancel_share_mail', function(){
+            $('#my_tabs a[href="#tab_menu"]').tab('show');
+        });
+
+
     }
     ,
     /**
@@ -223,6 +251,27 @@ var Audio = {
     }
     ,
     /**
+     *
+     * @param event
+     */
+    editPost: function (event) {
+        $.editP = $(this).parents('.edit-post');
+        var id = $.editP.data('id');
+        var url = $.editP.data('url');
+        var data = {"comment": $.editP.children('#post_to_edit').val()};
+        AudioService.update.post(url, data, function (xhr) {
+            var response = JSON.parse(xhr.responseText);
+            $.postC = $('.post-comment[data-id="' + id + '"]');
+            $.postC.html(response.data);
+            $.postC.prepend(response.view);
+            Audio.showControllsComment(id);
+            $('div.edit-post[data-id="' + id + '"]').addClass('hidden');
+        });
+
+
+    }
+    ,
+    /**
      * Muestra el formulario para editar un comentario
      * @param event
      */
@@ -263,7 +312,6 @@ var Audio = {
             $.inputComment.parent().addClass('hidden');
         });
     }
-
     ,
     /**
      * Oculta los botones primarios de un comentario.
@@ -280,6 +328,59 @@ var Audio = {
     showControllsComment: function (id) {
         $('.list-inline[data-id="' + id + '"]').slideDown('fast');
     }
+    ,
+    showFormShareMail: function (obj) {
+        $('#my_tabs a[href="#tab_frm_mail"]').tab('show');
+        $(this).addClass('selected');
+        $('textarea#addressee').trigger('focus');
+
+    }
 };
 
+/**
+ * Objecto con funciones para compartir
+ * @type {{mail: Share.mail}}
+ */
+var Share = {
+
+    /**
+     *
+     * @param obj
+     */
+    mail: function () {
+        $.tagE = $('textarea#addressee');
+        var emails = $.tagE.tagEditor('getTags')[0].tags;
+        var url = $(this).data('url');
+        var data = {"emails": emails};
+        url = url.replace('{id}',Audio.temps.id_share);
+        Util.spinner._button.on('#do-share');
+        AudioService.set.share.mail(url, data, function (xhr) {
+            Util.spinner._button.off('#do-share');
+            var response = JSON.parse(xhr.responseText);
+            $('#modal_share').modal('hide');
+            $('#modal_share .app-v-list li').removeClass('selected');
+            $.tagE.next('.tag-editor').find('.tag-editor-delete').click();
+            //show message
+            $.toast({
+                text: response.message,
+                position: 'mid-center',
+                stack: false,
+                icon: 'info'
+            });//toast
+        });
+
+    }
+    ,
+    facebook: function (event) {
+        event.preventDefault();
+    }
+    ,
+    twitter: function (event) {
+        event.preventDefault();
+    }
+    ,
+    googlep: function (event) {
+        event.preventDefault();
+    }
+};
 $(document).ready(Audio._init);

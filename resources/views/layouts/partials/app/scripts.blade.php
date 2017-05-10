@@ -8,6 +8,9 @@
 <script src="{{ asset('/plugins/fastclick/fastclick.js') }}"></script>
 <!-- toast -->
 <script src="{{ asset('/plugins/toast/jquery.toast.min.js') }}" type="text/javascript"></script>
+<!-- TagEditor -->
+<script src="{{ asset('/plugins/jquery-tag-editor/js/jquery.caret.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/jquery-tag-editor/js/jquery.tag-editor.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.js') }}"></script>
 <!-- AdminLTE for demo purposes -->

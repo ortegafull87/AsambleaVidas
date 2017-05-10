@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="{{ asset('/plugins/jQuery-bar-rating/dist/themes/fontawesome-stars.css') }}">
 <!-- toast -->
 <link href="{{ asset('/plugins/toast/jquery.toast.min.css') }}" rel="stylesheet" type="text/css" />
+<!--TagEditor-->
+<link href="{{ asset('/plugins/jquery-tag-editor/css/jquery.tag-editor.css') }}" rel="stylesheet" type="text/css" />
 <!--Animate-->
 <!-- Animate CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">

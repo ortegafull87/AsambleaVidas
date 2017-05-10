@@ -4,8 +4,8 @@
         <th colspan="3">
             <div class="row">
                 <div class="col-xs-5 text-right">
-                    <a href="#"><i class="ion-android-share-alt" aria-hidden="true"></i>
-                        Compartir</a>
+                    <a data-action="share" data-id="{{$audio->id}}" href="#" title="Compartir">
+                        <i class="ion-android-share-alt" aria-hidden="true"></i> Compartir</a>
                 </div>
                 <div class="col-xs-5 text-right">
                     @if(empty($audio->remote_repository))
@@ -22,6 +22,7 @@
             </div>
         </th>
     </tr>
+
     </thead>
     <tbody>
     <tr>

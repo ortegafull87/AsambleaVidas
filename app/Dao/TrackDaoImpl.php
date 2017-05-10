@@ -460,7 +460,7 @@ class TrackDaoImpl implements TrackDao
         try {
             return DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
-                ->select('post_track.*', 'users.name')
+                ->select('post_track.*', 'users.name','users.image')
                 ->where('post_track.id', '=', $id)
                 ->get();
 
@@ -701,6 +701,22 @@ class TrackDaoImpl implements TrackDao
             return $tracks
                 ->where('tracks.id', '=', $request->getId())
                 ->get();
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Modifica el comentario de un post
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePostTrack(BasicRequest $request)
+    {
+        Log::debug('Inicia updatePostTrack desde: ' . TrackDaoImpl::class);
+        try {
+            return PostTrack::where('id', '=', $request->getId())
+                ->update($request->getData());
         } catch (\Exception $ex) {
             throw new DAOException($ex);
         }

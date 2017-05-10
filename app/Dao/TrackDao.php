@@ -104,6 +104,13 @@ interface TrackDao extends CRUD
     public function setPostTrack(BasicRequest $request);
 
     /**
+     * Modifica el comentario de un post
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePostTrack(BasicRequest $request);
+
+    /**
      * Obtiene la cantidad de tracks dado un id
      * de estado.
      * @param $id

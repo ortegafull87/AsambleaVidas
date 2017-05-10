@@ -28,6 +28,7 @@
     <div class="track-box-container" data-lastp="{{$audios->lastPage()}}">
         @include('app.estudios.audios.box_track')
     </div>
+    @include('app.comun.modals.share_modal')
 @endsection
 
 @section('scriptsapp')
@@ -38,6 +39,7 @@
             });
         });
     </script>
+    <script src="{{asset('/plugins/jquery-md5/jquery-md5.min.js')}}" type="text/javascript"></script>
     <script src="{{ asset('/plugins/bootcomplete/jquery.bootcomplete.js') }}" type="text/javascript"></script>
     <script src="{{asset('/js/app/estudios/audios/Audio.js')}}" type="text/javascript"></script>
     <script src="{{asset('/js/app/estudios/audios/AudioService.js')}}" type="text/javascript"></script>

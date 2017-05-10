@@ -72,6 +72,13 @@ interface TrackService extends CRUD
     public function setPostTrack(BasicRequest $request);
 
     /**
+     * Modifica el comentario de un post
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePostTrack(BasicRequest $request);
+
+    /**
      * Obtiene una lista de tracks por estado
      * @param BasicRequest $request
      * @return mixed

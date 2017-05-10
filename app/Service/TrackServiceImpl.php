@@ -429,6 +429,24 @@ class TrackServiceImpl implements TrackService
     }
 
     /**
+     * Modifica el comentario de un post
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function updatePostTrack(BasicRequest $request)
+    {
+        Log::debug('Inicia updatePostTrack desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->updatePostTrack($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
+
+    /**
      * Obtiene el conteo de los diferentes estados de un track
      * dado un array de estados.
      * @param BasicRequest $request
@@ -593,4 +611,5 @@ class TrackServiceImpl implements TrackService
             throw new ServiceException($ex);
         }
     }
+
 }

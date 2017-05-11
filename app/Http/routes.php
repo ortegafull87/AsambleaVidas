@@ -43,6 +43,7 @@ Route::get('acount/new/{id}/{token}/confirm', ['uses' => 'UserAdmController@conf
 // app audio
 //Route::get('estudios/audios/all', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
 Route::post('estudios/audios/perPage', ['uses' => 'Aplication\Estudios\AudioController@getPerPage']);
+Route::post('estudios/audios/posts/{id}/perPage', ['uses' => 'Aplication\Estudios\AudioController@getMoreComments']);
 Route::post('estudios/audios/{id}/toggleFavorite', ['uses' => 'Aplication\Estudios\AudioController@toggleFavoriteTrack']);
 Route::post('estudios/audios/{id}/{rate}/setRate', ['uses' => 'Aplication\Estudios\AudioController@setRate']);
 Route::post('estudios/audios/{id}/setListened', ['uses' => 'Aplication\Estudios\AudioController@setListened']);

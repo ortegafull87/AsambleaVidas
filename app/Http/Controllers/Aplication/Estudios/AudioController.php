@@ -83,6 +83,7 @@ class AudioController extends Controller
     }
 
     /**
+     * Obtiene mas tracks por pagina
      * @return View
      */
     public function getPerPage()
@@ -362,11 +363,48 @@ class AudioController extends Controller
                 $bRequest = new BasicRequest();
                 $emails = $request->input('emails');
                 Log::debug($emails);
-                $send = SendMail::share(Auth::user()->id,$emails,$id);
+                $send = SendMail::share(Auth::user()->id, $emails, $id);
                 if ($send) {
                     $response->setMessage("Compartido");
                     return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
                 }
+            }
+        } catch (ServiceException $sex) {
+            Log::error($sex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($sex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            $response->setMessage(Message::APP_ERROR_GENERAL_PPROCESS_FAILED);
+            $response->setError($ex->getMessage());
+            return response()->json($response->toArray(), HttpStatusCode::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Muestra más comentarios seccionados por página
+     * @param $id
+     */
+    public function getMoreComments($id)
+    {
+        Log::info('Inicia getMoreComments desde: ' . AudioController::class);
+        $response = new HttpResponse();
+        try {
+            if (Auth::guest()) {
+                $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_FORBIDDEN);
+            } else {
+                $bRequest = new BasicRequest();
+                $bRequest->setId($id);
+                $posts = $this->trackService->getPostsTrack($bRequest);
+                if($posts){
+                    $response->setMessage("OK");
+                    $vista = View::make('app/comun/post', ['posts' => $posts]);
+                    $response->setView($vista);
+                    return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
+                }
+   
             }
         } catch (ServiceException $sex) {
             Log::error($sex);

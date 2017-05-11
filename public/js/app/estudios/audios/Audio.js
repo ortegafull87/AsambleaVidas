@@ -7,7 +7,7 @@ var Audio = {
     LAST_PAGE: 0,
     SPINNER: '<div class="spiner"><span class="fa fa-2x fa-spinner fa-spin"></span></div>',
     ajaxDone: true,
-    temps:{id_share:0},
+    temps: {id_share: 0},
     _init: function () {
         _self = Audio;
         _self.events();
@@ -22,25 +22,25 @@ var Audio = {
     events: function () {
         // Abre las opciones para compartir
         /*$(document).on('click', '.share div a[name="share"]', function (object) {
-            object.preventDefault();
-            alert($(object.target).data('id'));
-            $(object.target)
-                .parents('.box')
-                .children('.option-share')
-                .addClass('option-share-up');
-        });
+         object.preventDefault();
+         alert($(object.target).data('id'));
+         $(object.target)
+         .parents('.box')
+         .children('.option-share')
+         .addClass('option-share-up');
+         });
 
-        //Cierra las opciones para compartir
-        $(document).on('click', 'div.option-share span.fa-times, div.option-share div.option a', function (object) {
-            $(object.target)
-                .parents('.option-share')
-                .removeClass('option-share-up');
-        });*/
+         //Cierra las opciones para compartir
+         $(document).on('click', 'div.option-share span.fa-times, div.option-share div.option a', function (object) {
+         $(object.target)
+         .parents('.option-share')
+         .removeClass('option-share-up');
+         });*/
 
         //Abre la modal para compartir
         $(document).on('click', 'a[data-action="share"]', function (event) {
             event.preventDefault();
-            Audio.temps.id_share=$(event.target).data('id');
+            Audio.temps.id_share = $(event.target).data('id');
             $('#modal_share .modal-footer').addClass('hidden');
             $('#modal_share').modal('show');
             $('#my_tabs a[href="#tab_menu"]').tab('show');
@@ -132,11 +132,12 @@ var Audio = {
         $(document).on('click', 'button[data-action="edit-comment"]', Audio.editPost);
         //Share list
         $(document).on('click', '.share-list > li[data-link="envelope"]', Audio.showFormShareMail);
-
-        $(document).on('click', '#btn_cancel_share_mail', function(){
+        //Cancel share
+        $(document).on('click', '#btn_cancel_share_mail', function () {
             $('#my_tabs a[href="#tab_menu"]').tab('show');
         });
-
+        //Show more comments
+        $(document).on('click', 'button[data-action="more-comments"]', Audio.showMoreComments);
 
     }
     ,
@@ -329,11 +330,26 @@ var Audio = {
         $('.list-inline[data-id="' + id + '"]').slideDown('fast');
     }
     ,
+    /**
+     * Muestra el formulario para compartir un audio por correo.
+     * @param obj
+     */
     showFormShareMail: function (obj) {
         $('#my_tabs a[href="#tab_frm_mail"]').tab('show');
         $(this).addClass('selected');
         $('textarea#addressee').trigger('focus');
-
+    }
+    ,
+    /**
+     * Funcion para mostrar más comentarios
+     * @param event
+     */
+    showMoreComments: function (event) {
+        var url = $(event.target).data('url');
+        AudioService.ajax.get.moreComments(url, function (xhr) {
+            console.debug(xhr);
+            $('.post').append(xhr.view);
+        });
     }
 };
 
@@ -352,7 +368,7 @@ var Share = {
         var emails = $.tagE.tagEditor('getTags')[0].tags;
         var url = $(this).data('url');
         var data = {"emails": emails};
-        url = url.replace('{id}',Audio.temps.id_share);
+        url = url.replace('{id}', Audio.temps.id_share);
         Util.spinner._button.on('#do-share');
         AudioService.set.share.mail(url, data, function (xhr) {
             Util.spinner._button.off('#do-share');

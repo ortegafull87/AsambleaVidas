@@ -49,7 +49,6 @@ var AudioService = {
             AudioService.ajax.post(url, data, callback)
         }
         ,
-
         share: {
             /**
              * Solicita el servicio para compartir por correo un audio
@@ -86,6 +85,20 @@ var AudioService = {
                     callback(xhr);
 
                 });
+            }
+            ,
+            moreComments: function (url, callback) {
+                var page = $('#current_page').val();
+                var pages = $('#aviable_pages').val();
+                if (page < pages) {
+                    Util.spinner._button.on('button[data-action="more-comments"]');
+                    page++;
+                    $.post(url + page, function (xhr) {
+                        Util.spinner._button.off('button[data-action="more-comments"]');
+                        $('#current_page').val(page);
+                        callback(xhr);
+                    });
+                }
             }
 
         }

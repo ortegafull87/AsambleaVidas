@@ -86,17 +86,19 @@
                     </div>
                 </div>
                 <div class="box-body">
+                    <input type="hidden" id="aviable_pages" value="{{$posts->lastPage()}}">
+                    <input type="hidden" id="current_page" value="1">
                     <div class="post">
                         @include('app.comun.post')
                     </div>
                 </div>
                 <div class="box-footer clearfix text-center">
-                    <button type="button" class="btn btn-default">Mostrar más</button>
+                    <button type="button" class="btn btn-default" data-action="more-comments" data-url="{{asset('estudios/audios/posts/'.$audio->id.'/perPage?page=')}}">Mostrar más</button>
                 </div>
             </div>
         </div><!-- /Section -->
     </div>
-    @include('app.comun.modals.share_modal');
+    @include('app.comun.modals.share_modal')
 @endsection
 
 @section('scriptsapp')

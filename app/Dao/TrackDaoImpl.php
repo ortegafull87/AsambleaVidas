@@ -17,9 +17,10 @@ use App\Models\Listened;
 use App\Models\PostTrack;
 use App\Models\RatingTrack;
 use App\Models\Track;
-use Mockery\CountValidator\Exception;
-use Log;
 use DB;
+use Illuminate\Support\Facades\Input;
+use Log;
+use Mockery\CountValidator\Exception;
 
 class TrackDaoImpl implements TrackDao
 {
@@ -437,13 +438,36 @@ class TrackDaoImpl implements TrackDao
     {
         Log::debug('Inicia getPostsTrack desde: ' . TrackDaoImpl::class);
         try {
-            return DB::table('post_track')
+            // Obtiene los post ecepto los de tipo respuesta
+            $posts = DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
-                ->select('post_track.*', 'users.name','users.image')
+                ->select('post_track.id', 'post_track.id as virtual_id', 'post_track.comment', 'post_track.post_track_parent_id', 'post_track.track_id', 'post_track.user_id', 'post_track.status_id', 'post_track.created_at', 'post_track.updated_at', 'users.name', 'users.image')
                 ->where('post_track.track_id', '=', $request->getId())
                 ->where('post_track.status_id', '=', Constantes::STATUS_ACTIVE)
-                ->orderBy('post_track.created_at', 'DESC')
-                ->paginate(10);
+                ->where('post_track_parent_id', '<', 1);
+
+            // Obtiene solo los post de tipo respuesta
+            $posts_resp = DB::table('post_track')
+                ->join('users', 'post_track.user_id', '=', 'users.id')
+                ->select('post_track.id', 'post_track.post_track_parent_id as virtual_id', 'post_track.comment', 'post_track.post_track_parent_id', 'post_track.track_id', 'post_track.user_id', 'post_track.status_id', 'post_track.created_at', 'post_track.updated_at', 'users.name', 'users.image')
+                ->where('post_track.track_id', '=', $request->getId())
+                ->where('post_track.status_id', '=', Constantes::STATUS_ACTIVE)
+                ->where('post_track_parent_id', '>', 0);
+
+            $all_post = $posts->union($posts_resp)
+                ->orderBy('virtual_id', 'ASC')
+                ->get();
+
+
+            $paginate = 10;
+            $page = Input::get('page', 1);
+
+            $offSet = ($page * $paginate) - $paginate;
+            $itemsForCurrentPage = array_slice($all_post, $offSet, $paginate, true);
+            $result = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($all_post), $paginate, $page);
+            return $result;
+
+            //return new Paginator($all_post, 10,2);
 
         } catch (\Exception $ex) {
             throw new DAOException($ex);
@@ -460,7 +484,7 @@ class TrackDaoImpl implements TrackDao
         try {
             return DB::table('post_track')
                 ->join('users', 'post_track.user_id', '=', 'users.id')
-                ->select('post_track.*', 'users.name','users.image')
+                ->select('post_track.*', 'users.name', 'users.image')
                 ->where('post_track.id', '=', $id)
                 ->get();
 
@@ -688,7 +712,7 @@ class TrackDaoImpl implements TrackDao
     }
 
     /**
-     * Funcion que ontiene información de un track para
+     * Funcion que obtiene información de un track para
      * la revista.
      * @param BasicRequest $request
      * @return mixed
@@ -717,6 +741,35 @@ class TrackDaoImpl implements TrackDao
         try {
             return PostTrack::where('id', '=', $request->getId())
                 ->update($request->getData());
+        } catch (\Exception $ex) {
+            throw new DAOException($ex);
+        }
+    }
+
+    /**
+     * Obtiene los audios favoritos para mostrarlos en
+     * un dropdown en forma de lista
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getFavoriteTracks(BasicRequest $request)
+    {
+        Log::debug('Inicia getFavoriteTracks desde: ' . TrackDaoImpl::class);
+        $id_user = $request->getData()['idUser'];
+        try {
+            return DB::table('tracks as t')
+                ->join('authors as au', 't.author_id', '=', 'au.id')
+                ->join('albumes as al', 't.albume_id', '=', 'al.id')
+                ->select(
+                    't.id as id',
+                    't.title',
+                    't.file',
+                    'al.title as albume',
+                    'al.genre',
+                    'al.genre',
+                    DB::raw('concat(au.firstName,\' \',au.lastName) as author'))
+                ->whereRaw('t.id in (select track_id from favorites where user_id=' . $id_user . ' and status_id=3)')
+                ->get();
         } catch (\Exception $ex) {
             throw new DAOException($ex);
         }

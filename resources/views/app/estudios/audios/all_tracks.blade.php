@@ -5,8 +5,14 @@
 @endsection
 
 @section('stylesapp')
-    <link href="{{ asset('/plugins/bootcomplete/bootcomplete.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/plugins/bootcomplete/bootcomplete.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('/css/app/inicio.css') }}" rel="stylesheet">
+@endsection
+
+@section('navBarDropDowns')
+    @if(isset($favorites))
+        @include('app.comun.dropdowns.favorites')
+    @endif
 @endsection
 
 @section('contentheader')
@@ -15,7 +21,9 @@
             <div class="col-sm-12 col-md-8 col-md-offset-2">
                 <div class="main-finder">
                     <div class="ctn-f">
-                        <input type="text" id="finder_track" name="finderTrack" data-url="{{asset('estudios/audios/post/:id/track')}}" placeholder="&#xf002; Haz click aquí para buscar...">
+                        <input type="text" id="finder_track" name="finderTrack"
+                               data-url="{{asset('estudios/audios/post/:id/track')}}"
+                               placeholder="&#xf002; Haz click aquí para buscar...">
                     </div>
                 </div>
             </div>

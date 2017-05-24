@@ -8,6 +8,12 @@
     <link href="{{ asset('/css/app/post_track.css'). '?v='. env('APP_VERSION') }}" rel="stylesheet">
 @endsection
 
+@section('navBarDropDowns')
+    @if(isset($favorites))
+        @include('app.comun.dropdowns.favorites')
+    @endif
+@endsection
+
 @section('contentheader')
     <?php $audio = $audio[0];?>
     <section class="content-header">

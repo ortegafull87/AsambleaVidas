@@ -49,15 +49,18 @@ var Audio = {
         //Listener para las estrellas rating.
         $(document).on('click', 'div.rate a', function (object) {
             object.preventDefault();
+            $(this).children().animateCss('rubberBand');
             Audio.setRate(object);
         });
         //Listener para favoritos
         $(document).on('click', 'div.box div.flag i.fa', function (object) {
             object.preventDefault();
+            $(this).animateCss('rubberBand');
             Audio.toggleFavorite(object);
         });//Listener
 
         $(document).on('click', 'div.toggle-favorite i', function (object) {
+            $(this).animateCss('rubberBand');
             Audio.toggleFavorite(object);
         });
         //Listener para registrar en un toast

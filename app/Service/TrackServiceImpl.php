@@ -612,4 +612,22 @@ class TrackServiceImpl implements TrackService
         }
     }
 
+    /**
+     * Obtiene los audios favoritos para mostrarlos en
+     * un dropdown en forma de lista
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getFavoriteTracks(BasicRequest $request)
+    {
+        Log::debug('Inicia getFavoriteTracks desde: ' . TrackServiceImpl::class);
+        try {
+            return $this->trackDao->getFavoriteTracks($request);
+        } catch (DAOException $dao) {
+            Log::error("Error desde: " . TrackDaoImpl::class);
+            throw new ServiceException($dao);
+        } catch (\Exception $ex) {
+            throw new ServiceException($ex);
+        }
+    }
 }

@@ -48,10 +48,15 @@ class AudioController extends Controller
                 $request->setId($id);
                 $request->setData(['idUser' => Auth::user()->id]);
                 $audio = $this->trackService->getAllAudioForUser($request);
+                $favorites = $this->trackService->getFavoriteTracks($request);
             }
             $postsTrack = $this->trackService->getPostsTrack($request);
-
-            return view('app.estudios.audios.post_track', ['audio' => $audio, 'posts' => $postsTrack]);
+            if (Auth::guest()) {
+                return view('app.estudios.audios.post_track', ['audio' => $audio, 'posts' => $postsTrack]);
+            } else {
+                return view('app.estudios.audios.post_track',
+                    ['audio' => $audio, 'posts' => $postsTrack, 'favorites' => $favorites]);
+            }
 
         } catch (ServiceException $sex) {
             Log::error($sex);
@@ -70,6 +75,7 @@ class AudioController extends Controller
             } else {
                 $request->setData(['idUser' => Auth::user()->id]);
                 $audios = $this->trackService->getAllAudioForUser($request);
+                $favorites = $this->trackService->getFavoriteTracks($request);
             }
         } catch (ServiceException $sex) {
             Log::error($sex);
@@ -78,7 +84,12 @@ class AudioController extends Controller
             Log::error($ex);
             return view('app.estudios.audios.all_tracks', ['audios' => null, 'message' => 'Error al tratar de ontener todos los audios']);
         }
-        return view('app.estudios.audios.all_tracks', ['audios' => $audios]);
+
+        if (Auth::guest()) {
+            return view('app.estudios.audios.all_tracks', ['audios' => $audios]);
+        } else {
+            return view('app.estudios.audios.all_tracks', ['audios' => $audios, 'favorites' => $favorites]);
+        }
 
     }
 
@@ -391,20 +402,15 @@ class AudioController extends Controller
         Log::info('Inicia getMoreComments desde: ' . AudioController::class);
         $response = new HttpResponse();
         try {
-            if (Auth::guest()) {
-                $response->setMessage(Message::APP_WARNING_FUNCTION_ONLY_AUTH_USER);
-                return response()->json($response->toArray(), HttpStatusCode::HTTP_FORBIDDEN);
-            } else {
-                $bRequest = new BasicRequest();
-                $bRequest->setId($id);
-                $posts = $this->trackService->getPostsTrack($bRequest);
-                if($posts){
-                    $response->setMessage("OK");
-                    $vista = View::make('app/comun/post', ['posts' => $posts]);
-                    $response->setView($vista);
-                    return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
-                }
-   
+
+            $bRequest = new BasicRequest();
+            $bRequest->setId($id);
+            $posts = $this->trackService->getPostsTrack($bRequest);
+            if ($posts) {
+                $response->setMessage("OK");
+                $vista = View::make('app/comun/post', ['posts' => $posts]);
+                $response->setView($vista);
+                return response()->json($response->toArray(), HttpStatusCode::HTTP_OK);
             }
         } catch (ServiceException $sex) {
             Log::error($sex);

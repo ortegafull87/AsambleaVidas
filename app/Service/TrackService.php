@@ -132,4 +132,12 @@ interface TrackService extends CRUD
      * @return mixed
      */
     public function getTrackById(BasicRequest $request);
+
+    /**
+     * Obtiene los audios favoritos para mostrarlos en
+     * un dropdown en forma de lista
+     * @param BasicRequest $request
+     * @return mixed
+     */
+    public function getFavoriteTracks(BasicRequest $request);
 }

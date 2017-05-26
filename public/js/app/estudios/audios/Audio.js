@@ -80,9 +80,11 @@ var Audio = {
             }
         });
 
-        $(document).on('click', '#btn_post', function (object) {
-            Audio.setPost(object);
-        });
+        //Ingresa un post nuevo
+        $(document).on('click', '#btn_post', Audio.setPost);
+
+        // Ingresa la respuesta a un post
+        $(document).on('click', '#btn_do_comment_post', Audio.setCommentPost);
 
         $(window).scroll(function () {
             if ($(this).scrollTop() === ($(document).height() - $(window).height())) {
@@ -235,7 +237,7 @@ var Audio = {
     }
     ,
     /**
-     *
+     * Ingresa un nuevo post
      * @param object
      */
     setPost: function (object) {
@@ -250,6 +252,30 @@ var Audio = {
                 var response = JSON.parse(xhr.responseText);
                 $('.post').prepend(response.view);
                 post.val('');
+            }//if
+        });//AudioService
+    }
+    ,
+    /**
+     * Ingresa un comentario a un post
+     * @param object
+     */
+    setCommentPost: function (obj) {
+        var post = $(this).parent().parent();
+        var comment = $(this).parent().children('input');
+        var url = $('input#txt_post').data('url');
+        console.debug(url);
+        var data = {
+            "comment": comment.val(),
+            "postTrackParentId": comment.data('id'),
+        };
+        AudioService.set.post(url, data, function (xhr) {
+            if (xhr != null) {
+                var response = JSON.parse(xhr.responseText);
+                $(post).after(response.view);
+                Audio.showControllsComment(comment.data('id'));
+                $('input#comment_post[data-id="' + comment.data('id') + '"]').parent().addClass('hidden');
+                comment.val('');
             }//if
         });//AudioService
     }
@@ -312,8 +338,10 @@ var Audio = {
         $.inputComment.trigger('focus');
 
         $.inputComment.focusout(function () {
-            Audio.showControllsComment(id);
-            $.inputComment.parent().addClass('hidden');
+            if($.inputComment.val() == '') {
+                Audio.showControllsComment(id);
+                $.inputComment.parent().addClass('hidden');
+            }
         });
     }
     ,

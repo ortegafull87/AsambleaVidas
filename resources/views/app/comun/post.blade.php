@@ -1,5 +1,5 @@
 @foreach($posts as $post)
-    <div class="{{($post->post_track_parent_id > 0)?'replayed-post':''}}">
+    <div class="{{($post->post_track_parent_id > 0)?'replayed-post':''}} post-block">
         <div class="user-block" id="{{$post->id}}">
             <img class="img-circle img-bordered-sm"
                  src="{{ asset('').env('URL_BASE_IMGS').((empty($post->image))?'no-image-profile.png':$post->image)}}"

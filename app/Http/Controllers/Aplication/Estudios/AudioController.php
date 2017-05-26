@@ -281,6 +281,7 @@ class AudioController extends Controller
                 ]);
                 //Ejecuta el servisio
                 $idPostTrack = $this->trackService->setPostTrack($request);
+                log::debug('Track nuevo: ' . $idPostTrack);
                 if ($idPostTrack > 0) {
                     $lastPost = $this->trackService->getLastPostTrack($idPostTrack);
                     $response->setMessage("posted");

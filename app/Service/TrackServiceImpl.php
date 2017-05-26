@@ -419,7 +419,6 @@ class TrackServiceImpl implements TrackService
         Log::debug('Inicia setPostTrack desde: ' . TrackServiceImpl::class);
         try {
             return $this->trackDao->setPostTrack($request);
-
         } catch (DAOException $dao) {
             Log::error("Error desde: " . TrackDaoImpl::class);
             throw new ServiceException($dao);

@@ -17,17 +17,31 @@
 
 @section('contentheader')
     <section class="content-header">
-        <div class="row">
-            <div class="col-sm-12 col-md-8 col-md-offset-2">
-                <div class="main-finder">
-                    <div class="ctn-f">
-                        <input type="text" id="finder_track" name="finderTrack"
-                               data-url="{{asset('estudios/audios/post/:id/track')}}"
-                               placeholder="&#xf002; Haz click aquí para buscar...">
+
+        <div class="menu-middle-top">
+            <div class="mmt-finder">
+                <div class="row">
+                    <div class="col-sm-12 col-md-8 col-md-offset-2">
+                        <div class="main-finder">
+                            <div class="ctn-f">
+                                <input type="text" id="finder_track" name="finderTrack"
+                                       data-url="{{asset('estudios/audios/post/:id/track')}}"
+                                       placeholder="&#xf002; Busqueda rapida..">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="mmt-menu">
+                <ul>
+                    <li><a href="{{asset('all/audios')}}" class="active"><i class="ion ion-ios-list"></i> Todos</a></li>
+                    <li><a href="{{asset('Predicación/audios')}}"><i class="ion ion-mic-c"></i> Predicaciónes</a></li>
+                    <li><a href="{{asset('Estudio/audios')}}"><i class="ion ion-speakerphone"></i> Estudios</a></li>
+                    <li><a href="{{asset('Serie/audios')}}"><i class="ion ion-disc"></i> Series</a></li>
+                </ul>
+            </div>
         </div>
+
     </section>
 @endsection
 

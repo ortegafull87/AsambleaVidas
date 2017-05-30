@@ -1,9 +1,5 @@
 @foreach($audios as $audio)
     <div id="box_{{$audio->id}}" class="box">
-        <div class="more-info text-right" data-toggle="tooltip" data-placement="right" title="Más información.">
-            <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}"><i class="fa fa-book"
-                                                                                style="font-size: 18px;"></i></a>
-        </div>
         <div class="flag" data-url="{{asset('estudios/audios/'.$audio->id.'/toggleFavorite')}}"
              data-titulo="{{$audio->title}}" title="Agregar a mis favoritos">
             @if($audio->favorite == 3)
@@ -22,7 +18,9 @@
         @endif
         <div class="box-content">
             <div class="title" title="{{$audio->title}}">
-                <label title="Super Title">{{$audio->title}}</label>
+                <label title="Super Title">
+                    <a href="{{asset('estudios/audios/post/'.$audio->id.'/track')}}" class="app-link">{{$audio->title}}</a>
+                </label>
             </div>
             <div class="data">
                 <div class="rate" data-url="{{asset('/estudios/audios/'.$audio->id.'/:rate/setRate')}}"

@@ -87,9 +87,7 @@ p {
     background-color: #FFFFFF;
     display: inline-block;
     height: 420px;
-    margin: 10px;
     overflow: hidden;
-    /*padding: 15px;*/
 
     -webkit-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.35);
     -moz-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.35);
@@ -98,6 +96,7 @@ p {
     -webkit-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
+
 
 .track-box-container div.box:hover {
 
@@ -310,6 +309,7 @@ div.box div.option-share div a {
 
 div.rate a {
     color: #4285f4;
+    font-size: 1.2em;
 }
 
 div.rate a:hover {
@@ -356,23 +356,31 @@ Post Track
 /* No media query since this is the default in Bootstrap */
 
 /* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
+@media (min-width: 769px) {
     .track-box-container > div {
         width: 97%;
     }
 }
 
 /* Medium devices (desktops, 992px and up) */
-@media (min-width: 992px) {
+@media (min-width: 993px) {
     .track-box-container > div {
         width: 47%;
+    }
+
+    .track-box-container div.box{
+        margin: 10px;
     }
 }
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+@media (min-width: 1201px) {
     .track-box-container > div {
         width: 31.2%;
+    }
+
+    .track-box-container div.box{
+        margin: 10px;
     }
 }
 
@@ -711,3 +719,62 @@ p.msj{
     padding: 10px;
     border-radius: 10px 0px 10px 10px;
 }
+
+/*Sub Menu Section*/
+
+.topping{
+    background-color: #ffffff;
+    height: 159px;
+    margin-top: 18px;
+    margin: 36px 0px 0px 0px;
+}
+
+.menu-middle-top{
+    margin-top: 39px;
+    padding: 5px 15px 0px 15px;
+}
+
+
+.menu-middle-top .mmt-menu{
+    height: 40px;
+    text-align: center;
+    display: block;
+    margin: 30px 20px;
+}
+
+.mmt-menu ul{
+    padding: 0;
+}
+.mmt-menu ul li{
+    display: inline-block;
+    text-decoration:none;
+    margin: 0px 15px;
+    cursor: pointer;
+}
+
+.mmt-menu ul li a{
+    font-size: 1.4em;
+    font-weight: 400;
+    color: #58595c;
+    border-bottom: 2px #f0f0f0 solid;
+
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.mmt-menu ul li a.active{
+    border-bottom: 2px #58595c solid;
+}
+
+.mmt-menu ul li a:hover{
+    border-bottom: 2px #58595c solid;
+
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/*Sub Menu Section*/

@@ -273,9 +273,9 @@ class TrackServiceImpl implements TrackService
             return $this->trackDao->getAllAudioForUser($request);
         } catch (DAOException $dex) {
             Log::error("Error desde: " . TrackDaoImpl::class);
-            throw ServiceException($dex->getMessage());
+            throw ServiceException($dex->getMessage(),$dex);
         } catch (Exception $ex) {
-            throw ServiceException($ex->getMessage());
+            throw ServiceException($ex->getMessage(),$ex);
         }
     }
 

@@ -11,10 +11,12 @@
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     //return view('app.inicio.index');
-});*/
-Route::get('/', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
+    return redirect('all/audios');
+});
+
+Route::get('{filter}/audios', ['uses' => 'Aplication\Estudios\AudioController@getAll']);
 
 Route::resource('admin/dashboard', 'dashboardController@estatusGeneral');
 Route::resource('admin/tracks', 'TrackAdmController');

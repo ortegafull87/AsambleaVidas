@@ -2,7 +2,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="{{ url('/') }}" class="logo">
+    <a href="{{ url('all/audios') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="40"></span>
         <!-- logo for regular state and mobile devices -->
@@ -191,7 +191,7 @@
                                 </div>
                                 @if(App\Library\Util::AUNTH_USER_ROOT() || App\Library\Util::AUNTH_USER_ADMIN())
                                     <div class="pull-left" style="padding-left: 25px;">
-                                        <a href="{{ url('/') }}" class="btn btn-default btn-flat">App</a>
+                                        <a href="{{ url('all/audios') }}" class="btn btn-default btn-flat">App</a>
                                     </div>
                                 @endif
                                 <div class="pull-right">

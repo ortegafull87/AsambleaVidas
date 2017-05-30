@@ -227,6 +227,14 @@ class TrackDaoImpl implements TrackDao
         Log::debug('Inicia getAllAudioForUser desde' . AudioDao::class);
         $this->idUser = $request->getData()['idUser'];
         try {
+
+            $filter = (isset($request->getData()['fter'])?$request->getData()['fter']:'');
+            if($filter == 'all' || empty($filter)){
+                $filter = DB::raw(' true ');
+            }else{
+                $filter = DB::raw(" al.genre = '" . $filter. "' ");
+            }
+
             return DB::table('tracks as t')
                 ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_USER))
                 ->join('authors as au', 't.author_id', '=', 'au.id')
@@ -245,6 +253,7 @@ class TrackDaoImpl implements TrackDao
                     $join->on('f.user_id', '=', DB::raw($this->idUser));
                 })
                 ->where('t.status_id', '=', Constantes::STATUS_ACTIVE)
+                ->whereRaw($filter)
                 ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 
@@ -263,8 +272,15 @@ class TrackDaoImpl implements TrackDao
     {
         Log::debug('Inicia getAllAudioForVisitants desde' . AudioDao::class);
         try {
-            Log::debug("Rows by page");
-            Log::debug($this->ROWS_BY_PAGE);
+            
+            $filter = (isset($request->getData()['fter'])?$request->getData()['fter']:'');
+            
+            if($filter == 'all' || empty($filter)){
+                $filter = DB::raw(' true ');
+            }else{
+                $filter = DB::raw(" al.genre = '" . $filter. "' ");
+            }
+
             return DB::table('tracks as t')
                 ->select(DB::raw($this->FIELDS . $this->FAVORITE_FIELD_VISIT))
                 ->join('authors as au', 't.author_id', '=', 'au.id')
@@ -279,6 +295,7 @@ class TrackDaoImpl implements TrackDao
                     $join->on('t.id', '=', 'po.track_id');
                 })
                 ->where('t.status_id', '=', Constantes::USER_ACTIVE)
+                ->whereRaw($filter)
                 ->whereRaw('(t.id = ' . $request->getId() . ' or 0=' . $request->getId() . ')')
                 ->paginate($this->ROWS_BY_PAGE);
 

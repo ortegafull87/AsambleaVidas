@@ -16,18 +16,14 @@
 
 @section('contentheader')
     <?php $audio = $audio[0];?>
-    <section class="content-header">
+    <section class="content-header" style="margin-top: 50px">
         <h1>
-
-            <small></small>
+            {{$audio->title}} <small></small>
         </h1>
-        <!--<form class="searchform">
-            <input type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-            <input type="button" value="Ir" />
-        </form>-->
+
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Estudios</a></li>
-            <li><a href="{{asset('estudios/audios/all')}}">Audios</a></li>
+            <li><a href="{{asset('')}}">Audios</a></li>
             <li class="active">{{$audio->title}}</li>
         </ol>
     </section>
@@ -45,10 +41,8 @@
         </div><!--/ Aside -->
         <div class="col-md-8 col-md-pull-4"><!-- Section -->
             <div class="box box-info">
-                <div class="box-header with-border">
-                    <h1 class="box-title"><i class="ion-ios-musical-notes" aria-hidden="true">
-                        </i> {{$audio->title}}
-                    </h1>
+                <!--<div class="box-header with-border">
+
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool">
                             <i class="fa fa-font"></i>a
@@ -57,7 +51,7 @@
                             <i class="fa fa-file-pdf-o"></i>
                         </button>
                     </div>
-                </div>
+                </div>-->
                 <div class="box-body post-audio_description">
                     @if(strlen($audio->description)>0)
                         <?php echo $audio->description;?>

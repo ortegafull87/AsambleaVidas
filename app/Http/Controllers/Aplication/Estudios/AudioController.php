@@ -65,17 +65,19 @@ class AudioController extends Controller
         }
     }
 
-    public function getAll()
+    public function getAll($filter, Request $Request)
     {
+        Log::info('Inicia getAll desde: ' . AudioController::class);
         try {
-            $request = new BasicRequest();
-
+            $basicRequest = new BasicRequest();
+            Log::debug('filter::: ' . $filter);
+            $basicRequest->setData(['fter' => $filter]);
             if (Auth::guest()) {
-                $audios = $this->trackService->getAllAudioForVisitants($request);
+                $audios = $this->trackService->getAllAudioForVisitants($basicRequest);
             } else {
-                $request->setData(['idUser' => Auth::user()->id]);
-                $audios = $this->trackService->getAllAudioForUser($request);
-                $favorites = $this->trackService->getFavoriteTracks($request);
+                $basicRequest->setData(['idUser' => Auth::user()->id, 'fter' => $filter]);
+                $audios = $this->trackService->getAllAudioForUser($basicRequest);
+                $favorites = $this->trackService->getFavoriteTracks($basicRequest);
             }
         } catch (ServiceException $sex) {
             Log::error($sex);

@@ -1,9 +1,13 @@
-<nav class="navbar navbar-static-top">
+<nav class="navbar navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="{{asset('')}}" class="navbar-brand"><b><img
-                            src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="50">
-                    <b style="color:#046a96;">Vivela</b><span style="color:#00abf4;">Tor&aacute;h</span></a>
+            <a href="{{asset('')}}" class="navbar-brand">
+                <b>
+                    <img src="{{ asset('/img/app/torah-icono_4_plus_2.png') }}" height="50">
+                    <b style="color:#046a96;">Vivela</b>
+                    <span style="color:#00abf4;">Tor&aacute;h</span>
+                </b>
+            </a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#navbar-collapse">
                 <i class="fa fa-bars"></i>
@@ -16,7 +20,7 @@
                 <!--<li class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>-->
                 <!--<li><a href="#">Parash&aacute;</a></li>-->
                 <!--<li><a href="#">Tor&aacute;h</a></li>-->
-                <li class="active"><a href="{{ asset('/estudios/audios/all') }}">Audios</a></li>
+                <li class="active"><a href="{{ asset('') }}">Audios</a></li>
             <!--<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estudios <span
                                 class="caret"></span></a>
@@ -43,7 +47,7 @@
                 <!-- Messages: style can be found in dropdown.less-->
                     @yield('navBarDropDowns')
 
-                    <!-- User Account Menu -->
+                <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

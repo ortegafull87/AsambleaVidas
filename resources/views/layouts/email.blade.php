@@ -7,7 +7,7 @@
 <table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%">
     <tr>
         <td align="center" valign="top" bgcolor="#f3f5f6" width="100%">
-            <img src="http://localhost:8000/img/app/torah-icono_4_plus_2.png" alt="" height="70"/>
+            <img src="http://localhost:8000/img/app/baner-mail.png" alt="" height="70"/>
             <center>
                 <table style="margin: 0 auto;" cellpadding="0" cellspacing="0" width="600" class="w320">
                     <tr>

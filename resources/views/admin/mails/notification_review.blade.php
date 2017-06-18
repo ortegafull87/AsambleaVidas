@@ -5,7 +5,7 @@
     <p style="font-size: 20px;color: #3d3d3d; padding-top: 20px;">
         <br>Te notificamos que tienes material pendiente de revisar.
         <br>
-        <small style="color: #6d7169;padding-top: 5px;">Haz click en el boton de bajo para ir revisarlo.</small>
+        <small style="color: #6d7169;padding-top: 5px;">Haz click en el bot&oacute;n de bajo para ir revisarlo.</small>
     </p>
     <br>
     <a class="btn_revisar" style="

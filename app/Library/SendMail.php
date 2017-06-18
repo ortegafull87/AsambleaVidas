@@ -73,7 +73,7 @@ class SendMail
         try {
             Log::debug($emails);
             $user = User::find($id);
-            Mail::send('app.mails.share', ['id_track'=>$id_track], function ($m) use ($user, $emails) {
+            Mail::send('app.mails.share', ['id_track'=>$id_track, 'user' => $user], function ($m) use ($user, $emails) {
                 $m->from(env('MAIL_USERNAME'), env('APP_DNS'));
                 $m->to($user->email, $emails[0])->subject('Un regalo para ti');
                 foreach ($emails as $email){

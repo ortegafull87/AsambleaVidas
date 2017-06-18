@@ -270,7 +270,7 @@ class TrackDaoImpl implements TrackDao
      */
     public function getAllAudioForVisitants(BasicRequest $request)
     {
-        Log::debug('Inicia getAllAudioForVisitants desde' . AudioDao::class);
+        Log::debug('Inicia getAllAudioForVisitants desde: ' . AudioDao::class);
         try {
             
             $filter = (isset($request->getData()['fter'])?$request->getData()['fter']:'');

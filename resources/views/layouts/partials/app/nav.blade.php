@@ -17,32 +17,27 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <!--<li class="active"><a href="#">Inicio <span class="sr-only">(current)</span></a></li>-->
-                <!--<li><a href="#">Parash&aacute;</a></li>-->
-                <!--<li><a href="#">Tor&aacute;h</a></li>-->
                 <li class="active"><a href="{{ asset('') }}">Audios</a></li>
-            <!--<li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Estudios <span
-                                class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ asset('/estudios/audios/all') }}">Audio</a></li>
-                        <!--<li><a href="#">video</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Documentos</a></li>
-                    </ul>
-                </li>-->
-                <!--<li><a href="#">Blog</a></li>-->
             </ul>
 
         </div>
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav btn-log">
                 @if(Auth::guest())
-                    <li><a href="{{ url('/login') }}">{{ trans('adminlte_lang::message.login') }}</a></li>
-                    <li class="btn-register"><a
-                                href="{{ url('/register') }}">{{ trans('adminlte_lang::message.register') }}</a></li>
+                    <li class="btn-register">
+                        <a href="{{ url('/register') }}">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            <span>{{ trans('adminlte_lang::message.register')}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/login') }}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            <span>{{ trans('adminlte_lang::message.login')}}</span>
+                        </a>
+                    </li>
                 @else
                 <!-- Messages: style can be found in dropdown.less-->
                     @yield('navBarDropDowns')
@@ -80,7 +75,7 @@
                                     </div>
                                 </div>
                                 <!-- /.row -->
-                            </li>                            <!-- Menu Footer-->
+                            </li><!-- Menu Footer-->
 
                             <li class="user-footer">
                                 <div class="pull-left">
@@ -89,7 +84,9 @@
                                 </div>
                                 @if(App\Library\Util::AUNTH_USER_ROOT() || App\Library\Util::AUNTH_USER_ADMIN())
                                     <div class="pull-left" style="padding-left: 3px;">
-                                        <a href="{{ url('/home') }}" class="btn btn-default btn-flat">Dashboard</a>
+                                        <a href="{{ url('/home') }}" class="btn btn-default btn-flat" title="Dashboard">
+                                            <i class="fa fa-cogs"></i>
+                                        </a>
                                     </div>
                                 @endif
                                 <div class="pull-right">

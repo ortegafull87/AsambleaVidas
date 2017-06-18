@@ -1,18 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.error')
 
-@section('htmlheader_title')
-    {{ trans('adminlte_lang::message.servererror') }}
-@endsection
-
-@section('contentheader_title')
-    {{ trans('adminlte_lang::message.500error') }}
-@endsection
-
-@section('$contentheader_description')
-@endsection
-
-@section('main-content')
-
+@section('content')
     <div class="error-page">
         <h2 class="headline text-red">500</h2>
         <div class="error-content">

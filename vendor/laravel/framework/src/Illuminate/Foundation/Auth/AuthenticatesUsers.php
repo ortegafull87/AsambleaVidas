@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Library\Constantes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -142,7 +143,7 @@ trait AuthenticatesUsers
     {
         return Lang::has('auth.failed')
                 ? Lang::get('auth.failed')
-                : 'These credentials do not match our records.';
+                : 'Estas credenciales no coinciden con nuestros registros.';
     }
 
     /**
@@ -153,7 +154,7 @@ trait AuthenticatesUsers
      */
     protected function getCredentials(Request $request)
     {
-        return $request->only($this->loginUsername(), 'password') + ['status_id' => 3];
+        return $request->only($this->loginUsername(), 'password') + ['status_id' => Constantes::STATUS_ACTIVE];
     }
 
     /**

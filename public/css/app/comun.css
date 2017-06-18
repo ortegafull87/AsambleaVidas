@@ -2,7 +2,7 @@
 * comun.css
 */
 
-/*sobre escritura de clases bootstrap*/
+/*=============================================sobre escritura de clases bootstrap====================================*/
 p {
     font-weight: 400 !important;
 }
@@ -28,11 +28,13 @@ p {
 .well-mod {
     padding: 5px 10px 0px 10px;
 }
-.profile-user-img{
-    width: 100px!important;
-    height: 100px!important;
+
+.profile-user-img {
+    width: 100px !important;
+    height: 100px !important;
 }
-/*sobre escritura de clases bootstrap*/
+
+/*============================================sobre escritura de clases bootstrap=====================================*/
 
 .btn-register {
     background-color: #00c0ef;
@@ -52,30 +54,30 @@ p {
     padding: 0px 10px 0px 15px;
 }
 
-.edit-post textarea{
+.edit-post textarea {
     margin-bottom: 5px;
-    width:100%;
-    font-weight: 400!important;
+    width: 100%;
+    font-weight: 400 !important;
     resize: none;
     overflow: hidden;
-    height:auto;
+    height: auto;
 }
-.edit-post button{
+
+.edit-post button {
     font-size: .87em;
-    padding: 5px 7px!important;
+    padding: 5px 7px !important;
 }
-.post-comment{
-    font-size: 1.25em;
-    font-weight: 700;
+
+.post-comment {
+    font-size: 1.2em;
+    font-weight: 500!important;
 }
-.replayed-post{
+
+.replayed-post {
     margin-left: 50px;
 }
-/*
 
-############ track-box-container ###########
-
-*/
+/* ==================================================== track-box-container =========================================*/
 
 .track-box-container {
     margin: 0;
@@ -96,7 +98,6 @@ p {
     -webkit-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
-
 
 .track-box-container div.box:hover {
 
@@ -126,7 +127,7 @@ div.box div.box-footer {
 
 div.box div.box-footer div.share div {
     display: inline-block;
-    width: 32.5%;
+    width: 32.3%;
 }
 
 div.box div.box-footer div.share div:nth-child(1) {
@@ -164,6 +165,13 @@ div.box div.flag i.fa:hover {
     color: #f13426;
 }
 
+
+.text-ovweflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .favorite {
     color: #f13426 !important;
 }
@@ -185,8 +193,7 @@ div.box div.flag i {
 
 /*border: thin solid darkgray;*/
 div.box div.box-content div.title {
-    /*padding-bottom: 5px;*/
-    font-size: 20px;
+    font-size: 16px;
 }
 
 div.box div.box-content div.data {
@@ -196,13 +203,34 @@ div.box div.box-content div.data {
 div.box div.box-content div.data div {
     display: inline-block;
 }
+/*================================================= track box xontainer ==============================================*/
 
-div.box div.box-content div.data div:nth-child(1) {
-    width: 30%;
+@media only screen and (max-width: 768px) {
+
+    div.box div.box-content div.data div:nth-child(1) {
+        width: 99%;
+    }
+
+    div.box div.box-content div.data div:nth-child(2) {
+        display: none;
+    }
+
+    ul.btn-log li a span {
+        display: none;
+    }
+
 }
 
-div.box div.box-content div.data div:nth-child(2) {
-    width: 66.5%;
+@media only screen and (min-width: 769px) {
+
+    div.box div.box-content div.data div:nth-child(1) {
+        width: 40%;
+    }
+
+    div.box div.box-content div.data div:nth-child(2) {
+        width: 56.5%;
+    }
+
 }
 
 /*div.box div.box-content div.data div:nth-child(3){
@@ -309,7 +337,7 @@ div.box div.option-share div a {
 
 div.rate a {
     color: #4285f4;
-    font-size: 1.2em;
+    font-size: 1.25em;
 }
 
 div.rate a:hover {
@@ -368,7 +396,7 @@ Post Track
         width: 47%;
     }
 
-    .track-box-container div.box{
+    .track-box-container div.box {
         margin: 10px;
     }
 }
@@ -379,7 +407,7 @@ Post Track
         width: 31.2%;
     }
 
-    .track-box-container div.box{
+    .track-box-container div.box {
         margin: 10px;
     }
 }
@@ -600,57 +628,83 @@ button.registrar {
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
 }
-p.msj{
+
+p.msj {
     display: none;
 }
 
-.app-link{
-    text-decoration: none!important;
-    font-weight: 800 !important;
+.app-link {
+    text-decoration: none !important;
+    font-weight: 600 !important;
     color: #6d7169 !important;
-    border-bottom: 1px dotted #0a70f8!important;
+    border-bottom: 1px dotted #0a70f8 !important;
     cursor: pointer;
 }
-.app-link:hover{
+
+.app-link:hover {
     color: #0a70f8 !important;
 }
+
 .instructions .bg-primary {
     padding: 8px;
 }
-.app-v-list{
+
+.app-v-list {
     padding: 0;
 }
-.app-v-list li{
+
+.app-v-list li {
     border: 2px solid #FFFFFF;
     display: inline-block;
     color: #a5a5a5;
     cursor: pointer;
     height: 80px;
-    width:32%;
-    padding:15px;
-    margin-bottom:5px;
+    width: 32%;
+    padding: 15px;
+    margin-bottom: 5px;
     text-align: center;
 }
-.app-v-list li span{
-    display: block!important;
+
+.app-v-list li span {
+    display: block !important;
 }
-.app-v-list li.selected{
+
+.app-v-list li.selected {
     border: 2px solid #00acd6;
 }
 
-.app-v-list li:hover{
+.app-v-list li:hover {
     border: 2px solid #00acd6;
 }
-.app-link-icons li a{
-    tex-decoration:none;
+
+.app-link-icons li a {
+    tex-decoration: none;
     color: #a5a5a5;
 }
-.app-link-icons li label{
-    display:block;
-    margin-top:2px;
-}
-/* Dragg and dropp image*/
 
+.app-link-icons li label {
+    display: block;
+    margin-top: 2px;
+}
+
+.footer-sosials a{
+    margin: 0px 5px;
+    text-decoration: none;
+}
+.footer-sosials a span{
+    font-size:1.4em;
+}
+.footer-sosials a.facebook{
+    color: #0d6aad;
+}
+.footer-sosials a.twitter{
+    color: #00a7d0;
+}
+.footer-sosials a.googlep{
+    color: #bd2020;
+}
+
+/*==========================================  Dragg and dropp image  ================================================*/
 
 .dropZone {
     border: 2px dashed #d2d2d2;
@@ -678,7 +732,7 @@ p.msj{
 }
 
 .dropZone .controls .cancel,
-.dropZone .controls #btn_done{
+.dropZone .controls #btn_done {
     display: none;
 }
 
@@ -696,85 +750,134 @@ p.msj{
 }
 
 .dropped .controls .cancel,
-.dropped .controls #btn_done{
+.dropped .controls #btn_done {
     display: inline-block !important;
 }
-.c-pointer{
-    cursor:pointer;
+
+.c-pointer {
+    cursor: pointer;
 }
 
-/* Dragg and dropp image*/
-
-.app-instructions{
+.app-instructions {
     margin: 10px 5px;
 }
-.app-instructions .info{
+
+.app-instructions .info {
     position: absolute;
     right: 35px;
     width: 250px;
     display: block;
 }
 
-.app-instructions .info p{
+.app-instructions .info p {
     padding: 10px;
     border-radius: 10px 0px 10px 10px;
 }
 
-/*Sub Menu Section*/
+/*============================================ Dragg and dropp image  ================================================*/
 
-.topping{
-    background-color: #ffffff;
-    height: 159px;
-    margin-top: 18px;
-    margin: 36px 0px 0px 0px;
+@media only screen and (max-width: 768px) {
+    .menu-middle-top {
+        margin-top: 39px;
+    }
+
+    .mmt-menu ul li {
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .mmt-menu ul li {
+        border: 1px solid #d2d2d2;
+        margin: 5px;
+        text-align: center;
+        padding: 5px 0px;
+        width: 46%;
+    }
+
+    .mmt-menu ul li a {
+        font-size: 1.3em;
+        font-weight: 400;
+        color: #58595c;
+
+        width: 100%;
+        display: block;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .mmt-menu ul li.active {
+        background-color: #00c0ef;
+        border: 1px solid #c1c1c1;
+
+        -webkit-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.35);
+        -moz-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.35);
+        box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.35);
+    }
+
+    .mmt-menu ul li.active a {
+        color: #f1f1f1 !important;
+    }
+
+    .mmt-menu ul {
+        padding: 0;
+    }
+
 }
 
-.menu-middle-top{
-    margin-top: 39px;
-    padding: 5px 15px 0px 15px;
+@media only screen and (min-width: 769px) {
+
+    /*Sub Menu Section*/
+    .menu-middle-top {
+        margin-top: 39px;
+        padding: 5px 15px 0px 15px;
+    }
+
+    .menu-middle-top .mmt-menu {
+        height: 40px;
+        text-align: center;
+        display: block;
+        margin: 30px 20px;
+    }
+
+    .mmt-menu ul {
+        padding: 0;
+    }
+
+    .mmt-menu ul li {
+        display: inline-block;
+        text-decoration: none;
+        margin: 0px 15px;
+        cursor: pointer;
+    }
+
+    .mmt-menu ul li a {
+        font-size: 1.4em;
+        font-weight: 400;
+        color: #58595c;
+        border-bottom: 2px #f0f0f0 solid;
+
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .mmt-menu ul li.active {
+        border-bottom: 2px #58595c solid;
+    }
+
+    .mmt-menu ul li a:hover {
+        border-bottom: 2px #58595c solid;
+
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
 }
 
-
-.menu-middle-top .mmt-menu{
-    height: 40px;
-    text-align: center;
-    display: block;
-    margin: 30px 20px;
-}
-
-.mmt-menu ul{
-    padding: 0;
-}
-.mmt-menu ul li{
-    display: inline-block;
-    text-decoration:none;
-    margin: 0px 15px;
-    cursor: pointer;
-}
-
-.mmt-menu ul li a{
-    font-size: 1.4em;
-    font-weight: 400;
-    color: #58595c;
-    border-bottom: 2px #f0f0f0 solid;
-
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-}
-
-.mmt-menu ul li a.active{
-    border-bottom: 2px #58595c solid;
-}
-
-.mmt-menu ul li a:hover{
-    border-bottom: 2px #58595c solid;
-
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-}
-
-/*Sub Menu Section*/
+/*==================================================  Sub Menu Section  ==============================================*/

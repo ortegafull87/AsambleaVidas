@@ -41,17 +41,6 @@
         </div><!--/ Aside -->
         <div class="col-md-8 col-md-pull-4"><!-- Section -->
             <div class="box box-info">
-                <!--<div class="box-header with-border">
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool">
-                            <i class="fa fa-font"></i>a
-                        </button>
-                        <button type="button" class="btn btn-box-tool">
-                            <i class="fa fa-file-pdf-o"></i>
-                        </button>
-                    </div>
-                </div>-->
                 <div class="box-body post-audio_description">
                     @if(strlen($audio->description)>0)
                         <?php echo $audio->description;?>

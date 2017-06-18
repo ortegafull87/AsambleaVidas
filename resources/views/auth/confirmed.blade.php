@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-xs-10">
                     <p class="login-box-msg">¡Felicidades!.
-                        <br>Tu cuenta ha sido confirmada, has click en el boton de abajo
+                        <br>Tu cuenta ha sido confirmada, has click en el bot&oacute;n de abajo
                         para iniciar sesión.
                     </p>
                 </div>

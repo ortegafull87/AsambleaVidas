@@ -1,17 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.error')
 
-@section('htmlheader_title')
-    {{ trans('adminlte_lang::message.serviceunavailable') }}
-@endsection
-
-@section('contentheader_title')
-    {{ trans('adminlte_lang::message.503error') }}
-@endsection
-
-@section('$contentheader_description')
-@endsection
-
-@section('main-content')
+@section('content')
 
     <div class="error-page">
         <h2 class="headline text-red">503</h2>

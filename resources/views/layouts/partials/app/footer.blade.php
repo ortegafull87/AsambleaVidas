@@ -1,10 +1,12 @@
 <footer class="main-footer">
     <div class="container">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.7
+            <!--<b>Version</b> {{env('APP_VERSION')}}-->
+            <div class="footer-sosials">
+                @include('app.comun.socials')
+            </div>
         </div>
-        <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-        reserved.
+        <strong>Copyright &copy; 2017 <a href="http://almsaeedstudio.com">vivelatorah.org</a>.</strong> Todos los derechos reservados
     </div>
     <!-- /.container -->
 </footer>

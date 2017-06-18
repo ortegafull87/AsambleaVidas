@@ -34,10 +34,26 @@
             </div>
             <div class="mmt-menu">
                 <ul>
-                    <li><a href="{{asset('all/audios')}}" class="active"><i class="ion ion-ios-list"></i> Todos</a></li>
-                    <li><a href="{{asset('Predicación/audios')}}"><i class="ion ion-mic-c"></i> Predicaciónes</a></li>
-                    <li><a href="{{asset('Estudio/audios')}}"><i class="ion ion-speakerphone"></i> Estudios</a></li>
-                    <li><a href="{{asset('Serie/audios')}}"><i class="ion ion-disc"></i> Series</a></li>
+                    <li class="{{($fter == 'all')?'active':''}}">
+                        <a href="{{asset('all/audios')}}">
+                            <i class="ion ion-ios-list"></i> Todos
+                        </a>
+                    </li>
+                    <li class="{{($fter == 'Predicación')?'active':''}}">
+                        <a href="{{asset('Predicación/audios')}}" >
+                            <i class="ion ion-mic-c"></i> Predicaciones
+                        </a>
+                    </li>
+                    <li class="{{($fter == 'Estudio')?'active':''}}">
+                        <a href="{{asset('Estudio/audios')}}">
+                            <i class="ion ion-speakerphone"></i> Estudios
+                        </a>
+                    </li>
+                    <li class="{{($fter == 'Serie')?'active':''}}">
+                        <a href="{{asset('Serie/audios')}}">
+                            <i class="ion ion-disc"></i> Series
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

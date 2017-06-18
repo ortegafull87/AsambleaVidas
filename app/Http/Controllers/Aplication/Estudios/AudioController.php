@@ -68,9 +68,11 @@ class AudioController extends Controller
     public function getAll($filter, Request $Request)
     {
         Log::info('Inicia getAll desde: ' . AudioController::class);
+        Log::debug('rows by page: ' . env('APP_AUDIO_ROWS_BY_PAGE'));
         try {
             $basicRequest = new BasicRequest();
             Log::debug('filter::: ' . $filter);
+
             $basicRequest->setData(['fter' => $filter]);
             if (Auth::guest()) {
                 $audios = $this->trackService->getAllAudioForVisitants($basicRequest);
@@ -79,18 +81,21 @@ class AudioController extends Controller
                 $audios = $this->trackService->getAllAudioForUser($basicRequest);
                 $favorites = $this->trackService->getFavoriteTracks($basicRequest);
             }
+
+            if (Auth::guest()) {
+                return view('app.estudios.audios.all_tracks',
+                    ['audios' => $audios, 'fter' => $filter]);
+            } else {
+                return view('app.estudios.audios.all_tracks',
+                    ['audios' => $audios, 'favorites' => $favorites, 'fter' => $filter]);
+            }
+
         } catch (ServiceException $sex) {
             Log::error($sex);
             return view('app.estudios.audios.all_tracks', ['audios' => null, 'message' => 'Error al tratar de ontener todos los audios']);
         } catch (\Exception $ex) {
             Log::error($ex);
             return view('app.estudios.audios.all_tracks', ['audios' => null, 'message' => 'Error al tratar de ontener todos los audios']);
-        }
-
-        if (Auth::guest()) {
-            return view('app.estudios.audios.all_tracks', ['audios' => $audios]);
-        } else {
-            return view('app.estudios.audios.all_tracks', ['audios' => $audios, 'favorites' => $favorites]);
         }
 
     }

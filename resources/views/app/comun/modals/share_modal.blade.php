@@ -43,9 +43,9 @@
                         <div class="tab-pane fade " id="tab_frm_mail">
                             <div class="instructions">
                                 <p class="bg-primary text-left">
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Puedes Ingresar un o más
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i> Puedes Ingresar uno o más
                                     correos, presiona
-                                    la tecela enter cuando termines cada uno. Para finalizar haz click en el boton
+                                    la tecla Enter cuando termines cada uno. Para finalizar haz click en el boton
                                     compartir</p>
                             </div>
                             <br>
